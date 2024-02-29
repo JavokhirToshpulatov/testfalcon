@@ -38,7 +38,7 @@ const dashBoardNavTree = [{
     {
       key: 'dashboards-default',
       path: `${APP_PREFIX_PATH}/dashboards/default`,
-      title: 'sidenav.dashboard.default',
+      title: 'Default',
       icon: DashboardOutlined,
       breadcrumb: false,
       submenu: []
@@ -46,7 +46,7 @@ const dashBoardNavTree = [{
     {
       key: 'dashboards-analytic',
       path: `${APP_PREFIX_PATH}/dashboards/analytic`,
-      title: 'sidenav.dashboard.analytic',
+      title: 'Analytic',
       icon: DotChartOutlined,
       breadcrumb: false,
       submenu: []
@@ -54,7 +54,15 @@ const dashBoardNavTree = [{
     {
       key: 'dashboards-sales',
       path: `${APP_PREFIX_PATH}/dashboards/sales`,
-      title: 'sidenav.dashboard.sales',
+      title: 'Sales',
+      icon: FundOutlined,
+      breadcrumb: false,
+      submenu: []
+    },
+    {
+      key: 'dashboards-scans',
+      path: `${APP_PREFIX_PATH}/dashboards/scans`,
+      title: 'Scans',
       icon: FundOutlined,
       breadcrumb: false,
       submenu: []
