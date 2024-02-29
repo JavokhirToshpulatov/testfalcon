@@ -114,7 +114,7 @@ const GridItem = ({ data, removeId }) => (
 		<Flex alignItems="center" justifyContent="between">
 			<ItemHeader name={data.name} category={data.category} />
 		</Flex>
-		<div className="mt-2">
+		<div className="mt-1">
 			<ItemInfo
 				attachmentCount={data.attachmentCount}
 				completedTask={data.completedTask}
@@ -163,7 +163,7 @@ const ProjectList = ({view}) => {
 					:
 					<Row gutter={16}>
 						{list.map(elm => (
-							<Col xs={24} sm={24} lg={8} xl={8} xxl={6} key={elm.id}>
+							<Col xs={6} sm={6} lg={6} xl={6} xxl={6} key={elm.id}>
 								<GridItem data={elm} removeId={id => deleteItem(id)}/>
 							</Col>
 						))}

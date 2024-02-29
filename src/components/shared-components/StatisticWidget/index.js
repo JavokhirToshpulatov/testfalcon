@@ -25,6 +25,14 @@ const StatisticWidget = ({ title, value, status, subtitle, prefix }) => {
 					</div>
 					{subtitle && <div className="text-gray-light mt-1">{subtitle}</div>}
 				</div>
+				<div className={"mt-3"}>
+					<ul className={"d-flex justify-content-between"}>
+						<li>Scanned/Total: <span className={"font-weight-bold"}>150/2015</span></li>
+						<li>Content changed: <span className={"font-weight-bold"}>150</span></li>
+						<li>Keyword found: <span className={"font-weight-bold"}>4564</span></li>
+						<li>Expired certificates: <span className={"font-weight-bold"}>448</span></li>
+					</ul>
+				</div>
 			</div>
 		</Card>
 	)

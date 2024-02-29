@@ -3,8 +3,8 @@ import {Row, Col, Button, Space, Radio} from 'antd';
 import StatisticWidget from 'components/shared-components/StatisticWidget';
 import ChartWidget from 'components/shared-components/ChartWidget';
 import {
-  VisitorChartData, 
-  AnnualStatisticData, 
+  VisitorChartData,
+  AnnualStatisticData, ActiveMembersData,
 } from './DefaultDashboardData';
 import {
   RedoOutlined, AppstoreOutlined, UnorderedListOutlined
@@ -14,8 +14,24 @@ import ProjectList from "./ProjectList";
 import Flex from "../../../components/shared-components/Flex";
 import AsyncModal from "./AsyncModal";
 import AsyncDropDown from "./DropDown";
+import ApexChart from "react-apexcharts";
+import {apexLineChartDefaultOption, COLOR_2} from "../../../constants/ChartConstant";
 
 
+const MembersChart = props => (
+    <ApexChart {...props}/>
+)
+const memberChartOption = {
+  ...apexLineChartDefaultOption,
+  ...{
+    chart: {
+      sparkline: {
+        enabled: true,
+      }
+    },
+    colors: [COLOR_2],
+  }
+}
 
 
 
@@ -31,6 +47,8 @@ export const DefaultDashboard = () => {
   const VIEW_GRID = 'GRID';
   const [visitorChartData] = useState(VisitorChartData);
   const [annualStatisticData] = useState(AnnualStatisticData);
+  const [activeMembersData] = useState(ActiveMembersData);
+
   const { direction } = useSelector(state => state.theme)
   const [view, setView] = useState(VIEW_GRID);
   const onChangeProjectView = e => {
@@ -43,52 +61,49 @@ export const DefaultDashboard = () => {
       <br/>
       <Row gutter={16}>
         <Col span={24}>
+          <Row gutter={16}>
+            <Col span={24} >
+              <StatisticWidget
+                  title={
+                    <MembersChart
+                        options={memberChartOption}
+                        series={activeMembersData}
+                        height={30}
+                    />
+                  }
+              />
+            </Col>
+          </Row>
           <Row gutter={16}  >
-            {
-              annualStatisticData.map((elm, i) => (
-                <Col span={4} key={i}>
-                  <StatisticWidget
-                    title={elm.title}
-                    value={elm.value}
-                    status={elm.status}
-                    subtitle={elm.subtitle}
-                  />
-                </Col>
-              ))
+            {/*{*/}
+            {/*  annualStatisticData.map((elm, i) => (*/}
+            {/*    <Col span={4} key={i}>*/}
+            {/*      <StatisticWidget*/}
+            {/*        title={elm.title}*/}
+            {/*        value={elm.value}*/}
+            {/*        status={elm.status}*/}
+            {/*        subtitle={elm.subtitle}*/}
+            {/*      />*/}
+            {/*    </Col>*/}
+            {/*  ))*/}
 
-            }
-            <Col span={8}>
-              <Col span={24}>
+            {/*}*/}
+            <Col span={24}>
                 <Flex justifyContent={"end"}>
                   <Space>
                     <AsyncModal/>
                     <AsyncDropDown/>
                     <Button type={"primary"}> <RedoOutlined /> Refresh</Button>
+                    <Radio.Group defaultValue={VIEW_GRID} onChange={e => onChangeProjectView(e)}>
+                      <Radio.Button value={VIEW_GRID}><AppstoreOutlined /></Radio.Button>
+                      <Radio.Button value={VIEW_LIST}><UnorderedListOutlined /></Radio.Button>
+                    </Radio.Group>
                   </Space>
                 </Flex>
-              </Col>
-              <Col span={24} className={"pt-2"}>
-                <Flex justifyContent={"end"} >
-                  <Radio.Group defaultValue={VIEW_GRID} onChange={e => onChangeProjectView(e)}>
-                    <Radio.Button value={VIEW_GRID}><AppstoreOutlined /></Radio.Button>
-                    <Radio.Button value={VIEW_LIST}><UnorderedListOutlined /></Radio.Button>
-                  </Radio.Group>
-                </Flex>
-              </Col>
             </Col>
 
           </Row>
-          <Row gutter={16}>
-            <Col span={24} >
-                <ChartWidget
-                  title="Unique Visitors"
-                  series={visitorChartData.series}
-                  xAxis={visitorChartData.categories}
-                  height={'200px'}
-                  direction={direction}
-                />
-            </Col>
-          </Row>
+
         </Col>
       </Row>
      <ProjectList view={view}/>
