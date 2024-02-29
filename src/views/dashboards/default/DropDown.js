@@ -8,7 +8,7 @@ const menu = (
 );
 const AsyncDropDown = () => (
             <Dropdown overlay={menu} placement="bottomRight" trigger={["click"]}>
-                <Button type={"primary"}>bottom</Button>
+                <Button type={"primary"}>Select Scan</Button>
             </Dropdown>
 );
 export default AsyncDropDown;

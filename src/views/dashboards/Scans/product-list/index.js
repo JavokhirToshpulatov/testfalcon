@@ -8,6 +8,7 @@ import Flex from 'components/shared-components/Flex'
 import NumberFormat from 'react-number-format';
 import { useHistory } from "react-router-dom";
 import utils from 'utils'
+import ProductForm from "../ProductForm";
 
 const { Option } = Select
 
@@ -23,6 +24,7 @@ const getStockStatus = stockCount => {
 	}
 	return null
 }
+
 
 const categories = ['Cloths', 'Bags', 'Shoes', 'Watches', 'Devices']
 
@@ -50,7 +52,7 @@ const ProductList = () => {
 	);
 	
 	const addProduct = () => {
-		history.push(`/app/apps/ecommerce/add-product`)
+		history.push(`/app/dashboards/scans/add-product`)
 	}
 	
 	const viewDetails = row => {
@@ -74,27 +76,25 @@ const ProductList = () => {
 
 	const tableColumns = [
 		{
-			title: 'ID',
-			dataIndex: 'id'
+			title: '#',
+			dataIndex: '#'
 		},
 		{
-			title: 'Product',
+			title: 'Name',
 			dataIndex: 'name',
 			render: (_, record) => (
 				<div className="d-flex">
-					<AvatarStatus size={60} type="square" src={record.image} name={record.name}/>
+					<AvatarStatus type="square" src={record.image} name={record.name}/>
 				</div>
 			),
-			sorter: (a, b) => utils.antdTableSorter(a, b, 'name')
 		},
 		{
-			title: 'Category',
-			dataIndex: 'category',
-			sorter: (a, b) => utils.antdTableSorter(a, b, 'category')
+			title: 'Description',
+			dataIndex: 'description',
 		},
 		{
-			title: 'Price',
-			dataIndex: 'price',
+			title: 'State',
+			dataIndex: 'state',
 			render: price => (
 				<div>
 					<NumberFormat
@@ -105,20 +105,24 @@ const ProductList = () => {
 					/>
 				</div>
 			),
-			sorter: (a, b) => utils.antdTableSorter(a, b, 'price')
 		},
 		{
-			title: 'Stock',
-			dataIndex: 'stock',
-			sorter: (a, b) => utils.antdTableSorter(a, b, 'stock')
+			title: 'Type',
+			dataIndex: 'type',
 		},
 		{
-			title: 'Status',
-			dataIndex: 'stock',
+			title: 'Created',
+			dataIndex: 'created',
 			render: stock => (
 				<Flex alignItems="center">{getStockStatus(stock)}</Flex>
-			),
-			sorter: (a, b) => utils.antdTableSorter(a, b, 'stock')
+			)
+		},
+		{
+			title: 'Last modified',
+			dataIndex: 'last modified',
+			render: stock => (
+				<Flex alignItems="center">{getStockStatus(stock)}</Flex>
+			)
 		},
 		{
 			title: '',
@@ -163,25 +167,9 @@ const ProductList = () => {
 					<div className="mr-md-3 mb-3">
 						<Input placeholder="Search" prefix={<SearchOutlined />} onChange={e => onSearch(e)}/>
 					</div>
-					<div className="mb-3">
-						<Select 
-							defaultValue="All" 
-							className="w-100" 
-							style={{ minWidth: 180 }} 
-							onChange={handleShowCategory} 
-							placeholder="Category"
-						>
-							<Option value="All">All</Option>
-							{
-								categories.map(elm => (
-									<Option key={elm} value={elm}>{elm}</Option>
-								))
-							}
-						</Select>
-					</div>
 				</Flex>
 				<div>
-					<Button onClick={addProduct} type="primary" icon={<PlusCircleOutlined />} block>Add product</Button>
+					<Button onClick={addProduct} type="primary" icon={<PlusCircleOutlined />} block> Create</Button>
 				</div>
 			</Flex>
 			<div className="table-responsive">

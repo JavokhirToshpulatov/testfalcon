@@ -24,7 +24,7 @@ import {
   ShoppingCartOutlined,
   BookOutlined,
   FileUnknownOutlined,
-  ProfileOutlined
+  ProfileOutlined, RadarChartOutlined
 } from '@ant-design/icons';
 import { APP_PREFIX_PATH } from 'configs/AppConfig'
 
@@ -63,10 +63,10 @@ const dashBoardNavTree = [{
       key: 'dashboards-scans',
       path: `${APP_PREFIX_PATH}/dashboards/scans`,
       title: 'Scans',
-      icon: FundOutlined,
+      icon: RadarChartOutlined,
       breadcrumb: false,
       submenu: []
-    }
+    },
   ]
 }]
 

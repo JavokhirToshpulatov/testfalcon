@@ -143,14 +143,11 @@ const getProgressStatusColor = progress => {
 	return COLORS[0]
 }
 
-const ProjectList = () => {
+const ProjectList = ({view}) => {
 
-	const [view, setView] = useState(VIEW_GRID);
 	const [list, setList] = useState(ProjectListData);
-
-	const onChangeProjectView = e => {
-		setView(e.target.value)
-	}
+	const VIEW_LIST = 'LIST';
+	const VIEW_GRID = 'GRID';
 
 	const	deleteItem = id =>{
 		const data = list.filter(elm => elm.id !== id)
@@ -159,18 +156,6 @@ const ProjectList = () => {
 
 	return (
 		<>
-			<Flex justifyContent="end" alignItems="center" >
-				<div>
-					<Radio.Group defaultValue={VIEW_GRID} onChange={e => onChangeProjectView(e)}>
-						<Radio.Button value={VIEW_GRID}><AppstoreOutlined /></Radio.Button>
-						<Radio.Button value={VIEW_LIST}><UnorderedListOutlined /></Radio.Button>
-					</Radio.Group>
-					{/*<Button type="primary" className="ml-2">*/}
-					{/*	<PlusOutlined />*/}
-					{/*	<span>New</span>*/}
-					{/*</Button>*/}
-				</div>
-			</Flex>
 			<div className={`my-4 ${view === VIEW_LIST? 'container' : 'container-fluid'}`}>
 				{
 					view === VIEW_LIST ?
