@@ -1,7 +1,14 @@
 import React, {useState} from 'react'
 import {Card, Table, Select, Input, Button, Badge, Menu, Tooltip, message} from 'antd';
 import ProductListData from "assets/data/product-list.data.json"
-import {EyeOutlined, DeleteOutlined, SearchOutlined, PlusCircleOutlined, PauseCircleOutlined} from '@ant-design/icons';
+import {
+	EyeOutlined,
+	DeleteOutlined,
+	SearchOutlined,
+	PlusCircleOutlined,
+	PauseCircleOutlined,
+	EditOutlined
+} from '@ant-design/icons';
 import AvatarStatus from 'components/shared-components/AvatarStatus';
 import EllipsisDropdown from 'components/shared-components/EllipsisDropdown';
 import Flex from 'components/shared-components/Flex'
@@ -147,7 +154,7 @@ const ProductList = () => {
 						<Button className="mr-2" danger icon={<PauseCircleOutlined />} onClick={()=> {deleteUser(elm.id)}} size="small"/>
 					</Tooltip>
 					<Tooltip title="View">
-						<Button type="primary" className="mr-2" icon={<EyeOutlined />} onClick={() => {showUserProfile(elm)}} size="small"/>
+						<Button type="primary" className="mr-2" icon={<EditOutlined/>} onClick={() => {showUserProfile(elm)}} size="small"/>
 					</Tooltip>
 					<Tooltip title="Delete">
 						<Button danger icon={<DeleteOutlined />} onClick={()=> {deleteUser(elm.id)}} size="small"/>
