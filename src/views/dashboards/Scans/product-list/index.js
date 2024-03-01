@@ -189,6 +189,11 @@ const ProductList = () => {
 		}
 	}
 
+	const handleOnChangeTable = ({current, pageSize}) => {
+		console.log(current)
+		console.log(pageSize)
+	}
+
 	return (
 		<Card>
 			<Flex alignItems="center" justifyContent="between" mobileFlex={false}>
@@ -211,6 +216,12 @@ const ProductList = () => {
 						type: 'checkbox',
 						preserveSelectedRowKeys: false,
 						...rowSelection,
+					}}
+					onChange={handleOnChangeTable}
+					pagination={{
+						total: 60, // total elements
+						pageSize: 10, // element size
+						// current: backend dan kelgan page || hozirgi page
 					}}
 				/>
 			</div>
