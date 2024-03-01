@@ -1,14 +1,17 @@
 import React, {useState} from 'react'
 import {Card, Table, Select, Input, Button, Badge, Menu, Tooltip, message} from 'antd';
 import ProductListData from "assets/data/product-list.data.json"
-import {EyeOutlined, DeleteOutlined, SearchOutlined, PlusCircleOutlined, PauseCircleOutlined} from '@ant-design/icons';
-import AvatarStatus from 'components/shared-components/AvatarStatus';
-import EllipsisDropdown from 'components/shared-components/EllipsisDropdown';
+import {
+	EyeOutlined,
+	DeleteOutlined,
+	SearchOutlined,
+	PlusCircleOutlined,
+	PauseCircleOutlined,
+	EditOutlined
+} from '@ant-design/icons';
 import Flex from 'components/shared-components/Flex'
-import NumberFormat from 'react-number-format';
 import { useHistory } from "react-router-dom";
 import utils from 'utils'
-import ProductForm from "../domainsForm";
 
 const { Option } = Select
 
@@ -135,7 +138,7 @@ const ProductList = () => {
 			render: (_, elm) => (
 				<div className="text-right d-flex justify-content-end">
 					<Tooltip title="View">
-						<Button type="primary" className="mr-2" icon={<EyeOutlined />} onClick={() => {showUserProfile(elm)}} size="small"/>
+						<Button type="primary" className="mr-2" icon={<EditOutlined/>} onClick={() => {showUserProfile(elm)}} size="small"/>
 					</Tooltip>
 					<Tooltip title="Delete">
 						<Button danger icon={<DeleteOutlined />} onClick={()=> {deleteUser(elm.id)}} size="small"/>
