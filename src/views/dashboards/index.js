@@ -6,6 +6,7 @@ const Dashboards = ({ match }) => {
   return(
   <Suspense fallback={<Loading cover="content"/>}>
     <Switch>
+      <Route path={`${match.url}/default/view/:domainID/:domainName`} component={lazy(() => import(`./default/view-card`))} />
       <Route path={`${match.url}/default`} component={lazy(() => import(`./default`))} />
       <Route path={`${match.url}/analytic`} component={lazy(() => import(`./analytic`))} />
       <Route path={`${match.url}/sales`} component={lazy(() => import(`./sales`))} />

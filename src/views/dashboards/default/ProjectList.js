@@ -3,6 +3,7 @@ import PageHeaderAlt from 'components/layout-components/PageHeaderAlt'
 import { Radio, Button, Row, Col, Tooltip, Tag, Progress, Avatar, Menu, Card } from 'antd';
 import { AppstoreOutlined, UnorderedListOutlined, PlusOutlined } from '@ant-design/icons';
 import ProjectListData from './ProjectListData';
+import {useHistory} from 'react-router-dom';
 import { 
 	PaperClipOutlined, 
 	CheckCircleOutlined, 
@@ -144,7 +145,7 @@ const getProgressStatusColor = progress => {
 }
 
 const ProjectList = ({view}) => {
-
+	const history = useHistory();
 	const [list, setList] = useState(ProjectListData);
 	const VIEW_LIST = 'LIST';
 	const VIEW_GRID = 'GRID';
@@ -159,12 +160,18 @@ const ProjectList = ({view}) => {
 			<div className={`my-4 ${view === VIEW_LIST? 'container' : 'container-fluid'}`}>
 				{
 					view === VIEW_LIST ?
-					list.map(elm => <ListItem data={elm} removeId={id => deleteItem(id)} key={elm.id}/>)
+					list.map(elm => (
+						<span onClick={() => history.push(`/app/dashboards/default/view/${elm.id}/${elm.name}`)}>
+							<ListItem data={elm} removeId={id => deleteItem(id)} key={elm.id}/>
+						</span>
+					))
 					:
 					<Row gutter={16}>
 						{list.map(elm => (
 							<Col xs={6} sm={6} lg={6} xl={6} xxl={6} key={elm.id}>
-								<GridItem data={elm} removeId={id => deleteItem(id)}/>
+								<span onClick={() => history.push(`/app/dashboards/default/view/${elm.id}/${elm.name}`)}>
+									<GridItem data={elm} removeId={id => deleteItem(id)}/>
+								</span>
 							</Col>
 						))}
 					</Row>

@@ -62,19 +62,6 @@ export const DefaultDashboard = () => {
       <Row gutter={16}>
         <Col span={24}>
           <Row gutter={16}  >
-            {/*{*/}
-            {/*  annualStatisticData.map((elm, i) => (*/}
-            {/*    <Col span={4} key={i}>*/}
-            {/*      <StatisticWidget*/}
-            {/*        title={elm.title}*/}
-            {/*        value={elm.value}*/}
-            {/*        status={elm.status}*/}
-            {/*        subtitle={elm.subtitle}*/}
-            {/*      />*/}
-            {/*    </Col>*/}
-            {/*  ))*/}
-
-            {/*}*/}
             <Col span={24}>
               <Flex justifyContent={"end"}>
                 <Space>
