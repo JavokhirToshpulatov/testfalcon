@@ -101,47 +101,18 @@ const ProductList = () => {
 		{
 			title: 'Name',
 			dataIndex: 'name',
-			render: (_, record) => (
-				<div className="d-flex">
-					<AvatarStatus type="square" src={record.image} name={record.name}/>
-				</div>
-			),
 		},
 		{
 			title: 'Description',
 			dataIndex: 'description',
 		},
 		{
-			title: 'State',
-			dataIndex: 'state',
-			render: price => (
-				<div>
-					<NumberFormat
-						displayType={'text'} 
-						value={(Math.round(price * 100) / 100).toFixed(2)} 
-						prefix={'$'} 
-						thousandSeparator={true} 
-					/>
-				</div>
-			),
-		},
-		{
-			title: 'Type',
-			dataIndex: 'type',
-		},
-		{
 			title: 'Created',
 			dataIndex: 'created',
-			render: stock => (
-				<Flex alignItems="center">{getStockStatus(stock)}</Flex>
-			)
 		},
 		{
 			title: 'Last modified',
 			dataIndex: 'last modified',
-			render: stock => (
-				<Flex alignItems="center">{getStockStatus(stock)}</Flex>
-			)
 		},
 		{
 			title: '',
