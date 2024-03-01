@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
-import { Card, Table, Select, Input, Button, Badge, Menu } from 'antd';
+import {Card, Table, Select, Input, Button, Badge, Menu, Tooltip, message} from 'antd';
 import ProductListData from "assets/data/product-list.data.json"
-import { EyeOutlined, DeleteOutlined, SearchOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import {EyeOutlined, DeleteOutlined, SearchOutlined, PlusCircleOutlined, PauseCircleOutlined} from '@ant-design/icons';
 import AvatarStatus from 'components/shared-components/AvatarStatus';
 import EllipsisDropdown from 'components/shared-components/EllipsisDropdown';
 import Flex from 'components/shared-components/Flex'
@@ -53,6 +53,20 @@ const ProductList = () => {
 	
 	const addProduct = () => {
 		history.push(`/app/dashboards/scans/add-product`)
+	}
+
+	const showUserProfile = userInfo => {
+		this.setState({
+			userProfileVisible: true,
+			selectedUser: userInfo
+		});
+	};
+
+	const deleteUser = userId => {
+		this.setState({
+			users: this.state.users.filter(item => item.id !== userId),
+		})
+		message.success({ content: `Deleted user ${userId}`, duration: 2 });
 	}
 	
 	const viewDetails = row => {
@@ -128,8 +142,16 @@ const ProductList = () => {
 			title: '',
 			dataIndex: 'actions',
 			render: (_, elm) => (
-				<div className="text-right">
-					<EllipsisDropdown menu={dropdownMenu(elm)}/>
+				<div className="text-right d-flex justify-content-end">
+					<Tooltip title="Stop">
+						<Button className="mr-2" danger icon={<PauseCircleOutlined />} onClick={()=> {deleteUser(elm.id)}} size="small"/>
+					</Tooltip>
+					<Tooltip title="View">
+						<Button type="primary" className="mr-2" icon={<EyeOutlined />} onClick={() => {showUserProfile(elm)}} size="small"/>
+					</Tooltip>
+					<Tooltip title="Delete">
+						<Button danger icon={<DeleteOutlined />} onClick={()=> {deleteUser(elm.id)}} size="small"/>
+					</Tooltip>
 				</div>
 			)
 		}

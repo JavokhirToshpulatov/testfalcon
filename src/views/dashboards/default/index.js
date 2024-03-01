@@ -61,19 +61,6 @@ export const DefaultDashboard = () => {
       <br/>
       <Row gutter={16}>
         <Col span={24}>
-          <Row gutter={16}>
-            <Col span={24} >
-              <StatisticWidget
-                  title={
-                    <MembersChart
-                        options={memberChartOption}
-                        series={activeMembersData}
-                        height={30}
-                    />
-                  }
-              />
-            </Col>
-          </Row>
           <Row gutter={16}  >
             {/*{*/}
             {/*  annualStatisticData.map((elm, i) => (*/}
@@ -89,21 +76,34 @@ export const DefaultDashboard = () => {
 
             {/*}*/}
             <Col span={24}>
-                <Flex justifyContent={"end"}>
-                  <Space>
-                    <AsyncModal/>
-                    <AsyncDropDown/>
-                    <Button type={"primary"}> <RedoOutlined /> Refresh</Button>
-                    <Radio.Group defaultValue={VIEW_GRID} onChange={e => onChangeProjectView(e)}>
-                      <Radio.Button value={VIEW_GRID}><AppstoreOutlined /></Radio.Button>
-                      <Radio.Button value={VIEW_LIST}><UnorderedListOutlined /></Radio.Button>
-                    </Radio.Group>
-                  </Space>
-                </Flex>
+              <Flex justifyContent={"end"}>
+                <Space>
+                  <AsyncModal/>
+                  <AsyncDropDown/>
+                  <Button type={"primary"}> <RedoOutlined /> Refresh</Button>
+                  <Radio.Group defaultValue={VIEW_GRID} onChange={e => onChangeProjectView(e)}>
+                    <Radio.Button value={VIEW_GRID}><AppstoreOutlined /></Radio.Button>
+                    <Radio.Button value={VIEW_LIST}><UnorderedListOutlined /></Radio.Button>
+                  </Radio.Group>
+                </Space>
+              </Flex>
             </Col>
 
           </Row>
-
+          <br/>
+          <Row gutter={16}>
+            <Col span={24} >
+              <StatisticWidget
+                  title={
+                    <MembersChart
+                        options={memberChartOption}
+                        series={activeMembersData}
+                        height={30}
+                    />
+                  }
+              />
+            </Col>
+          </Row>
         </Col>
       </Row>
      <ProjectList view={view}/>

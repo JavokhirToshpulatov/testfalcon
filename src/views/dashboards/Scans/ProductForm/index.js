@@ -96,7 +96,7 @@ const ProductForm = props => {
 				<PageHeaderAlt className="border-bottom" overlap>
 					<div className="container">
 						<Flex className="py-2" mobileFlex={false} justifyContent="between" alignItems="center">
-							<h2 className="mb-3">{mode === 'ADD'? 'Add New Product' : `Edit Product`} </h2>
+							<h2 className="mb-3">{mode === 'ADD'? 'Add New Scans' : `Edit Scans	`} </h2>
 							<div className="mb-3">
 								<Button className="mr-2">Discard</Button>
 								<Button type="primary" onClick={() => onFinish()} htmlType="submit" loading={submitLoading} >
@@ -115,12 +115,12 @@ const ProductForm = props => {
 								handleUploadChange={handleUploadChange}
 							/>
 						</TabPane>
-						<TabPane tab="Variation" key="2">
-							<VariationField />
-						</TabPane>
-						<TabPane tab="Shipping" key="3">
-							<ShippingField />
-						</TabPane>
+						{/*<TabPane tab="Variation" key="2">*/}
+						{/*	<VariationField />*/}
+						{/*</TabPane>*/}
+						{/*<TabPane tab="Shipping" key="3">*/}
+						{/*	<ShippingField />*/}
+						{/*</TabPane>*/}
 					</Tabs>
 				</div>
 			</Form>

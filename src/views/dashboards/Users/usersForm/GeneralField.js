@@ -69,37 +69,19 @@ const GeneralField = props => (
 	<Row gutter={16}>
 		<Col xs={24} sm={24} md={24}>
 			<Card title="Agent Information">
-				<Form.Item name="name" label="Name" rules={rules.name}>
-					<Input placeholder="Name" />
+				<Form.Item name="firstName" label="FirstName" rules={rules.name}>
+					<Input placeholder="FirstName" />
 				</Form.Item>
-				<Form.Item name="nmap" label="Ip Address" rules={rules.name}>
-					<Input placeholder="Nmap options" />
+				<Form.Item name="lastName" label="LastName" rules={rules.description}>
+					<Input placeholder={"LastName"}/>
 				</Form.Item>
-				<Form.Item name="description" label="Description" rules={rules.description}>
-					<Input.TextArea rows={2} />
+				<Form.Item name="email" label="Email" rules={rules.description}>
+					<Input placeholder={"Email"}/>
 				</Form.Item>
-
-			</Card>
-			<Card title="Timing">
-				<Form.Item name="scanInterval" label="Scan interval (in second)" rules={rules.name}>
-					<Input placeholder="Name" />
-				</Form.Item>
-				<Form.Item name="requestInterval" label="Request interval (in second)" rules={rules.name}>
-					<Input placeholder="Nmap options" />
-				</Form.Item>
-				<Form.Item name="httpRequest" label="HTTP request timeout (in second)" rules={rules.description}>
-					<Input placeholder={""} />
-				</Form.Item>
-			</Card>
-			<Card title="RabbitMQ">
-				<Form.Item name="host" label="Host" rules={rules.name}>
-					<Input placeholder="Host" />
-				</Form.Item>
-				<Form.Item name="port" label="Port" rules={rules.name}>
-					<Input placeholder="" />
-				</Form.Item>
-				<Form.Item name="username" label="Username" rules={rules.description}>
-					<Input placeholder={"Username"} />
+				<Form.Item name="role" label="Role" >
+					<Select mode="tags" style={{ width: '100%' }} placeholder="Role">
+						{tags.map(elm => <Option key={elm}>{elm}</Option>)}
+					</Select>
 				</Form.Item>
 				<Form.Item
 					label="Password"
@@ -111,6 +93,29 @@ const GeneralField = props => (
 				>
 					<Input.Password />
 				</Form.Item>
+				<Form.Item
+					label="Confirm Password"
+					name="confirmPassword"
+					rules={
+						[
+							{
+								required: true,
+								message: 'Please confirm your password!'
+							},
+							({ getFieldValue }) => ({
+								validator(rule, value) {
+									if (!value || getFieldValue('newPassword') === value) {
+										return Promise.resolve();
+									}
+									return Promise.reject('Password not matched!');
+								},
+							}),
+						]
+					}
+				>
+					<Input.Password />
+				</Form.Item>
+
 			</Card>
 			{/*<Card title="Pricing">*/}
 			{/*	<Row gutter={16}>*/}

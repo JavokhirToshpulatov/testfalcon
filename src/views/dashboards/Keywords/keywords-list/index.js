@@ -8,7 +8,7 @@ import Flex from 'components/shared-components/Flex'
 import NumberFormat from 'react-number-format';
 import { useHistory } from "react-router-dom";
 import utils from 'utils'
-import ProductForm from "../agentForm";
+import ProductForm from "../keywordsForm";
 
 const { Option } = Select
 
@@ -62,7 +62,7 @@ const ProductList = () => {
 	);
 	
 	const addProduct = () => {
-		history.push(`/app/dashboards/agents/add-agent`)
+		history.push(`/app/dashboards/keywords/add-keyword`)
 	}
 
 	const deleteUser = userId => {

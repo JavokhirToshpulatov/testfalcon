@@ -72,45 +72,10 @@ const GeneralField = props => (
 				<Form.Item name="name" label="Name" rules={rules.name}>
 					<Input placeholder="Name" />
 				</Form.Item>
-				<Form.Item name="nmap" label="Ip Address" rules={rules.name}>
-					<Input placeholder="Nmap options" />
-				</Form.Item>
 				<Form.Item name="description" label="Description" rules={rules.description}>
 					<Input.TextArea rows={2} />
 				</Form.Item>
 
-			</Card>
-			<Card title="Timing">
-				<Form.Item name="scanInterval" label="Scan interval (in second)" rules={rules.name}>
-					<Input placeholder="Name" />
-				</Form.Item>
-				<Form.Item name="requestInterval" label="Request interval (in second)" rules={rules.name}>
-					<Input placeholder="Nmap options" />
-				</Form.Item>
-				<Form.Item name="httpRequest" label="HTTP request timeout (in second)" rules={rules.description}>
-					<Input placeholder={""} />
-				</Form.Item>
-			</Card>
-			<Card title="RabbitMQ">
-				<Form.Item name="host" label="Host" rules={rules.name}>
-					<Input placeholder="Host" />
-				</Form.Item>
-				<Form.Item name="port" label="Port" rules={rules.name}>
-					<Input placeholder="" />
-				</Form.Item>
-				<Form.Item name="username" label="Username" rules={rules.description}>
-					<Input placeholder={"Username"} />
-				</Form.Item>
-				<Form.Item
-					label="Password"
-					name="password"
-					rules={[{
-						required: true,
-						message: 'Please enter password!'
-					}]}
-				>
-					<Input.Password />
-				</Form.Item>
 			</Card>
 			{/*<Card title="Pricing">*/}
 			{/*	<Row gutter={16}>*/}

@@ -69,72 +69,81 @@ const GeneralField = props => (
 	<Row gutter={16}>
 		<Col xs={24} sm={24} md={17}>
 			<Card title="Basic Info">
-				<Form.Item name="name" label="Product name" rules={rules.name}>
-					<Input placeholder="Product Name" />
+				<Form.Item name="name" label="Name" rules={rules.name}>
+					<Input placeholder="Name" />
+				</Form.Item>
+				<Form.Item name="Port scanner" label="Port scanner" >
+					<Select mode="tags" style={{ width: '100%' }} placeholder="Port scanner">
+						{tags.map(elm => <Option key={elm}>{elm}</Option>)}
+					</Select>
+				</Form.Item>
+				<Form.Item name="nmap" label="Nmap options" rules={rules.name}>
+					<Input placeholder="Nmap options" />
 				</Form.Item>
 				<Form.Item name="description" label="Description" rules={rules.description}>
-					<Input.TextArea rows={4} />
+					<Input.TextArea rows={2} />
 				</Form.Item>
+
 			</Card>
-			<Card title="Pricing">
-				<Row gutter={16}>
-					<Col xs={24} sm={24} md={12}>
-						<Form.Item name="price" label="Price" rules={rules.price}>
-						<InputNumber
-							className="w-100"
-							formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-							parser={value => value.replace(/\$\s?|(,*)/g, '')}
-						/>
-						</Form.Item>
-					</Col>
-					<Col xs={24} sm={24} md={12}>
-						<Form.Item name="comparePrice" label="Compare price" rules={rules.comparePrice}>
-							<InputNumber
-								className="w-100"
-								value={0}
-								formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-								parser={value => value.replace(/\$\s?|(,*)/g, '')}
-							/>
-						</Form.Item>
-					</Col>
-					<Col xs={24} sm={24} md={12}>
-						<Form.Item name="cost" label="Cost per item" rules={rules.cost}>
-							<InputNumber
-								className="w-100"
-								formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-								parser={value => value.replace(/\$\s?|(,*)/g, '')}
-							/>
-						</Form.Item>
-					</Col>
-					<Col xs={24} sm={24} md={12}>
-						<Form.Item name="taxRate" label="Tax rate" rules={rules.taxRate}>
-							<InputNumber
-								className="w-100"
-								min={0}
-								max={100}
-								formatter={value => `${value}%`}
-								parser={value => value.replace('%', '')}
-							/>
-						</Form.Item>
-					</Col>
-				</Row>
-			</Card>
+			{/*<Card title="Pricing">*/}
+			{/*	<Row gutter={16}>*/}
+			{/*		<Col xs={24} sm={24} md={12}>*/}
+			{/*			<Form.Item name="price" label="Price" rules={rules.price}>*/}
+			{/*			<InputNumber*/}
+			{/*				className="w-100"*/}
+			{/*				formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}*/}
+			{/*				parser={value => value.replace(/\$\s?|(,*)/g, '')}*/}
+			{/*			/>*/}
+			{/*			</Form.Item>*/}
+			{/*		</Col>*/}
+			{/*		<Col xs={24} sm={24} md={12}>*/}
+			{/*			<Form.Item name="comparePrice" label="Compare price" rules={rules.comparePrice}>*/}
+			{/*				<InputNumber*/}
+			{/*					className="w-100"*/}
+			{/*					value={0}*/}
+			{/*					formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}*/}
+			{/*					parser={value => value.replace(/\$\s?|(,*)/g, '')}*/}
+			{/*				/>*/}
+			{/*			</Form.Item>*/}
+			{/*		</Col>*/}
+			{/*		<Col xs={24} sm={24} md={12}>*/}
+			{/*			<Form.Item name="cost" label="Cost per item" rules={rules.cost}>*/}
+			{/*				<InputNumber*/}
+			{/*					className="w-100"*/}
+			{/*					formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}*/}
+			{/*					parser={value => value.replace(/\$\s?|(,*)/g, '')}*/}
+			{/*				/>*/}
+			{/*			</Form.Item>*/}
+			{/*		</Col>*/}
+			{/*		<Col xs={24} sm={24} md={12}>*/}
+			{/*			<Form.Item name="taxRate" label="Tax rate" rules={rules.taxRate}>*/}
+			{/*				<InputNumber*/}
+			{/*					className="w-100"*/}
+			{/*					min={0}*/}
+			{/*					max={100}*/}
+			{/*					formatter={value => `${value}%`}*/}
+			{/*					parser={value => value.replace('%', '')}*/}
+			{/*				/>*/}
+			{/*			</Form.Item>*/}
+			{/*		</Col>*/}
+			{/*	</Row>*/}
+			{/*</Card>*/}
 		</Col>
 		<Col xs={24} sm={24} md={7}>
-			<Card title="Media">
+			<Card title="Upload file">
 				<Dragger {...imageUploadProps} beforeUpload={beforeUpload} onChange={e=> props.handleUploadChange(e)}>
 					{
-						props.uploadedImg ? 
-						<img src={props.uploadedImg} alt="avatar" className="img-fluid" /> 
-						: 
+						props.uploadedImg ?
+						<img src={props.uploadedImg} alt="avatar" className="img-fluid" />
+						:
 						<div>
 							{
-								props.uploadLoading ? 
+								props.uploadLoading ?
 								<div>
 									<LoadingOutlined className="font-size-xxl text-primary"/>
 									<div className="mt-3">Uploading</div>
-								</div> 
-								: 
+								</div>
+								:
 								<div>
 									<CustomIcon className="display-3" svg={ImageSvg}/>
 									<p>Click or drag file to upload</p>
@@ -144,22 +153,22 @@ const GeneralField = props => (
 					}
 				</Dragger>
 			</Card>
-			<Card title="Organization">
-				<Form.Item name="category" label="Category" >
-					<Select className="w-100" placeholder="Category">
-						{
-							categories.map(elm => (
-								<Option key={elm} value={elm}>{elm}</Option>
-							))
-						}
-					</Select>
-				</Form.Item>
-				<Form.Item name="tags" label="Tags" >
-				<Select mode="tags" style={{ width: '100%' }} placeholder="Tags">
-					{tags.map(elm => <Option key={elm}>{elm}</Option>)}
-				</Select>
-				</Form.Item>
-			</Card>
+			{/*<Card title="Organization">*/}
+		{/*		<Form.Item name="category" label="Category" >*/}
+		{/*			<Select className="w-100" placeholder="Category">*/}
+		{/*				{*/}
+		{/*					categories.map(elm => (*/}
+		{/*						<Option key={elm} value={elm}>{elm}</Option>*/}
+		{/*					))*/}
+		{/*				}*/}
+		{/*			</Select>*/}
+		{/*		</Form.Item>*/}
+		{/*		<Form.Item name="tags" label="Tags" >*/}
+		{/*		<Select mode="tags" style={{ width: '100%' }} placeholder="Tags">*/}
+		{/*			{tags.map(elm => <Option key={elm}>{elm}</Option>)}*/}
+		{/*		</Select>*/}
+		{/*		</Form.Item>*/}
+		{/*	</Card>*/}
 		</Col>
 	</Row>
 )
