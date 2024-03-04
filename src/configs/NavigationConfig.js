@@ -52,14 +52,6 @@ const dashBoardNavTree = [{
       submenu: []
     },
     {
-      key: 'dashboards-sales',
-      path: `${APP_PREFIX_PATH}/dashboards/sales`,
-      title: 'Sales',
-      icon: FundOutlined,
-      breadcrumb: false,
-      submenu: []
-    },
-    {
       key: 'dashboards-scans',
       path: `${APP_PREFIX_PATH}/dashboards/scans`,
       title: 'Scans',

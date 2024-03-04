@@ -9,9 +9,10 @@ const Dashboards = ({ match }) => {
       <Route path={`${match.url}/default/view/:domainID/:domainName`} component={lazy(() => import(`./default/view-card`))} />
       <Route path={`${match.url}/default`} component={lazy(() => import(`./default`))} />
       <Route path={`${match.url}/analytic`} component={lazy(() => import(`./analytic`))} />
-      <Route path={`${match.url}/sales`} component={lazy(() => import(`./sales`))} />
+      {/*<Route path={`${match.url}/sales`} component={lazy(() => import(`./sales`))} />*/}
       <Route path={`${match.url}/scans/add-product`} component={lazy(() => import(`./Scans/add-product`))} />
       <Route path={`${match.url}/scans/edit-scan/:id`} component={lazy(() => import(`./Scans/add-product`))} />
+      <Route path={`${match.url}/scans/history/:id`} component={lazy(() => import(`./editTables/viewHistoryScans`))} />
       <Route path={`${match.url}/scans`} component={lazy(() => import(`./Scans/product-list`))} />
       <Route path={`${match.url}/agents/add-agent`} component={lazy(() => import(`./Agents/add-agent`))} />
       <Route path={`${match.url}/agents/edit-agent/:id`} component={lazy(() => import(`./Agents/add-agent`))} />

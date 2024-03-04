@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {Card, Table, Select, Input, Button, Badge, Menu, Tooltip, message} from 'antd';
+import {Card, Table, Select, Input, Button, Badge, Menu, Tooltip, message, Row, Col} from 'antd';
 import ProductListData from "assets/data/product-list.data.json"
 import {
     EyeOutlined,
@@ -12,26 +12,9 @@ import {
 import Flex from 'components/shared-components/Flex'
 import { useHistory } from "react-router-dom";
 import utils from 'utils'
+import {PageHeaderAlt} from "../../../../components/layout-components/PageHeaderAlt";
 
 const { Option } = Select
-
-const getStockStatus = stockCount => {
-    if(stockCount >= 10) {
-        return <><Badge status="success" /><span>In Stock</span></>
-    }
-    if(stockCount < 10 && stockCount > 0) {
-        return <><Badge status="warning" /><span>Limited Stock</span></>
-    }
-    if(stockCount === 0) {
-        return <><Badge status="error" /><span>Out of Stock</span></>
-    }
-    return null
-}
-
-
-
-
-const categories = ['Cloths', 'Bags', 'Shoes', 'Watches', 'Devices']
 
 const HistoryTable = () => {
     let history = useHistory();
@@ -99,20 +82,12 @@ const HistoryTable = () => {
             dataIndex: '#'
         },
         {
-            title: 'Start',
-            dataIndex: 'start',
+            title: 'Domain',
+            dataIndex: 'domain',
         },
         {
-            title: 'End',
-            dataIndex: 'end',
-        },
-        {
-            title: 'Total',
-            dataIndex: 'total',
-        },
-        {
-            title: 'State',
-            dataIndex: 'state',
+            title: 'Timestamp',
+            dataIndex: 'timestamp',
         },
         {
             title: '',
@@ -153,33 +128,61 @@ const HistoryTable = () => {
     }
 
     return (
-        <Card>
-            <Flex alignItems="center" justifyContent="between" mobileFlex={false}>
-                <Flex className="mb-1" mobileFlex={false}>
-                    <div className="mr-md-3 mb-3">
-                        <Input placeholder="Search" prefix={<SearchOutlined />} onChange={e => onSearch(e)}/>
-                    </div>
+        <>
+            <PageHeaderAlt className="border-bottom mb-5" overlap>
+                <div className="container">
+                    <Flex className="py-2" mobileFlex={false} justifyContent="between" alignItems="center">
+                        <h2 className="mb-3">History</h2>
+                    </Flex>
+                </div>
+            </PageHeaderAlt>
+            <Row gutter={16}>
+               <Col span={12}>
+                   <h2>History Information</h2>
+                   <h3>Scan:</h3>
+                   <h3>Scanned:</h3>
+                   <h3>Total:</h3>
+               </Col>
+                <Col span={12}>
+                    <Flex justifyContent={"end"}>
+                        <h3>Started:</h3>
+                    </Flex>
+                    <Flex justifyContent={"end"}>
+                        <h3>Total:</h3>
+                    </Flex>
+                </Col>
+            </Row>
+            <hr/>
+            <br/>
+            <Card>
+                <Flex alignItems="center" justifyContent="between" mobileFlex={false}>
+                    <Flex className="mb-1" mobileFlex={false}>
+                        <div className="mr-md-3 mb-3">
+                            <Input placeholder="Search" prefix={<SearchOutlined />} onChange={e => onSearch(e)}/>
+                        </div>
+                    </Flex>
                 </Flex>
-            </Flex>
-            <div className="table-responsive">
-                <Table
-                    columns={tableColumns}
-                    dataSource={list}
-                    rowKey='id'
-                    rowSelection={{
-                        selectedRowKeys: selectedRowKeys,
-                        type: 'checkbox',
-                        preserveSelectedRowKeys: false,
-                        ...rowSelection,
-                    }}
-                    pagination={{
-                        total: 60, // total elements
-                        pageSize: 10, // element size
-                        // current: backend dan kelgan page || hozirgi page
-                    }}
-                />
-            </div>
-        </Card>
+                <div className="table-responsive">
+                    <Table
+                        columns={tableColumns}
+                        dataSource={list}
+                        rowKey='id'
+                        rowSelection={{
+                            selectedRowKeys: selectedRowKeys,
+                            type: 'checkbox',
+                            preserveSelectedRowKeys: false,
+                            ...rowSelection,
+                        }}
+                        pagination={{
+                            total: 60, // total elements
+                            pageSize: 10, // element size
+                            // current: backend dan kelgan page || hozirgi page
+                        }}
+                    />
+                </div>
+            </Card>
+        </>
+
     )
 }
 
