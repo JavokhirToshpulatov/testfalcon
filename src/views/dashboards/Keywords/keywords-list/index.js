@@ -9,13 +9,10 @@ import {
 	PauseCircleOutlined,
 	EditOutlined
 } from '@ant-design/icons';
-import AvatarStatus from 'components/shared-components/AvatarStatus';
-import EllipsisDropdown from 'components/shared-components/EllipsisDropdown';
 import Flex from 'components/shared-components/Flex'
 import NumberFormat from 'react-number-format';
 import { useHistory } from "react-router-dom";
 import utils from 'utils'
-import ProductForm from "../keywordsForm";
 
 const { Option } = Select
 
@@ -181,6 +178,11 @@ const ProductList = () => {
 						type: 'checkbox',
 						preserveSelectedRowKeys: false,
 						...rowSelection,
+					}}
+					pagination={{
+						total: 60, // total elements
+						pageSize: 10, // element size
+						// current: backend dan kelgan page || hozirgi page
 					}}
 				/>
 			</div>

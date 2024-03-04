@@ -193,6 +193,12 @@ const ProductList = () => {
 						preserveSelectedRowKeys: false,
 						...rowSelection,
 					}}
+						pagination={{
+						total: 60, // total elements
+						pageSize: 10, // element size
+						// current: backend dan kelgan page || hozirgi page
+					}}
+
 				/>
 			</div>
 		</Card>

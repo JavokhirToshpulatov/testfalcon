@@ -10,12 +10,10 @@ import {
 	EditOutlined
 } from '@ant-design/icons';
 import AvatarStatus from 'components/shared-components/AvatarStatus';
-import EllipsisDropdown from 'components/shared-components/EllipsisDropdown';
 import Flex from 'components/shared-components/Flex'
 import NumberFormat from 'react-number-format';
 import { useHistory } from "react-router-dom";
 import utils from 'utils'
-import ProductForm from "../ProductForm";
 
 const { Option } = Select
 
