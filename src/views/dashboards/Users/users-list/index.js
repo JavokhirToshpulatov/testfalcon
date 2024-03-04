@@ -116,7 +116,7 @@ const ProductList = () => {
 						<Button type="primary" className="mr-2" icon={<EditOutlined/>} onClick={() => {showUserProfile(elm)}} size="small"/>
 					</Tooltip>
 					<Tooltip title="Delete">
-						<Button danger icon={<DeleteOutlined />} onClick={()=> {deleteUser(elm.id)}} size="small"/>
+						<Button type="danger" icon={<DeleteOutlined />} onClick={()=> {deleteUser(elm.id)}} size="small"/>
 					</Tooltip>
 				</div>
 			)

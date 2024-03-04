@@ -1,14 +1,11 @@
 import React, { useState } from 'react'
 import PageHeaderAlt from 'components/layout-components/PageHeaderAlt'
-import { Radio, Button, Row, Col, Tooltip, Tag, Progress, Avatar, Menu, Card } from 'antd';
+import {Radio, Button, Row, Col, Tooltip, Tag, Progress, Avatar, Menu, Card, Space, DatePicker} from 'antd';
 import { AppstoreOutlined, UnorderedListOutlined, PlusOutlined } from '@ant-design/icons';
 import ProjectListData from './ProjectListData';
 import {useHistory} from 'react-router-dom';
 import { 
-	PaperClipOutlined, 
-	CheckCircleOutlined, 
-	ClockCircleOutlined,
-	EyeOutlined, 
+	EyeOutlined,
 	EditOutlined,
 	DeleteOutlined
 } from '@ant-design/icons';
@@ -144,20 +141,49 @@ const getProgressStatusColor = progress => {
 	return COLORS[0]
 }
 
-const ProjectList = ({view}) => {
+const ProjectList = () => {
 	const history = useHistory();
 	const [list, setList] = useState(ProjectListData);
 	const VIEW_LIST = 'LIST';
 	const VIEW_GRID = 'GRID';
+	const [view, setView] = useState(VIEW_GRID);
+
 
 	const	deleteItem = id =>{
 		const data = list.filter(elm => elm.id !== id)
 		setList(data)
 	}
+	const onChangeProjectView = e => {
+		setView(e.target.value)
+	}
+
+	const onChange = (date, dateString) => {
+		console.log(date, dateString);
+	};
 
 	return (
 		<>
 			<div className={`my-4 ${view === VIEW_LIST? 'container' : 'container-fluid'}`}>
+					<Row gutter={16} className="mb-2">
+						<Col span={16}>
+
+
+						</Col>
+						<Col span={8}>
+							<Flex justifyContent={"end"} >
+								<Space>
+									<Space direction="vertical">
+										<DatePicker onChange={onChange} />
+									</Space>
+									<Radio.Group defaultValue={VIEW_GRID} onChange={e => onChangeProjectView(e)}>
+										<Radio.Button value={VIEW_GRID}><AppstoreOutlined /></Radio.Button>
+										<Radio.Button value={VIEW_LIST}><UnorderedListOutlined /></Radio.Button>
+									</Radio.Group>
+								</Space>
+							</Flex>
+						</Col>
+					</Row>
+
 				{
 					view === VIEW_LIST ?
 					list.map(elm => (
