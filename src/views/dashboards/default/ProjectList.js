@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
-import PageHeaderAlt from 'components/layout-components/PageHeaderAlt'
-import {Radio, Button, Row, Col, Tooltip, Tag, Progress, Avatar, Menu, Card, Space, DatePicker} from 'antd';
-import { AppstoreOutlined, UnorderedListOutlined, PlusOutlined } from '@ant-design/icons';
+import {Radio, Row, Col, Tooltip, Progress, Avatar, Menu, Card, Space, DatePicker} from 'antd';
+import { AppstoreOutlined, UnorderedListOutlined,} from '@ant-design/icons';
 import ProjectListData from './ProjectListData';
 import {useHistory} from 'react-router-dom';
 import { 
@@ -13,6 +12,7 @@ import utils from 'utils';
 import { COLORS } from 'constants/ChartConstant';
 import Flex from 'components/shared-components/Flex';
 import EllipsisDropdown from 'components/shared-components/EllipsisDropdown'
+import Slider from "./Slider";
 
 const VIEW_LIST = 'LIST';
 const VIEW_GRID = 'GRID';
@@ -166,8 +166,7 @@ const ProjectList = () => {
 			<div className={`my-4 ${view === VIEW_LIST? 'container' : 'container-fluid'}`}>
 					<Row gutter={16} className="mb-2">
 						<Col span={16}>
-
-
+                        <Slider/>
 						</Col>
 						<Col span={8}>
 							<Flex justifyContent={"end"} >
