@@ -21,3 +21,15 @@
 }
 iframe#webpack-dev-server-client-overlay{display:none!important}
 
+.slider-container {
+  text-align: center;
+  align-items: center;
+}
+.animation-card-color {
+  animation: 1s infinite alternate slidein;
+}
+@keyframes slidein {
+  from {
+    background-color: white;
+  }
+}
