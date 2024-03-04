@@ -108,7 +108,7 @@ const ListItem = ({ data, removeId }) => (
 )
 
 const GridItem = ({ data, removeId }) => (
-	<Card>
+	<Card style={{backgroundColor: data.color}} className='animation-card-color'>
 		<Flex alignItems="center" justifyContent="between">
 			<ItemHeader name={data.name} category={data.category} />
 		</Flex>

@@ -1,5 +1,7 @@
-import React, {useRef} from "react";
+import React, { useRef } from "react";
 import Slider from "react-slick";
+import {Row, Col} from 'antd';
+import {LeftCircleFilled, RightCircleFilled} from '@ant-design/icons';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -13,51 +15,56 @@ function Responsive() {
     };
     var settings = {
         dots: true,
-        infinite: false,
+        infinite: true,
         speed: 500,
-        slidesToShow: 4,
-        slidesToScroll: 4,
-        initialSlide: 0,
+        slidesToShow: 5,
+        slidesToScroll: 3,
+        dots: false,
+        arrows: false
     };
     return (
-        <div className="slider-container">
-            <Slider ref={slider => {
-                sliderRef = slider;
-            }}
-                    styles={"d-flex"} {...settings}>
-                <div>
-                    <button >12.02.2030</button>
-                </div>
-                <div>
-                    <button>12.02.2030</button>
-                </div>
-                <div>
-                    <button>12.02.2030</button>
-                </div>
-                <div>
-                    <button>12.02.2030</button>
-                </div>
-                <div>
-                    <button>12.02.2030</button>
-                </div>
-                <div>
-                    <button>12.02.2030</button>
-                </div>
-                <div>
-                    <button>12.02.2030</button>
-                </div>
-                <div>
-                    <button>12.02.2030</button>
-                </div>
-            </Slider>
-            <div style={{textAlign: "center"}}>
-                <button className="button" onClick={previous}>
-                    Previous
-                </button>
-                <button className="button" onClick={next}>
-                    Next
-                </button>
-            </div>
+        <div className="slider-block">
+            <Row>
+                <Col span={1} style={{display: 'flex', justifyContent: 'start', alignItems: 'center'}}>
+                    <LeftCircleFilled style={{fontSize: '20px'}} onClick={previous}/>
+                </Col>
+                <Col span={22}>
+                    <div className="slider-container">
+                        <Slider ref={slider => {
+                            sliderRef = slider;
+                        }}
+                            {...settings}>
+                            <div>
+                                <button >12.02.2030</button>
+                            </div>
+                            <div>
+                                <button>12.02.2030</button>
+                            </div>
+                            <div>
+                                <button>12.02.2030</button>
+                            </div>
+                            <div>
+                                <button>12.02.2030</button>
+                            </div>
+                            <div>
+                                <button>12.02.2030</button>
+                            </div>
+                            <div>
+                                <button>12.02.2030</button>
+                            </div>
+                            <div>
+                                <button>12.02.2030</button>
+                            </div>
+                            <div>
+                                <button>12.02.2030</button>
+                            </div>
+                        </Slider>
+                    </div>
+                </Col>
+                <Col span={1} style={{display: 'flex', justifyContent: 'end', alignItems: 'center'}}>
+                    <RightCircleFilled style={{fontSize: '20px'}} onClick={next}/>
+                </Col>
+            </Row>
         </div>
     );
 }
