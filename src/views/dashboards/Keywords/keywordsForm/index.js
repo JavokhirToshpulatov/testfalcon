@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import PageHeaderAlt from 'components/layout-components/PageHeaderAlt'
-import { Tabs, Form, Button, message } from 'antd';
+import {Tabs, Form, Button, message, Row, Col, Space} from 'antd';
 import Flex from 'components/shared-components/Flex'
 import GeneralField from './GeneralField'
 import ProductListData from "assets/data/product-list.data.json"
+import {InfoCircleOutlined} from "@ant-design/icons";
+import ScansTable from "../../editTables/ScansTable";
 
 const { TabPane } = Tabs;
 
@@ -96,6 +98,19 @@ const ProductForm = props => {
 					</Tabs>
 				</div>
 			</Form>
+			{mode==='EDIT'?<Row gutter={16}  >
+					<Col span={24}>
+						<Flex justifyContent={"center"}>
+							<Space>
+								<Button className="mb-3" type={"primary"}> <InfoCircleOutlined /> Scans</Button>
+							</Space>
+						</Flex>
+					</Col>
+					<Col span={24}>
+						<ScansTable/>
+					</Col>
+				</Row>
+				:""}
 		</>
 	)
 }

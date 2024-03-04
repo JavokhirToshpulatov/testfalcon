@@ -121,10 +121,10 @@ const ProductForm = props => {
 					<Col span={24}>
 						<Flex justifyContent={"center"}>
 							<Space>
-								<Button onClick={()=>showsTable("agent")} type={"primary"}> <InfoCircleOutlined /> Agents</Button>
-								<Button onClick={()=>showsTable("domain")}  type={"primary"}> <EnvironmentOutlined /> Domains</Button>
-								<Button onClick={()=>showsTable("keyword")} type={"primary"}> <ToolOutlined /> Keywords</Button>
-								<Button onClick={()=>showsTable("history")} type={"primary"}> <HistoryOutlined /> History</Button>
+								<Button className="mb-3"  onClick={()=>showsTable("agent")} type={"primary"}> <InfoCircleOutlined /> Agents</Button>
+								<Button className="mb-3"  onClick={()=>showsTable("domain")}  type={"primary"}> <EnvironmentOutlined /> Domains</Button>
+								<Button className="mb-3"  onClick={()=>showsTable("keyword")} type={"primary"}> <ToolOutlined /> Keywords</Button>
+								<Button className="mb-3"  onClick={()=>showsTable("history")} type={"primary"}> <HistoryOutlined /> History</Button>
 							</Space>
 						</Flex>
 					</Col>

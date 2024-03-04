@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import {Card, Table, Select, Input, Button, Badge, Menu, Tooltip, message} from 'antd';
 import ProductListData from "assets/data/product-list.data.json"
 import {
+    EyeOutlined,
     DeleteOutlined,
     SearchOutlined,
     UnorderedListOutlined
@@ -12,40 +13,42 @@ import utils from 'utils'
 
 const { Option } = Select
 
-const getStockStatus = stockCount => {
-    if(stockCount >= 10) {
-        return <><Badge status="success" /><span>In Stock</span></>
-    }
-    if(stockCount < 10 && stockCount > 0) {
-        return <><Badge status="warning" /><span>Limited Stock</span></>
-    }
-    if(stockCount === 0) {
-        return <><Badge status="error" /><span>Out of Stock</span></>
-    }
-    return null
-}
 
 
 
 
 const categories = ['Cloths', 'Bags', 'Shoes', 'Watches', 'Devices']
 
-const AgentsTable = () => {
+const ScansTable = () => {
     let history = useHistory();
     const [list, setList] = useState(ProductListData)
     const [selectedRows, setSelectedRows] = useState([])
     const [selectedRowKeys, setSelectedRowKeys] = useState([])
 
     const showUserProfile = userInfo => {
-        history.push(`/app/dashboards/agents/edit-agent/45`)
-
+        history.push(`/app/dashboards/scans/edit-scan/45`)
     };
 
 
-
+    const dropdownMenu = row => (
+        <Menu>
+            <Menu.Item onClick={() => viewDetails(row)}>
+                <Flex alignItems="center">
+                    <EyeOutlined />
+                    <span className="ml-2">View Details</span>
+                </Flex>
+            </Menu.Item>
+            <Menu.Item onClick={() => deleteRow(row)}>
+                <Flex alignItems="center">
+                    <DeleteOutlined />
+                    <span className="ml-2">{selectedRows.length > 0 ? `Delete (${selectedRows.length})` : 'Delete'}</span>
+                </Flex>
+            </Menu.Item>
+        </Menu>
+    );
 
     const addProduct = () => {
-        history.push(`/app/dashboards/agents/add-agent`)
+        history.push(`/app/dashboards/keywords/add-keyword`)
     }
 
     const deleteUser = userId => {
@@ -84,30 +87,18 @@ const AgentsTable = () => {
         {
             title: 'Name',
             dataIndex: 'name',
-            render: (_, record) => (
-                <div className="d-flex">
-                </div>
-            ),
-        },
-        {
-            title: 'IP Address',
-            dataIndex: 'description',
-        },
-        {
-            title: 'Status',
-            dataIndex: 'status',
         },
         {
             title: 'Description',
             dataIndex: 'description',
         },
         {
-            title: 'Created',
-            dataIndex: 'created',
+            title: 'State',
+            dataIndex: 'state',
         },
         {
-            title: 'Last modified',
-            dataIndex: 'last modified',
+            title: 'Type',
+            dataIndex: 'type',
         },
         {
             title: '',
@@ -115,7 +106,7 @@ const AgentsTable = () => {
             render: (_, elm) => (
                 <div className="text-right d-flex justify-content-end">
                     <Tooltip title="Delete">
-                        <Button className="mr-2" type="danger" icon={<DeleteOutlined />} onClick={()=> {deleteUser(elm.id)}} size="small"/>
+                        <Button className="mr-2"  type="danger" icon={<DeleteOutlined />} onClick={()=> {deleteUser(elm.id)}} size="small"/>
                     </Tooltip>
                     <Tooltip title="View">
                         <Button type="primary" className="mr-2" icon={<UnorderedListOutlined />} onClick={() => {showUserProfile(elm)}} size="small"/>
@@ -181,4 +172,4 @@ const AgentsTable = () => {
     )
 }
 
-export default AgentsTable
+export default ScansTable

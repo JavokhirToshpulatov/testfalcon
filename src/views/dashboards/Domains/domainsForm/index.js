@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import PageHeaderAlt from 'components/layout-components/PageHeaderAlt'
-import { Tabs, Form, Button, message } from 'antd';
+import {Tabs, Form, Button, message, Row, Col, Space} from 'antd';
 import Flex from 'components/shared-components/Flex'
 import GeneralField from './GeneralField'
 import ProductListData from "assets/data/product-list.data.json"
+import {EnvironmentOutlined, HistoryOutlined, InfoCircleOutlined, ToolOutlined} from "@ant-design/icons";
+import AgentsTable from "../../editTables/AgentsTable";
+import DomainTable from "../../editTables/DomainTable";
+import KeywordTable from "../../editTables/KeywordTable";
+import HistoryTable from "../../editTables/HistoryTable";
+import ScansTable from "../../editTables/ScansTable";
 
 const { TabPane } = Tabs;
 
@@ -24,6 +30,7 @@ const ProductForm = props => {
 	const [uploadedImg, setImage] = useState('')
 	const [uploadLoading, setUploadLoading] = useState(false)
 	const [submitLoading, setSubmitLoading] = useState(false)
+	const [showTable, setShowTable] = useState("scan")
 
 
 	const handleUploadChange = info => {
@@ -57,6 +64,10 @@ const ProductForm = props => {
 			message.error('Please enter all required field ');
 		});
 	};
+
+	function showsTable(value) {
+		setShowTable(value)
+	}
 
 	return (
 		<>
@@ -96,6 +107,21 @@ const ProductForm = props => {
 					</Tabs>
 				</div>
 			</Form>
+			<br/>
+			{mode==='EDIT'?<Row gutter={16}  >
+					<Col span={24}>
+						<Flex justifyContent={"center"}>
+							<Space>
+								<Button className="mb-3"  onClick={()=>showsTable("scan")} type={"primary"}> <InfoCircleOutlined /> Scans</Button>
+								<Button className="mb-3"  onClick={()=>showsTable("history")} type={"primary"}> <HistoryOutlined /> History</Button>
+							</Space>
+						</Flex>
+					</Col>
+					<Col span={24}>
+						{showTable==='scan'?<ScansTable/>:showTable==='history'?<HistoryTable/>:""}
+					</Col>
+				</Row>
+				:""}
 		</>
 	)
 }

@@ -15,7 +15,7 @@ const menuItem = [
 	{
 		title: "Edit Profile",
 		icon: EditOutlined ,
-		path: "/"
+		path: "/app/dashboards/users/edit-user"
     },
     
     {
@@ -23,11 +23,6 @@ const menuItem = [
 		icon: SettingOutlined,
 		path: "/"
     },
-    {
-		title: "Billing",
-		icon: ShopOutlined ,
-		path: "/"
-	},
     {
 		title: "Help Center",
 		icon: QuestionCircleOutlined,
