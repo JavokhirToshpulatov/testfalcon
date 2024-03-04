@@ -40,10 +40,8 @@ const ProductList = () => {
 	const [selectedRowKeys, setSelectedRowKeys] = useState([])
 
   const showUserProfile = userInfo => {
-		this.setState({
-			userProfileVisible: true,
-			selectedUser: userInfo
-		});
+	  history.push(`/app/dashboards/agents/edit-agent/45`)
+
 	};
 
 

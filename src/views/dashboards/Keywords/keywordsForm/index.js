@@ -25,26 +25,6 @@ const ProductForm = props => {
 	const [uploadLoading, setUploadLoading] = useState(false)
 	const [submitLoading, setSubmitLoading] = useState(false)
 
-	useEffect(() => {
-    	if(mode === EDIT) {
-			console.log('is edit')
-			console.log('props', props)
-			const { id } = param
-			const produtId = parseInt(id)
-			const productData = ProductListData.filter( product => product.id === produtId)
-			const product = productData[0]
-			form.setFieldsValue({
-				comparePrice: 0.00,
-				cost: 0.00,
-				taxRate: 6,
-				description: 'There are many variations of passages of Lorem Ipsum available.',
-				category: product.category,
-				name: product.name,
-				price: product.price
-			});
-			setImage(product.image)
-		}
-  	}, [form, mode, param, props]);
 
 	const handleUploadChange = info => {
 		if (info.file.status === 'uploading') {

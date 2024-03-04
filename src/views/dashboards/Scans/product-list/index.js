@@ -62,11 +62,8 @@ const ProductList = () => {
 		history.push(`/app/dashboards/scans/add-product`)
 	}
 
-	const showUserProfile = userInfo => {
-		this.setState({
-			userProfileVisible: true,
-			selectedUser: userInfo
-		});
+	const showUserProfile = id => {
+		history.push(`/app/dashboards/scans/edit-scan/45`)
 	};
 
 	const deleteUser = userId => {
