@@ -14,7 +14,6 @@ function Responsive() {
         sliderRef.slickPrev();
     };
     var settings = {
-        dots: true,
         infinite: true,
         speed: 500,
         slidesToShow: 5,
