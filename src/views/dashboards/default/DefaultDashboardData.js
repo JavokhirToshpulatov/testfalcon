@@ -49,7 +49,7 @@ export const AnnualStatisticData = [
 
 export const ActiveMembersData = [{
 	name: 'Members',
-	data: [25, 15, 41, 25, 44, 12, 36, 19, 54]
+	data: [25, 15, 41, 25, 44, 12, 36, 19, 54,25, 15, 41, 25, 44, 12, 36, 19, 54,54,25, 15, 41, 25, 44, 12, 36, 19, 54,95,65,95,12,65,23,45,23,56,89,78,12,21,32,98,78,98]
 }]
 
 export const NewMembersData = [{

@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import Slider from "react-slick";
-import {Row, Col} from 'antd';
+import {Row, Col, Button} from 'antd';
 import {LeftCircleFilled, RightCircleFilled} from '@ant-design/icons';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -35,28 +35,25 @@ function Responsive() {
                         }}
                             {...settings}>
                             <div>
-                                <button >12.02.2030</button>
+                                <Button type={"primary"} >01.01.2000</Button>
                             </div>
                             <div>
-                                <button>12.02.2030</button>
+                                <Button type={"primary"} >12.02.2030</Button>
                             </div>
                             <div>
-                                <button>12.02.2030</button>
+                                <Button type={"primary"} >12.02.2030</Button>
                             </div>
                             <div>
-                                <button>12.02.2030</button>
+                                <Button type={"primary"} >12.02.2030</Button>
                             </div>
                             <div>
-                                <button>12.02.2030</button>
+                                <Button type={"primary"} >12.02.2030</Button>
                             </div>
                             <div>
-                                <button>12.02.2030</button>
+                                <Button type={"primary"} >12.02.2030</Button>
                             </div>
                             <div>
-                                <button>12.02.2030</button>
-                            </div>
-                            <div>
-                                <button>12.02.2030</button>
+                                <Button type={"primary"} >12.02.2030</Button>
                             </div>
                         </Slider>
                     </div>
