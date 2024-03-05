@@ -17,7 +17,7 @@
           justify-content: center;
 }
 .loading .ant-spin {
-  color: #3e79f7;
+  color: rgb(62, 121, 247);
 }
 iframe#webpack-dev-server-client-overlay{display:none!important}
 
@@ -25,11 +25,11 @@ iframe#webpack-dev-server-client-overlay{display:none!important}
   text-align: center;
   align-items: center;
 }
-.animation-card-color {
+/* .animation-card-color {
   animation: 1s infinite alternate slidein;
 }
 @keyframes slidein {
   from {
-    background-color: white;
+    filter: contrast(50);
   }
-}
+} */

@@ -55,6 +55,8 @@ export const DefaultDashboard = () => {
     setView(e.target.value)
   }
 
+  // let h = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Document</title></head><body><p> hello </p></body></html>';
+
   return (
     <>
 
@@ -73,6 +75,7 @@ export const DefaultDashboard = () => {
                   }
               />
             </Col>
+
             <Col span={8}>
               <Flex justifyContent={"end"}>
                 <Space>
@@ -90,6 +93,7 @@ export const DefaultDashboard = () => {
         </Col>
       </Row>
      <ProjectList view={view}/>
+     {/* <div dangerouslySetInnerHTML={{__html: h}}/> */}
     </>
   )
 }
