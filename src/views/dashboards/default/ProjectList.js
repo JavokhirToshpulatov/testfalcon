@@ -3,6 +3,7 @@ import {Radio, Row, Col, Tooltip, Progress, Avatar, Menu, Card, Space, DatePicke
 import { AppstoreOutlined, UnorderedListOutlined,} from '@ant-design/icons';
 import ProjectListData from './ProjectListData';
 import {useHistory} from 'react-router-dom';
+import hexToRgba from 'hex-to-rgba';
 import { 
 	EyeOutlined,
 	EditOutlined,
@@ -13,6 +14,8 @@ import { COLORS } from 'constants/ChartConstant';
 import Flex from 'components/shared-components/Flex';
 import EllipsisDropdown from 'components/shared-components/EllipsisDropdown'
 import Slider from "./Slider";
+import { CARD_ANIMATION } from './style';
+
 
 const VIEW_LIST = 'LIST';
 const VIEW_GRID = 'GRID';
@@ -108,7 +111,7 @@ const ListItem = ({ data, removeId }) => (
 )
 
 const GridItem = ({ data, removeId }) => (
-	<Card style={{backgroundColor: data.color}} className='animation-card-color'>
+	<CARD_ANIMATION color={hexToRgba(data.color)}>
 		<Flex alignItems="center" justifyContent="between">
 			<ItemHeader name={data.name} category={data.category} />
 		</Flex>
@@ -125,7 +128,7 @@ const GridItem = ({ data, removeId }) => (
 			<ItemProgress progression={data.progression} />
 		</div>
 
-	</Card>
+	</CARD_ANIMATION>
 )
 
 const getProgressStatusColor = progress => {

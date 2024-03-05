@@ -1,7 +1,7 @@
 const ProjectListData = [
 	{
 		id: 27,
-		color: 'red',
+		color: '#6379F7',
 		name: 'Eastern SaaS',
 		category: 'Web Application',
 		attachmentCount: 12,
@@ -35,7 +35,7 @@ const ProjectListData = [
 	},
 	{
 		id: 28,
-		color: 'grey',
+		color: '#f73e3e',
 		name: 'Wind Chill App',
 		category: 'Mobile Application',
 		attachmentCount: 5,
@@ -59,7 +59,7 @@ const ProjectListData = [
 	},
 	{
 		id: 29,
-		color: 'yellow',
+		color: '#f73e3e',
 		name: 'IOP Web',
 		category: 'Web Backend Application',
 		attachmentCount: 8,
@@ -102,7 +102,7 @@ const ProjectListData = [
 	},
 	{
 		id: 30,
-		color: 'indigo',
+		color: '#f73e3e',
 		name: 'Wind Chill API',
 		category: 'Backend Services',
 		attachmentCount: 2,
@@ -126,7 +126,7 @@ const ProjectListData = [
 	},
 	{
 		id: 31,
-		color: 'gold',
+		color: '#f73e3e',
 		name: 'Octonine POS',
 		category: 'Backend Application',
 		attachmentCount: 8,
@@ -165,7 +165,7 @@ const ProjectListData = [
 	},
 	{
 		id: 32,
-		color: 'blue',
+		color: '#3e79f7',
 		name: 'eMenu Web',
 		category: 'Frontend Web Application',
 		attachmentCount: 6,
@@ -194,7 +194,7 @@ const ProjectListData = [
 	},
 	{
 		id: 33,
-		color: 'green',
+		color: '#f73e3e',
 		name: 'Finance Reviewer APP',
 		category: 'Mobile Application',
 		attachmentCount: 3,
