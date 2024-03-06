@@ -89,31 +89,31 @@ const ItemMember = ({member}) => (
 )
 
 const ListItem = ({ data, removeId }) => (
-	<div className="bg-white rounded p-3 mb-3 border">
-		<Row align="middle">
-    	<Col xs={24} sm={24} md={8}>
-				<ItemHeader name={data.name} category={data.category} />
-			</Col>
-			<Col xs={24} sm={24} md={6}>
-				<ItemInfo
-					attachmentCount={data.attachmentCount}
-					completedTask={data.completedTask}
-					totalTask={data.totalTask}
-					statusColor={data.statusColor}
-					dayleft={data.dayleft}
-				/>
-			</Col>
-			<Col xs={24} sm={24} md={5}>
-				<ItemProgress progression={data.progression} />
-			</Col>
-		</Row>
-	</div>
+	<CARD_ANIMATION color={hexToRgba(data.color)}>
+			<Row align="middle">
+				<Col xs={24} sm={24} md={8}>
+					<ItemHeader name={data.name} category={data.category}/>
+				</Col>
+				<Col xs={24} sm={24} md={6}>
+					<ItemInfo
+						attachmentCount={data.attachmentCount}
+						completedTask={data.completedTask}
+						totalTask={data.totalTask}
+						statusColor={data.statusColor}
+						dayleft={data.dayleft}
+					/>
+				</Col>
+				<Col xs={24} sm={24} md={5}>
+					<ItemProgress progression={data.progression}/>
+				</Col>
+			</Row>
+	</CARD_ANIMATION>
 )
 
-const GridItem = ({ data, removeId }) => (
+const GridItem = ({data, removeId}) => (
 	<CARD_ANIMATION color={hexToRgba(data.color)}>
 		<Flex alignItems="center" justifyContent="between">
-			<ItemHeader name={data.name} category={data.category} />
+			<ItemHeader name={data.name} category={data.category}/>
 		</Flex>
 		<div className="mt-1">
 			<ItemInfo
@@ -125,7 +125,7 @@ const GridItem = ({ data, removeId }) => (
 			/>
 		</div>
 		<div className="mt-3">
-			<ItemProgress progression={data.progression} />
+			<ItemProgress progression={data.progression}/>
 		</div>
 
 	</CARD_ANIMATION>
