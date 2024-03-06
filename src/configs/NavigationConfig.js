@@ -1,30 +1,7 @@
 import {
   DashboardOutlined,
-  AppstoreOutlined,
-  FileTextOutlined,
-  PieChartOutlined,
-  EnvironmentOutlined,
-  AntDesignOutlined,
-  SafetyOutlined,
-  StopOutlined,
   DotChartOutlined,
-  MailOutlined,
-  MessageOutlined,
-  CalendarOutlined,
-  BulbOutlined,
-  InfoCircleOutlined,
-  CompassOutlined,
-  LayoutOutlined,
-  DesktopOutlined,
-  FileDoneOutlined,
-  CommentOutlined,
-  RobotOutlined,
-  PlusCircleOutlined,
-  FundOutlined,
-  ShoppingCartOutlined,
-  BookOutlined,
-  FileUnknownOutlined,
-  ProfileOutlined, RadarChartOutlined, BarsOutlined, UsergroupAddOutlined
+ RadarChartOutlined, BarsOutlined, UsergroupAddOutlined
 } from '@ant-design/icons';
 import { APP_PREFIX_PATH } from 'configs/AppConfig'
 

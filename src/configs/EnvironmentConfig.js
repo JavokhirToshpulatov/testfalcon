@@ -1,13 +1,13 @@
 const dev = {
-  API_ENDPOINT_URL: 'https://jsonplaceholder.typicode.com'
+  API_ENDPOINT_URL: 'https://10.10.30.15'
 };
 
 const prod = {
-  API_ENDPOINT_URL: 'https://api.prod.com'
+  API_ENDPOINT_URL: 'https://10.10.30.15'
 };
 
 const test = {
-  API_ENDPOINT_URL: 'https://api.test.com'
+  API_ENDPOINT_URL: 'https://10.10.30.15'
 };
 
 const getEnv = () => {
