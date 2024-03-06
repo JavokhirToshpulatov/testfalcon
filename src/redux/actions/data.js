@@ -1,10 +1,10 @@
 import * as types from "../constants/data";
+import {createAction} from "../../utils/createAction";
 
-export const getAgents = (data) => templateAction(types.GET_AGENTS, data);
 
-export const templateAction = (type, payload) => {
-    return {
-        type:type,
-        payload:payload
-    }
-};
+
+export const getAllAgents = createAction(types.GET_AGENTS);
+export const postNewAgents = createAction(types.POST_NEW_AGENTS);
+
+
+export const updateDataState = createAction(types.UPDATE_DATA_STATE);
