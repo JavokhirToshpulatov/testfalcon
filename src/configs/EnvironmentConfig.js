@@ -1,13 +1,13 @@
 const dev = {
-  API_ENDPOINT_URL: 'https://10.10.30.15'
+  API_ENDPOINT_URL: 'https://10.10.30.15:8080'
 };
 
 const prod = {
-  API_ENDPOINT_URL: 'https://10.10.30.15'
+  API_ENDPOINT_URL: 'https://10.10.30.15:8080'
 };
 
 const test = {
-  API_ENDPOINT_URL: 'https://10.10.30.15'
+  API_ENDPOINT_URL: 'https://10.10.30.15:8080'
 };
 
 const getEnv = () => {

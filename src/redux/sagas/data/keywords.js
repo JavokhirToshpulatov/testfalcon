@@ -1,16 +1,15 @@
 import { all, takeEvery, put, fork, call } from 'redux-saga/effects';
 
-import {DELETE_AGENTS, DELETE_USER, GET_AGENTS, GET_DOMAINS, GET_SCANS, POST_NEW_AGENTS} from "../../constants/data";
+import {DELETE_KEYWORDS, DELETE_USER, GET_KEYWORDS, POST_NEW_AGENTS, POST_NEW_KEYWORDS} from "../../constants/data";
 import {updateDataState} from "../../actions/data";
 import service from "../../../auth/FetchInterceptor";
 
-
-function* callGetAllAgents() {
-    yield takeEvery(GET_AGENTS, function* ({payload}) {
+function* callGetAllKeywords() {
+    yield takeEvery(GET_KEYWORDS, function* ({payload}) {
         try {
             const data = yield call(service, {
                 method: "get",
-                url: "/api/agents",
+                url: "/api/keywords",
                 params: payload?.params
             });
             // yield put(updateDataState({allAgents: data}));
@@ -21,14 +20,12 @@ function* callGetAllAgents() {
     });
 }
 
-
-
-function* callPostNewAgents() {
-    yield takeEvery(POST_NEW_AGENTS, function* ({payload}) {
+function* callPostNewKeywords() {
+    yield takeEvery(POST_NEW_KEYWORDS, function* ({payload}) {
         try {
             const data = yield call(service, {
                 method: "post",
-                url: "/api/agents",
+                url: "/api/keywords",
                 data: payload.data,
                 params: payload?.params
             });
@@ -40,12 +37,12 @@ function* callPostNewAgents() {
     });
 }
 
-function* callDeleteAgents() {
-    yield takeEvery(DELETE_AGENTS, function* ({payload}) {
+function* callDeleteKeywords() {
+    yield takeEvery(DELETE_KEYWORDS, function* ({payload}) {
         try {
             const data = yield call(service, {
                 method: "delete",
-                url: "/api/agents/"+payload.id,
+                url: "/api/keywords/"+payload.id,
                 params: payload?.params
             });
 
@@ -58,11 +55,10 @@ function* callDeleteAgents() {
 
 
 
-
 export default function* rootSaga() {
     yield all([
-        fork(callGetAllAgents),
-        fork(callPostNewAgents),
-        fork(callDeleteAgents)
+        fork(callGetAllKeywords()),
+        fork(callPostNewKeywords()),
+        fork(callDeleteKeywords()),
     ]);
 }

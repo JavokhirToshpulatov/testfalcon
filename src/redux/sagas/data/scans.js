@@ -1,16 +1,15 @@
 import { all, takeEvery, put, fork, call } from 'redux-saga/effects';
 
-import {DELETE_AGENTS, DELETE_USER, GET_AGENTS, GET_DOMAINS, GET_SCANS, POST_NEW_AGENTS} from "../../constants/data";
+import {DELETE_SCANS, DELETE_USER, GET_SCANS, POST_NEW_AGENTS, POST_NEW_SCANS} from "../../constants/data";
 import {updateDataState} from "../../actions/data";
 import service from "../../../auth/FetchInterceptor";
 
-
-function* callGetAllAgents() {
-    yield takeEvery(GET_AGENTS, function* ({payload}) {
+function* callGetAllScans() {
+    yield takeEvery(GET_SCANS, function* ({payload}) {
         try {
             const data = yield call(service, {
                 method: "get",
-                url: "/api/agents",
+                url: "/api/scans",
                 params: payload?.params
             });
             // yield put(updateDataState({allAgents: data}));
@@ -21,14 +20,12 @@ function* callGetAllAgents() {
     });
 }
 
-
-
-function* callPostNewAgents() {
-    yield takeEvery(POST_NEW_AGENTS, function* ({payload}) {
+function* callPostNewScans() {
+    yield takeEvery(POST_NEW_SCANS, function* ({payload}) {
         try {
             const data = yield call(service, {
                 method: "post",
-                url: "/api/agents",
+                url: "/api/scans",
                 data: payload.data,
                 params: payload?.params
             });
@@ -40,12 +37,12 @@ function* callPostNewAgents() {
     });
 }
 
-function* callDeleteAgents() {
-    yield takeEvery(DELETE_AGENTS, function* ({payload}) {
+function* callDeleteScans() {
+    yield takeEvery(DELETE_SCANS, function* ({payload}) {
         try {
             const data = yield call(service, {
                 method: "delete",
-                url: "/api/agents/"+payload.id,
+                url: "/api/scans/"+payload.id,
                 params: payload?.params
             });
 
@@ -57,12 +54,10 @@ function* callDeleteAgents() {
 }
 
 
-
-
 export default function* rootSaga() {
     yield all([
-        fork(callGetAllAgents),
-        fork(callPostNewAgents),
-        fork(callDeleteAgents)
+        fork(callGetAllScans()),
+        fork(callPostNewScans()),
+        fork(callDeleteScans()),
     ]);
 }

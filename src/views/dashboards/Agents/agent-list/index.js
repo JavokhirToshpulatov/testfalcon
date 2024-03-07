@@ -13,7 +13,7 @@ import Flex from 'components/shared-components/Flex'
 import {useHistory} from "react-router-dom";
 import utils from 'utils'
 import {useDispatch} from "react-redux";
-import {getAllAgents} from "../../../../redux/actions/data";
+import {getAllAgents, getScans} from "../../../../redux/actions/data";
 
 const {Option} = Select
 
@@ -46,27 +46,11 @@ const ProductList = () => {
     };
 
     useEffect(() => {
-        dispatch(getAllAgents())
+        // dispatch(getAllAgents({params:{Limit:10,Offset:1,Search:""}}))
+        dispatch(getScans({params:{Limit:10,Offset:1,Search:""}}))
     }, []);
 
 
-    const dropdownMenu = row => (
-        <Menu>
-            <Menu.Item onClick={() => viewDetails(row)}>
-                <Flex alignItems="center">
-                    <EyeOutlined/>
-                    <span className="ml-2">View Details</span>
-                </Flex>
-            </Menu.Item>
-            <Menu.Item onClick={() => deleteRow(row)}>
-                <Flex alignItems="center">
-                    <DeleteOutlined/>
-                    <span
-                        className="ml-2">{selectedRows.length > 0 ? `Delete (${selectedRows.length})` : 'Delete'}</span>
-                </Flex>
-            </Menu.Item>
-        </Menu>
-    );
 
     const addProduct = () => {
         history.push(`/app/dashboards/agents/add-agent`)
