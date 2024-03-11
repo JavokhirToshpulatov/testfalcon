@@ -1,16 +1,14 @@
 import { all, takeEvery, put, fork, call } from 'redux-saga/effects';
 
 import {
-    DELETE_AGENTS,
-    DELETE_USER,
+    DELETE_AGENTS, EDIT_AGENTS, EDIT_USER,
     GET_AGENTS, GET_AGENTS_SCAN,
-    GET_DOMAINS,
-    GET_SCANS,
     GET_SINGLE_AGENT,
     POST_NEW_AGENTS
 } from "../../constants/data";
 import {getAllAgents, updateDataState} from "../../actions/data";
 import service from "../../../auth/FetchInterceptor";
+import history from "../../../history";
 
 
 function* callGetAllAgents() {
@@ -33,14 +31,13 @@ function* callGetAllAgents() {
 function* callPostNewAgents() {
     yield takeEvery(POST_NEW_AGENTS, function* ({payload}) {
         try {
-            const data = yield call(service, {
+            yield call(service, {
                 method: "post",
                 url: "/api/agents",
                 data: payload.data,
                 params: payload?.params
             });
-
-            console.log(data);
+            history.go(-1)
         } catch (error) {
             console.log(error);
         }
@@ -89,6 +86,19 @@ function* callGetAgentsScans() {
     });
 }
 
+export function* editAgent() {
+    yield takeEvery(EDIT_AGENTS, function* ({ payload = {} }) {
+        try {
+            const { message } = yield call(service, {
+                method: 'put',
+                url: '/api/agents',
+                data: payload
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    })
+}
 
 
 
@@ -98,6 +108,7 @@ export default function* rootSaga() {
         fork(callPostNewAgents),
         fork(callDeleteAgents),
         fork(callGetSingleAgents),
-        fork(callGetAgentsScans)
+        fork(callGetAgentsScans),
+        fork(editAgent)
     ]);
 }

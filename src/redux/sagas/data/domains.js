@@ -2,7 +2,7 @@ import { all, takeEvery, put, fork, call } from 'redux-saga/effects';
 
 import {
     DELETE_DOMAINS,
-    DELETE_USER, GET_DOMAIN_HISTORIES, GET_DOMAIN_SCANS,
+    DELETE_USER, EDIT_DOMAINS, EDIT_USER, GET_DOMAIN_HISTORIES, GET_DOMAIN_SCANS,
     GET_DOMAINS, GET_SCANS_DOMAINS,
     GET_SINGLE_DOMAIN,
     POST_NEW_AGENTS,
@@ -79,11 +79,25 @@ function* callPostNewDomains() {
                 data: payload.data,
                 params: payload?.params
             });
-            console.log(data);
+
         } catch (error) {
             console.log(error);
         }
     });
+}
+
+export function* editDomain() {
+    yield takeEvery(EDIT_DOMAINS, function* ({ payload = {} }) {
+        try {
+            const { message } = yield call(service, {
+                method: 'put',
+                url: '/api/targets',
+                data: payload
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    })
 }
 
 
@@ -111,5 +125,6 @@ export default function* rootSaga() {
         fork(callGetSingleDomains),
         fork(callGetDomainScans),
         fork(callGetDomainHistories),
+        fork(editDomain),
     ]);
 }

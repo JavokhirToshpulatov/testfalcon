@@ -1,6 +1,6 @@
 import { all, takeEvery, put, fork, call } from 'redux-saga/effects';
 
-import {DELETE_USER, GET_USER, POST_NEW_AGENTS, POST_NEW_USER} from "../../constants/data";
+import {DELETE_USER, EDIT_USER, GET_USER, POST_NEW_AGENTS, POST_NEW_USER} from "../../constants/data";
 import {getAllUsers, updateDataState} from "../../actions/data";
 import service from "../../../auth/FetchInterceptor";
 import history from "../../../history";
@@ -36,6 +36,20 @@ function* callPostNewUsers() {
     });
 }
 
+export function* editUser() {
+    yield takeEvery(EDIT_USER, function* ({ payload = {} }) {
+        try {
+            const { message } = yield call(service, {
+                method: 'put',
+                url: '/api/users',
+                data: payload
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    })
+}
+
 function* callDeleteUsers() {
     yield takeEvery(DELETE_USER, function* ({payload}) {
         try {
@@ -55,5 +69,6 @@ export default function* rootSaga() {
         fork(callGetAllUsers),
         fork(callPostNewUsers),
         fork(callDeleteUsers),
+        fork(editUser),
     ]);
 }

@@ -27,39 +27,6 @@ const HistoryTable = () => {
     };
 
 
-
-    const addProduct = () => {
-        history.push(`/app/dashboards/keywords/add-keyword`)
-    }
-
-    const deleteUser = userId => {
-        this.setState({
-            users: this.state.users.filter(item => item.id !== userId),
-        })
-        message.success({ content: `Deleted user ${userId}`, duration: 2 });
-    }
-
-
-
-    const viewDetails = row => {
-        history.push(`/app/apps/ecommerce/edit-product/${row.id}`)
-    }
-
-    const deleteRow = row => {
-        const objKey = 'id'
-        let data = list
-        if(selectedRows.length > 1) {
-            selectedRows.forEach(elm => {
-                data = utils.deleteArrayRow(data, objKey, elm.id)
-                setList(data)
-                setSelectedRows([])
-            })
-        } else {
-            data = utils.deleteArrayRow(data, objKey, row.id)
-            setList(data)
-        }
-    }
-
     const tableColumns = [
         {
             title: '#',
@@ -94,12 +61,7 @@ const HistoryTable = () => {
         }
     ];
 
-    const rowSelection = {
-        onChange: (key, rows) => {
-            setSelectedRows(rows)
-            setSelectedRowKeys(key)
-        }
-    };
+
 
     const onSearch = e => {
         const value = e.currentTarget.value
@@ -109,15 +71,6 @@ const HistoryTable = () => {
         setSelectedRowKeys([])
     }
 
-    const handleShowCategory = value => {
-        if(value !== 'All') {
-            const key = 'category'
-            const data = utils.filterArray(ProductListData, key, value)
-            setList(data)
-        } else {
-            setList(ProductListData)
-        }
-    }
 
     return (
         <Card>

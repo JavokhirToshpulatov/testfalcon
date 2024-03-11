@@ -2,7 +2,7 @@ import { all, takeEvery, put, fork, call } from 'redux-saga/effects';
 
 import {
     DELETE_SCANS,
-    DELETE_USER,
+    DELETE_USER, EDIT_SCANS, EDIT_USER,
     GET_ONE_SCANS_HISTORIES, GET_SCAN_HTML_CURRENT, GET_SCAN_HTML_PREVIOUS,
     GET_SCANS,
     GET_SCANS_AGENTS,
@@ -16,6 +16,7 @@ import {
 } from "../../constants/data";
 import {getScans, updateDataState} from "../../actions/data";
 import service from "../../../auth/FetchInterceptor";
+import history from "../../../history";
 
 function* callGetAllScans() {
     yield takeEvery(GET_SCANS, function* ({payload}) {
@@ -189,12 +190,25 @@ function* callPostNewScans() {
                 data: payload.data,
                 params: payload?.params
             });
-
-            console.log(data);
+            history.go(-1)
         } catch (error) {
             console.log(error);
         }
     });
+}
+
+export function* editScan() {
+    yield takeEvery(EDIT_SCANS, function* ({ payload = {} }) {
+        try {
+            const { message } = yield call(service, {
+                method: 'put',
+                url: '/api/scans',
+                data: payload
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    })
 }
 
 function* callDeleteScans() {
@@ -228,5 +242,6 @@ export default function* rootSaga() {
         fork(callGetScanWebResult),
         fork(callGetScanHtmlCurrent),
         fork(callGetScanHtmlPrevious),
+        fork(editScan),
     ]);
 }

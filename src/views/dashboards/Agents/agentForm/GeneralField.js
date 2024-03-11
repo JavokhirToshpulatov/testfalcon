@@ -67,7 +67,7 @@ const GeneralField = props => (
 	<Row gutter={16}>
 		<Col xs={24} sm={24} md={24}>
 			<Card title="Agent Information">
-				<Form.Item name="name" label="Name" rules={rules.name}>
+				<Form.Item name="name" label="Name" rules={[{required:true}]}>
 					<Input placeholder="Name" />
 				</Form.Item>
 				<Form.Item name="ipAddress" label="Ip Address" rules={rules.ipAddress}>
@@ -89,27 +89,27 @@ const GeneralField = props => (
 					<Input placeholder={""} />
 				</Form.Item>
 			</Card>
-			<Card title="RabbitMQ">
-				<Form.Item name="rabbitMQHostName" label="Host" rules={rules.rabbitMQHostName}>
-					<Input placeholder="Host" />
-				</Form.Item>
-				<Form.Item name="rabbitMQPort" label="Port" rules={rules.rabbitMQPort}>
-					<Input placeholder="" />
-				</Form.Item>
-				<Form.Item name="rabbitMQUserName" label="Username" rules={rules.rabbitMQUsername}>
-					<Input placeholder={"Username"} />
-				</Form.Item>
-				<Form.Item
-					label="Password"
-					name="password"
-					rules={[{
-						required: true,
-						message: 'Please enter password!'
-					}]}
-				>
-					<Input.Password />
-				</Form.Item>
-			</Card>
+			{/*<Card title="RabbitMQ">*/}
+			{/*	<Form.Item name="rabbitMQHostName" label="Host" rules={rules.rabbitMQHostName}>*/}
+			{/*		<Input placeholder="Host" />*/}
+			{/*	</Form.Item>*/}
+			{/*	<Form.Item name="rabbitMQPort" label="Port" rules={rules.rabbitMQPort}>*/}
+			{/*		<Input placeholder="" />*/}
+			{/*	</Form.Item>*/}
+			{/*	<Form.Item name="rabbitMQUserName" label="Username" rules={rules.rabbitMQUsername}>*/}
+			{/*		<Input placeholder={"Username"} />*/}
+			{/*	</Form.Item>*/}
+			{/*	<Form.Item*/}
+			{/*		label="Password"*/}
+			{/*		name="password"*/}
+			{/*		rules={[{*/}
+			{/*			required: true,*/}
+			{/*			message: 'Please enter password!'*/}
+			{/*		}]}*/}
+			{/*	>*/}
+			{/*		<Input.Password />*/}
+			{/*	</Form.Item>*/}
+			{/*</Card>*/}
 		</Col>
 	</Row>
 

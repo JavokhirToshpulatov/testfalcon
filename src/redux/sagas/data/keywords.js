@@ -2,7 +2,7 @@ import { all, takeEvery, put, fork, call } from 'redux-saga/effects';
 
 import {
     DELETE_KEYWORDS,
-    DELETE_USER, GET_KEYWORD_SCAN,
+    DELETE_USER, EDIT_KEYWORDS, EDIT_USER, GET_KEYWORD_SCAN,
     GET_KEYWORDS,
     GET_SINGLE_KEYWORD,
     POST_NEW_AGENTS,
@@ -10,6 +10,7 @@ import {
 } from "../../constants/data";
 import {getKeywords, updateDataState} from "../../actions/data";
 import service from "../../../auth/FetchInterceptor";
+import history from "../../../history";
 
 function* callGetAllKeywords() {
     yield takeEvery(GET_KEYWORDS, function* ({payload}) {
@@ -65,13 +66,27 @@ function* callPostNewKeywords() {
                 data: payload.data,
                 params: payload?.params
             });
-
-            console.log(data);
+            history.go(-1)
         } catch (error) {
             console.log(error);
         }
     });
 }
+
+export function* editKeyword() {
+    yield takeEvery(EDIT_KEYWORDS, function* ({ payload = {} }) {
+        try {
+            const { message } = yield call(service, {
+                method: 'put',
+                url: '/api/keywords',
+                data: payload
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    })
+}
+
 
 function* callDeleteKeywords() {
     yield takeEvery(DELETE_KEYWORDS, function* ({payload}) {
@@ -96,5 +111,6 @@ export default function* rootSaga() {
         fork(callDeleteKeywords),
         fork(callGetSingleKeywords),
         fork(callGetKeywordScan),
+        fork(editKeyword),
     ]);
 }

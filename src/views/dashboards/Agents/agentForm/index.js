@@ -34,6 +34,9 @@ const ProductForm = props => {
 	const [uploadLoading, setUploadLoading] = useState(false)
 	const [submitLoading, setSubmitLoading] = useState(false)
 
+
+
+
 	useEffect(() => {
 		if (singleAgents?.id){
 			form.setFieldsValue(singleAgents)

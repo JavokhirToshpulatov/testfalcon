@@ -2,7 +2,7 @@ import {Row, Col, List, Space, DatePicker} from 'antd';
 import {useParams} from 'react-router-dom';
 import Slider from "./Slider";
 import Flex from "../../../components/shared-components/Flex";
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import ReactDiffViewer from "react-diff-viewer";
 import {getAllAgents, getScanHtmlCurrent, getScanHtmlPrevious, getScanWebHistories} from "../../../redux/actions";
 import {useDispatch, useSelector} from "react-redux";
@@ -14,6 +14,8 @@ const ViewCard = () => {
     const {scanWebHistories} = useSelector(state=>state.data)
     const {scanHtmlCurrent} = useSelector(state=>state.data)
     const {scanHtmlPrevious} = useSelector(state=>state.data)
+    const [view, setView] = useState(false)
+
 
 
     useEffect(() => {
@@ -26,23 +28,29 @@ const ViewCard = () => {
         dispatch(getScanHtmlPrevious({
             canId:1,historyId:31728,target:'lui.uz'
         }))
+
     }, []);
 
-    const oldCode = `
- <html><head></head><body></body></html>
-`;
+    //useEffect(() => {
+    //            setView(true)
+    //}, [scanHtmlCurrent,scanHtmlPrevious]);
 
-    const a ="hello"
 
-    const newCode = `
-<html><head></head><body></body></html>
-`;
+
+    const oldCode =" <html><head></head><body></body></html>"
+
+;
+
+
+    const newCode = "<html><head></head><body></body></html>"
 
     const onChange = (date, dateString) => {
         console.log(date, dateString);
     };
 
-    console.log(scanHtmlCurrent)
+    console.log(scanHtmlPrevious !== "" && scanHtmlCurrent !== "")
+    console.log(typeof scanHtmlCurrent)
+    console.log(typeof scanHtmlPrevious)
 
     return (
         <>
@@ -118,9 +126,13 @@ const ViewCard = () => {
                 </Col>
             </Row>
             <br/>
-            <div style={{maxHeight:"70vh",overflowY:"scroll"}}>
-                    <ReactDiffViewer oldValue={scanHtmlPrevious} newValue={scanHtmlCurrent} splitView={true}/>
+             <div style={{maxHeight: "70vh", overflowY: "scroll"}}>
+                 {scanHtmlPrevious !== "" && scanHtmlCurrent !== "" ?
+                     <ReactDiffViewer oldValue={scanHtmlPrevious} newValue={scanHtmlCurrent} splitView={true}/>
+                 : "NO CONTENT"
+                 }
             </div>
+
         </>
     )
 }

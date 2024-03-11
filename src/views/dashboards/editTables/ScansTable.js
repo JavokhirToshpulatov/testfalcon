@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {Card, Table, Select, Input, Button, Badge, Menu, Tooltip, message} from 'antd';
+import {Card, Table, Select, Input, Button, Badge, Menu, Tooltip, message, Popconfirm} from 'antd';
 import ProductListData from "assets/data/product-list.data.json"
 import {
     EyeOutlined,
@@ -11,67 +11,34 @@ import Flex from 'components/shared-components/Flex'
 import { useHistory } from "react-router-dom";
 import utils from 'utils'
 import {useSelector} from "react-redux";
+import {deleteScans} from "../../../redux/actions";
 
 const ScansTable = () => {
     let history = useHistory();
     const [list, setList] = useState(ProductListData)
     const {domainScans} = useSelector(state => state.data)
-    const [selectedRows, setSelectedRows] = useState([])
-    const [selectedRowKeys, setSelectedRowKeys] = useState([])
 
     const showUserProfile = item => {
         history.push(`/app/dashboards/scans/edit-scan/`+item.id)
     };
 
 
-    const dropdownMenu = row => (
-        <Menu>
-            <Menu.Item onClick={() => viewDetails(row)}>
-                <Flex alignItems="center">
-                    <EyeOutlined />
-                    <span className="ml-2">View Details</span>
-                </Flex>
-            </Menu.Item>
-            <Menu.Item onClick={() => deleteRow(row)}>
-                <Flex alignItems="center">
-                    <DeleteOutlined />
-                    <span className="ml-2">{selectedRows.length > 0 ? `Delete (${selectedRows.length})` : 'Delete'}</span>
-                </Flex>
-            </Menu.Item>
-        </Menu>
-    );
-
-    const addProduct = () => {
-        history.push(`/app/dashboards/keywords/add-keyword`)
-    }
-
-    const deleteUser = userId => {
-        this.setState({
-            users: this.state.users.filter(item => item.id !== userId),
-        })
-        message.success({ content: `Deleted user ${userId}`, duration: 2 });
-    }
 
 
+
+
+    const confirm = (e) => {
+        message.success('Click on Yes');
+    };
+    const cancel = (e) => {
+        message.error('Click on No');
+    };
 
     const viewDetails = row => {
         history.push(`/app/apps/ecommerce/edit-product/${row.id}`)
     }
 
-    const deleteRow = row => {
-        const objKey = 'id'
-        let data = list
-        if(selectedRows.length > 1) {
-            selectedRows.forEach(elm => {
-                data = utils.deleteArrayRow(data, objKey, elm.id)
-                setList(data)
-                setSelectedRows([])
-            })
-        } else {
-            data = utils.deleteArrayRow(data, objKey, row.id)
-            setList(data)
-        }
-    }
+
 
     const tableColumns = [
         {
@@ -100,7 +67,15 @@ const ScansTable = () => {
             render: (_, elm) => (
                 <div className="text-right d-flex justify-content-end">
                     <Tooltip title="Delete">
-                        <Button className="mr-2"  type="danger" icon={<DeleteOutlined />} onClick={()=> {deleteUser(elm.id)}} size="small"/>
+                        <Popconfirm
+                            title="Are you sure to delete this keyword?"
+                            onConfirm={()=>confirm(elm?.id)}
+                            onCancel={cancel}
+                            okText="Yes"
+                            cancelText="No"
+                        >
+                            <Button type="danger">Delete</Button>
+                        </Popconfirm>
                     </Tooltip>
                     <Tooltip title="View">
                         <Button type="primary" className="mr-2" icon={<UnorderedListOutlined />} onClick={() => {showUserProfile(elm)}} size="small"/>
@@ -110,12 +85,6 @@ const ScansTable = () => {
         }
     ];
 
-    const rowSelection = {
-        onChange: (key, rows) => {
-            setSelectedRows(rows)
-            setSelectedRowKeys(key)
-        }
-    };
 
     const onSearch = e => {
         const value = e.currentTarget.value
@@ -125,15 +94,6 @@ const ScansTable = () => {
         setSelectedRowKeys([])
     }
 
-    const handleShowCategory = value => {
-        if(value !== 'All') {
-            const key = 'category'
-            const data = utils.filterArray(ProductListData, key, value)
-            setList(data)
-        } else {
-            setList(ProductListData)
-        }
-    }
 
     return (
         <Card>

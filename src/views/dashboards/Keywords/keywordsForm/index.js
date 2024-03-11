@@ -87,9 +87,6 @@ const ProductForm = props => {
 					<Tabs defaultActiveKey="1" style={{marginTop: 30}}>
 						<TabPane tab="General" key="1">
 							<GeneralField 
-								uploadedImg={uploadedImg} 
-								uploadLoading={uploadLoading} 
-								handleUploadChange={handleUploadChange}
 							/>
 						</TabPane>
 					</Tabs>
