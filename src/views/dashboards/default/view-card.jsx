@@ -21,49 +21,21 @@ const ViewCard = () => {
             params:{ScanId:scanId,ScanHistoryId:domainID,Target:domainName}
         }))
         dispatch(getScanHtmlCurrent({
-            canId:scanId,historyId:domainID,target:domainName
+            canId:1,historyId:31728,target:'lui.uz'
         }))
         dispatch(getScanHtmlPrevious({
-            canId:scanId,historyId:domainID,target:domainName
+            canId:1,historyId:31728,target:'lui.uz'
         }))
     }, []);
 
-
-    console.log(scanWebHistories)
-
-
     const oldCode = `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-</body>
-</html>
+ <html><head></head><body></body></html>
 `;
 
     const a ="hello"
 
     const newCode = `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatiblehacked" content="IE=edge">
-    <meta name="viewportsalom" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-<a>salom</a>
-<h3>hello</h3>
-<a>salom</a>
-<h3>hello123</h3>
-</body>
-</html>
+<html><head></head><body></body></html>
 `;
 
     const onChange = (date, dateString) => {
@@ -147,7 +119,7 @@ const ViewCard = () => {
             </Row>
             <br/>
             <div style={{maxHeight:"70vh",overflowY:"scroll"}}>
-                 <ReactDiffViewer oldValue={scanHtmlPrevious} newValue={scanHtmlCurrent} splitView={true}/>
+                    <ReactDiffViewer oldValue={scanHtmlPrevious} newValue={scanHtmlCurrent} splitView={true}/>
             </div>
         </>
     )

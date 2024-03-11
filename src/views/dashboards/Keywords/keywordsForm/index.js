@@ -47,35 +47,13 @@ const ProductForm = props => {
 		}
 	}, []);
 
-	const handleUploadChange = info => {
-		if (info.file.status === 'uploading') {
-			setUploadLoading(true)
-			return;
-		}
-		if (info.file.status === 'done') {
-			getBase64(info.file.originFileObj, imageUrl =>{
-				setImage(imageUrl)
-				setUploadLoading(true)
-			});
-		}
-	};
 
-	const onFinish = () => {
-		setSubmitLoading(true)
-		form.validateFields().then(values => {
-			setTimeout(() => {
-				setSubmitLoading(false)
-				if(mode === ADD) {
-					message.success(`Created ${values.name} to product list`);
-				}
-				if(mode === EDIT) {
-					message.success(`Product saved`);
-				}
-			}, 1500);
-		}).catch(info => {
-			setSubmitLoading(false)
-			message.error('Please enter all required field ');
-		});
+	const onFinish = (value) => {
+		if (!!param.id){
+
+		}else {
+
+		}
 	};
 
 	return (
@@ -83,6 +61,7 @@ const ProductForm = props => {
 			<Form
 				layout="vertical"
 				form={form}
+				onFinish={onFinish}
 				name="advanced_search"
 				className="ant-advanced-search-form"
 				initialValues={{
@@ -97,7 +76,7 @@ const ProductForm = props => {
 							<h2 className="mb-3">{mode === 'ADD'? 'Add New Keyword' : `Edit Keyword`} </h2>
 							<div className="mb-3">
 								<Button className="mr-2">Discard</Button>
-								<Button type="primary" onClick={() => onFinish()} htmlType="submit" loading={submitLoading} >
+								<Button type="primary" onClick={() => form.submit()} htmlType="submit" loading={submitLoading} >
 									{mode === 'ADD'? 'Add' : `Save`}
 								</Button>
 							</div>

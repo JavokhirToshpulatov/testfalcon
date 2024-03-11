@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {Card, Table, Select, Input, Button, Badge, Menu, Tooltip, message} from 'antd';
+import {Card, Table, Select, Input, Button, Badge, Menu, Tooltip, message, Popconfirm} from 'antd';
 import ProductListData from "assets/data/product-list.data.json"
 import {
 	DeleteOutlined,
@@ -12,7 +12,7 @@ import Flex from 'components/shared-components/Flex'
 import NumberFormat from 'react-number-format';
 import { useHistory } from "react-router-dom";
 import utils from 'utils'
-import {getAllAgents, getScans} from "../../../../redux/actions";
+import {deleteAgents, deleteScans, getAllAgents, getScans} from "../../../../redux/actions";
 import {useDispatch, useSelector} from "react-redux";
 
 const { Option } = Select
@@ -54,6 +54,15 @@ const ProductList = () => {
 		history.push(`/app/dashboards/scans/edit-scan/`+item.id)
 	};
 
+	const confirm = (e) => {
+		dispatch(deleteScans({id:e}))
+		message.success('Click on Yes');
+	};
+	const cancel = (e) => {
+		message.error('Click on No');
+	};
+
+
 	const deleteUser = userId => {
 		this.setState({
 			users: this.state.users.filter(item => item.id !== userId),
@@ -61,24 +70,8 @@ const ProductList = () => {
 		message.success({ content: `Deleted user ${userId}`, duration: 2 });
 	}
 	
-	const viewDetails = row => {
-		history.push(`/app/apps/ecommerce/edit-product/${row.id}`)
-	}
+
 	
-	const deleteRow = row => {
-		const objKey = 'id'
-		let data = list
-		if(selectedRows.length > 1) {
-			selectedRows.forEach(elm => {
-				data = utils.deleteArrayRow(data, objKey, elm.id)
-				setList(data)
-				setSelectedRows([])
-			})
-		} else {
-			data = utils.deleteArrayRow(data, objKey, row.id)
-			setList(data)
-		}
-	}
 
 	const tableColumns = [
 		{
@@ -121,7 +114,15 @@ const ProductList = () => {
 						<Button type="primary" className="mr-2" icon={<EditOutlined/>} onClick={() => {showUserProfile(elm)}} size="small"/>
 					</Tooltip>
 					<Tooltip title="Delete">
-						<Button type="danger" icon={<DeleteOutlined />} onClick={()=> {deleteUser(elm.id)}} size="small"/>
+						<Popconfirm
+							title="Are you sure to delete this keyword?"
+							onConfirm={()=>confirm(elm?.id)}
+							onCancel={cancel}
+							okText="Yes"
+							cancelText="No"
+						>
+							<Button type="danger">Delete</Button>
+						</Popconfirm>
 					</Tooltip>
 				</div>
 			)
@@ -138,15 +139,6 @@ const ProductList = () => {
 		setSelectedRowKeys([])
 	}
 
-	const handleShowCategory = value => {
-		if(value !== 'All') {
-			const key = 'category'
-			const data = utils.filterArray(ProductListData, key, value)
-			setList(data)
-		} else {
-			setList(ProductListData)
-		}
-	}
 
 	const handleOnChangeTable = ({current, pageSize}) => {
 		console.log(current)

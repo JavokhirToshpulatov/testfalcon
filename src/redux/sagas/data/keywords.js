@@ -82,7 +82,6 @@ function* callDeleteKeywords() {
             });
             yield put(getKeywords())
         } catch (error) {
-            console.log(payload)
             console.log(error);
         }
     });

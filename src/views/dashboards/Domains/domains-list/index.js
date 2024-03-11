@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {Card, Table, Select, Input, Button, Badge, Menu, Tooltip, message} from 'antd';
+import {Card, Table, Select, Input, Button, Badge, Menu, Tooltip, message, Popconfirm} from 'antd';
 import ProductListData from "assets/data/product-list.data.json"
 import {
 	EyeOutlined,
@@ -12,7 +12,7 @@ import Flex from 'components/shared-components/Flex'
 import { useHistory } from "react-router-dom";
 import utils from 'utils'
 import {useDispatch, useSelector} from "react-redux";
-import {getAllAgents, getDomains} from "../../../../redux/actions";
+import {deleteDomains, deleteKeywords, getAllAgents, getDomains} from "../../../../redux/actions";
 
 
 const getStockStatus = stockCount => {
@@ -50,6 +50,14 @@ const ProductList = () => {
 	  history.push(`/app/dashboards/domains/edit-domains/`+item?.id)
 	};
 
+
+	const confirm = (e) => {
+		dispatch(deleteDomains({id:e}))
+		message.success('Click on Yes');
+	};
+	const cancel = (e) => {
+		message.error('Click on No');
+	};
 
 
 	const addProduct = () => {
@@ -118,7 +126,15 @@ const ProductList = () => {
 						<Button type="primary" className="mr-2" icon={<EditOutlined/>} onClick={() => {showUserProfile(elm)}} size="small"/>
 					</Tooltip>
 					<Tooltip title="Delete">
-						<Button type="danger" icon={<DeleteOutlined />} onClick={()=> {deleteUser(elm.id)}} size="small"/>
+						<Popconfirm
+							title="Are you sure to delete this keyword?"
+							onConfirm={()=>confirm(elm?.id)}
+							onCancel={cancel}
+							okText="Yes"
+							cancelText="No"
+						>
+							<Button type="danger">Delete</Button>
+						</Popconfirm>
 					</Tooltip>
 				</div>
 			)

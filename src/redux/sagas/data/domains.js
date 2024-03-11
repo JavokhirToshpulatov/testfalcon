@@ -8,7 +8,7 @@ import {
     POST_NEW_AGENTS,
     POST_NEW_DOMAINS
 } from "../../constants/data";
-import {updateDataState} from "../../actions/data";
+import {getDomains, updateDataState} from "../../actions/data";
 import service from "../../../auth/FetchInterceptor";
 
 function* callGetAllDomains() {
@@ -94,7 +94,7 @@ function* callDeleteDomains() {
                 method: "delete",
                 url: "/api/targets/"+payload?.id,
             });
-            yield put(callGetAllDomains());
+            yield put(getDomains());
         } catch (error) {
             console.log(error);
         }

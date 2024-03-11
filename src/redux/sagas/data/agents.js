@@ -9,7 +9,7 @@ import {
     GET_SINGLE_AGENT,
     POST_NEW_AGENTS
 } from "../../constants/data";
-import {updateDataState} from "../../actions/data";
+import {getAllAgents, updateDataState} from "../../actions/data";
 import service from "../../../auth/FetchInterceptor";
 
 
@@ -54,7 +54,7 @@ function* callDeleteAgents() {
                 method: "delete",
                 url: "/api/agents/"+payload.id,
             });
-            yield put()
+            yield put(getAllAgents())
         } catch (error) {
             console.log(error);
         }
