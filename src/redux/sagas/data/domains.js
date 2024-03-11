@@ -1,6 +1,13 @@
 import { all, takeEvery, put, fork, call } from 'redux-saga/effects';
 
-import {DELETE_DOMAINS, DELETE_USER, GET_DOMAINS, POST_NEW_AGENTS, POST_NEW_DOMAINS} from "../../constants/data";
+import {
+    DELETE_DOMAINS,
+    DELETE_USER, GET_DOMAIN_HISTORIES, GET_DOMAIN_SCANS,
+    GET_DOMAINS, GET_SCANS_DOMAINS,
+    GET_SINGLE_DOMAIN,
+    POST_NEW_AGENTS,
+    POST_NEW_DOMAINS
+} from "../../constants/data";
 import {updateDataState} from "../../actions/data";
 import service from "../../../auth/FetchInterceptor";
 
@@ -12,8 +19,51 @@ function* callGetAllDomains() {
                 url: "/api/targets",
                 params: payload?.params
             });
-            // yield put(updateDataState({allAgents: data}));
-            console.log(data);
+            yield put(updateDataState({domains: data}));
+        } catch (error) {
+            console.log(error);
+        }
+    });
+}
+
+function* callGetSingleDomains() {
+    yield takeEvery(GET_SINGLE_DOMAIN, function* ({payload}) {
+        try {
+            const data = yield call(service, {
+                method: "get",
+                url: "/api/targets/"+payload?.id,
+            });
+            yield put(updateDataState({singleDomain: data}));
+        } catch (error) {
+            console.log(error);
+        }
+    });
+}
+
+function* callGetDomainScans() {
+    yield takeEvery(GET_DOMAIN_SCANS, function* ({payload}) {
+        try {
+            const data = yield call(service, {
+                method: "get",
+                url: "/api/targets/scans",
+                params:payload?.params
+            });
+            yield put(updateDataState({domainScans: data}));
+        } catch (error) {
+            console.log(error);
+        }
+    });
+}
+
+function* callGetDomainHistories() {
+    yield takeEvery(GET_DOMAIN_HISTORIES, function* ({payload}) {
+        try {
+            const data = yield call(service, {
+                method: "get",
+                url: "/api/targets/histories",
+                params:payload?.params
+            });
+            yield put(updateDataState({histories: data}));
         } catch (error) {
             console.log(error);
         }
@@ -29,7 +79,6 @@ function* callPostNewDomains() {
                 data: payload.data,
                 params: payload?.params
             });
-
             console.log(data);
         } catch (error) {
             console.log(error);
@@ -44,10 +93,8 @@ function* callDeleteDomains() {
             const data = yield call(service, {
                 method: "delete",
                 url: "/api/targets/"+payload?.id,
-                params: payload?.params
             });
-
-            console.log(data);
+            yield put(callGetAllDomains());
         } catch (error) {
             console.log(error);
         }
@@ -58,8 +105,11 @@ function* callDeleteDomains() {
 
 export default function* rootSaga() {
     yield all([
-        fork(callGetAllDomains()),
-        fork(callPostNewDomains()),
-        fork(callDeleteDomains()),
+        fork(callGetAllDomains),
+        fork(callPostNewDomains),
+        fork(callDeleteDomains),
+        fork(callGetSingleDomains),
+        fork(callGetDomainScans),
+        fork(callGetDomainHistories),
     ]);
 }

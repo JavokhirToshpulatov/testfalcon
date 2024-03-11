@@ -12,6 +12,15 @@ import AgentsTable from "../../editTables/AgentsTable";
 import DomainTable from "../../editTables/DomainTable";
 import KeywordTable from "../../editTables/KeywordTable";
 import HistoryTable from "../../editTables/HistoryTable";
+import {useDispatch, useSelector} from "react-redux";
+import {
+	getScans,
+	getScansAgent,
+	getScansDomains,
+	getScansHistories,
+	getScansKeywords,
+	updateDataState
+} from "../../../../redux/actions";
 
 const { TabPane } = Tabs;
 
@@ -25,16 +34,41 @@ const ADD = 'ADD'
 const EDIT = 'EDIT'
 
 const ProductForm = props => {
-
 	const { mode = ADD, param } = props
-
 	const [form] = Form.useForm();
+	const dispatch = useDispatch();
+	const {singleScan} = useSelector(state => state.data)
 	const [uploadedImg, setImage] = useState('')
 	const [uploadLoading, setUploadLoading] = useState(false)
 	const [submitLoading, setSubmitLoading] = useState(false)
 	const [showTable, setShowTable] = useState("agent")
 
-   
+	useEffect(() => {
+		if (singleScan?.id){
+			form.setFieldsValue(singleScan)
+		}
+
+	}, [singleScan]);
+
+	useEffect(() => {
+		dispatch(getScansAgent({
+			params:{id:param.id,limit:10,offset:0}
+		}))
+		dispatch(getScansDomains({
+			params:{id:param.id,limit:10,offset:0}
+		}))
+		dispatch(getScansKeywords({
+			params:{id:param.id,limit:10,offset:0}
+		}))
+		dispatch(getScansHistories({
+			params:{id:param.id,limit:10,offset:0}
+		}))
+
+		return ()=>{
+			dispatch(updateDataState({singleScan:{}}))
+		}
+
+	}, []);
 
 	const handleUploadChange = info => {
 		if (info.file.status === 'uploading') {
@@ -107,12 +141,6 @@ const ProductForm = props => {
 								handleUploadChange={handleUploadChange}
 							/>
 						</TabPane>
-						{/*<TabPane tab="Variation" key="2">*/}
-						{/*	<VariationField />*/}
-						{/*</TabPane>*/}
-						{/*<TabPane tab="Shipping" key="3">*/}
-						{/*	<ShippingField />*/}
-						{/*</TabPane>*/}
 					</Tabs>
 				</div>
 			</Form>
@@ -133,7 +161,6 @@ const ProductForm = props => {
 				</Col>
 				</Row>
 				:""}
-		{/*	Agar mode edit bulsa tablelarni chiqarish kerak*/}
 		</>
 	)
 }

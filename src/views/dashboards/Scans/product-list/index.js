@@ -1,19 +1,19 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Card, Table, Select, Input, Button, Badge, Menu, Tooltip, message} from 'antd';
 import ProductListData from "assets/data/product-list.data.json"
 import {
-	EyeOutlined,
 	DeleteOutlined,
 	SearchOutlined,
 	PlusCircleOutlined,
 	PauseCircleOutlined,
 	EditOutlined
 } from '@ant-design/icons';
-import AvatarStatus from 'components/shared-components/AvatarStatus';
 import Flex from 'components/shared-components/Flex'
 import NumberFormat from 'react-number-format';
 import { useHistory } from "react-router-dom";
 import utils from 'utils'
+import {getAllAgents, getScans} from "../../../../redux/actions";
+import {useDispatch, useSelector} from "react-redux";
 
 const { Option } = Select
 
@@ -31,37 +31,27 @@ const getStockStatus = stockCount => {
 }
 
 
-const categories = ['Cloths', 'Bags', 'Shoes', 'Watches', 'Devices']
 
 const ProductList = () => {
 	let history = useHistory();
-	const [list, setList] = useState(ProductListData)
+	const dispatch = useDispatch();
+	const {allScans} = useSelector(state=>state.data)
 	const [selectedRows, setSelectedRows] = useState([])
 	const [selectedRowKeys, setSelectedRowKeys] = useState([])
 
-	const dropdownMenu = row => (
-		<Menu>
-			<Menu.Item onClick={() => viewDetails(row)}>
-				<Flex alignItems="center">
-					<EyeOutlined />
-					<span className="ml-2">View Details</span>
-				</Flex>
-			</Menu.Item>
-			<Menu.Item onClick={() => deleteRow(row)}>
-				<Flex alignItems="center">
-					<DeleteOutlined />
-					<span className="ml-2">{selectedRows.length > 0 ? `Delete (${selectedRows.length})` : 'Delete'}</span>
-				</Flex>
-			</Menu.Item>
-		</Menu>
-	);
-	
+	useEffect(() => {
+		dispatch(getScans({
+			params:{limit:10,offset:0}
+		}))
+	}, []);
+
+
 	const addProduct = () => {
 		history.push(`/app/dashboards/scans/add-product`)
 	}
 
-	const showUserProfile = id => {
-		history.push(`/app/dashboards/scans/edit-scan/45`)
+	const showUserProfile = item => {
+		history.push(`/app/dashboards/scans/edit-scan/`+item.id)
 	};
 
 	const deleteUser = userId => {
@@ -98,11 +88,6 @@ const ProductList = () => {
 		{
 			title: 'Name',
 			dataIndex: 'name',
-			render: (_, record) => (
-				<div className="d-flex">
-					<AvatarStatus type="square" src={record.image} name={record.name}/>
-				</div>
-			),
 		},
 		{
 			title: 'Description',
@@ -111,16 +96,6 @@ const ProductList = () => {
 		{
 			title: 'State',
 			dataIndex: 'state',
-			render: price => (
-				<div>
-					<NumberFormat
-						displayType={'text'} 
-						value={(Math.round(price * 100) / 100).toFixed(2)} 
-						prefix={'$'} 
-						thousandSeparator={true} 
-					/>
-				</div>
-			),
 		},
 		{
 			title: 'Type',
@@ -129,16 +104,10 @@ const ProductList = () => {
 		{
 			title: 'Created',
 			dataIndex: 'created',
-			render: stock => (
-				<Flex alignItems="center">{getStockStatus(stock)}</Flex>
-			)
 		},
 		{
 			title: 'Last modified',
-			dataIndex: 'last modified',
-			render: stock => (
-				<Flex alignItems="center">{getStockStatus(stock)}</Flex>
-			)
+			dataIndex: 'lastModified',
 		},
 		{
 			title: '',
@@ -159,12 +128,7 @@ const ProductList = () => {
 		}
 	];
 	
-	const rowSelection = {
-		onChange: (key, rows) => {
-			setSelectedRows(rows)
-			setSelectedRowKeys(key)
-		}
-	};
+
 
 	const onSearch = e => {
 		const value = e.currentTarget.value
@@ -204,14 +168,8 @@ const ProductList = () => {
 			<div className="table-responsive">
 				<Table 
 					columns={tableColumns} 
-					dataSource={list} 
-					rowKey='id' 
-					rowSelection={{
-						selectedRowKeys: selectedRowKeys,
-						type: 'checkbox',
-						preserveSelectedRowKeys: false,
-						...rowSelection,
-					}}
+					dataSource={allScans?.data}
+					rowKey='id'
 					onChange={handleOnChangeTable}
 					pagination={{
 						total: 60, // total elements

@@ -6,6 +6,8 @@ import GeneralField from './GeneralField'
 import ProductListData from "assets/data/product-list.data.json"
 import {InfoCircleOutlined} from "@ant-design/icons";
 import ScansTable from "../../editTables/ScansTable";
+import {useDispatch, useSelector} from "react-redux";
+import {getDomainScans, getKeywordsScan, updateDataState} from "../../../../redux/actions";
 
 const { TabPane } = Tabs;
 
@@ -21,12 +23,29 @@ const EDIT = 'EDIT'
 const ProductForm = props => {
 
 	const { mode = ADD, param } = props
-
+	const {singleKeyword} = useSelector(state => state.data)
 	const [form] = Form.useForm();
+	const dispatch = useDispatch();
 	const [uploadedImg, setImage] = useState('')
 	const [uploadLoading, setUploadLoading] = useState(false)
 	const [submitLoading, setSubmitLoading] = useState(false)
 
+	useEffect(() => {
+		if (singleKeyword?.id){
+			form.setFieldsValue(singleKeyword)
+		}
+
+
+	}, [singleKeyword]);
+
+	useEffect(() => {
+		dispatch(getKeywordsScan({
+			params:{id:param.id,limit:10,offset:0}
+		}))
+		return ()=>{
+			dispatch(updateDataState({singleKeyword:{}}))
+		}
+	}, []);
 
 	const handleUploadChange = info => {
 		if (info.file.status === 'uploading') {
@@ -55,7 +74,6 @@ const ProductForm = props => {
 			}, 1500);
 		}).catch(info => {
 			setSubmitLoading(false)
-			console.log('info', info)
 			message.error('Please enter all required field ');
 		});
 	};

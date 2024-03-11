@@ -10,54 +10,20 @@ import {
 import Flex from 'components/shared-components/Flex'
 import { useHistory } from "react-router-dom";
 import utils from 'utils'
+import {useSelector} from "react-redux";
 
-const { Option } = Select
-
-const getStockStatus = stockCount => {
-    if(stockCount >= 10) {
-        return <><Badge status="success" /><span>In Stock</span></>
-    }
-    if(stockCount < 10 && stockCount > 0) {
-        return <><Badge status="warning" /><span>Limited Stock</span></>
-    }
-    if(stockCount === 0) {
-        return <><Badge status="error" /><span>Out of Stock</span></>
-    }
-    return null
-}
-
-
-
-
-const categories = ['Cloths', 'Bags', 'Shoes', 'Watches', 'Devices']
 
 const DomainTable = () => {
     let history = useHistory();
-    const [list, setList] = useState(ProductListData)
+    const {scanDomains} = useSelector(state => state.data)
     const [selectedRows, setSelectedRows] = useState([])
     const [selectedRowKeys, setSelectedRowKeys] = useState([])
 
-    const showUserProfile = userInfo => {
-        history.push(`/app/dashboards/domains/edit-domains/45`)
+    const showUserProfile = item => {
+        history.push(`/app/dashboards/domains/edit-domains/`+item.id)
     };
 
 
-    const dropdownMenu = row => (
-        <Menu>
-            <Menu.Item onClick={() => viewDetails(row)}>
-                <Flex alignItems="center">
-                    <EyeOutlined />
-                    <span className="ml-2">View Details</span>
-                </Flex>
-            </Menu.Item>
-            <Menu.Item onClick={() => deleteRow(row)}>
-                <Flex alignItems="center">
-                    <DeleteOutlined />
-                    <span className="ml-2">{selectedRows.length > 0 ? `Delete (${selectedRows.length})` : 'Delete'}</span>
-                </Flex>
-            </Menu.Item>
-        </Menu>
-    );
 
     const addProduct = () => {
         history.push(`/app/dashboards/domains/add-domains`)
@@ -99,11 +65,6 @@ const DomainTable = () => {
         {
             title: 'Name',
             dataIndex: 'name',
-            render: (_, record) => (
-                <div className="d-flex">
-
-                </div>
-            ),
         },
         {
             title: 'Description',
@@ -116,16 +77,10 @@ const DomainTable = () => {
         {
             title: 'Created',
             dataIndex: 'created',
-            render: stock => (
-                <Flex alignItems="center">{getStockStatus(stock)}</Flex>
-            )
         },
         {
             title: 'Last modified',
-            dataIndex: 'last modified',
-            render: stock => (
-                <Flex alignItems="center">{getStockStatus(stock)}</Flex>
-            )
+            dataIndex: 'lastModified',
         },
         {
             title: '',
@@ -180,14 +135,8 @@ const DomainTable = () => {
             <div className="table-responsive">
                 <Table
                     columns={tableColumns}
-                    dataSource={list}
+                    dataSource={scanDomains?.data}
                     rowKey='id'
-                    rowSelection={{
-                        selectedRowKeys: selectedRowKeys,
-                        type: 'checkbox',
-                        preserveSelectedRowKeys: false,
-                        ...rowSelection,
-                    }}
                     pagination={{
                         total: 60, // total elements
                         pageSize: 10, // element size

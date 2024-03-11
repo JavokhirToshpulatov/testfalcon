@@ -5,25 +5,33 @@ import {
     EyeOutlined,
     DeleteOutlined,
     SearchOutlined,
-    UnorderedListOutlined
+    PlusCircleOutlined,
+    PauseCircleOutlined,
+    EditOutlined, UnorderedListOutlined
 } from '@ant-design/icons';
 import Flex from 'components/shared-components/Flex'
 import { useHistory } from "react-router-dom";
 import utils from 'utils'
 import {useSelector} from "react-redux";
 
-const KeywordTable = () => {
-    let history = useHistory();
+
+const DomainHistoryTable = () => {
+    const {histories} = useSelector(state => state.data)
     const [list, setList] = useState(ProductListData)
-    const {scanKeywords} = useSelector(state => state.data)
+    const history = useHistory();
     const [selectedRows, setSelectedRows] = useState([])
     const [selectedRowKeys, setSelectedRowKeys] = useState([])
 
     const showUserProfile = item => {
-        history.push(`/app/dashboards/keywords/edit-keyword/`+item?.id)
+        history.push(`/app/dashboards/default/view/${item.id}/${item.name}`)
     };
 
 
+
+
+    const addProduct = () => {
+        history.push(`/app/dashboards/keywords/add-keyword`)
+    }
 
     const deleteUser = userId => {
         this.setState({
@@ -34,35 +42,40 @@ const KeywordTable = () => {
 
 
 
+    const viewDetails = row => {
+        history.push(`/app/apps/ecommerce/edit-product/${row.id}`)
+    }
+
+    const deleteRow = row => {
+        const objKey = 'id'
+        let data = list
+        if(selectedRows.length > 1) {
+            selectedRows.forEach(elm => {
+                data = utils.deleteArrayRow(data, objKey, elm.id)
+                setList(data)
+                setSelectedRows([])
+            })
+        } else {
+            data = utils.deleteArrayRow(data, objKey, row.id)
+            setList(data)
+        }
+    }
+
     const tableColumns = [
         {
             title: '#',
             dataIndex: '#'
         },
         {
-            title: 'Name',
-            dataIndex: 'name',
+            title: 'Timestamp',
+            dataIndex: 'timestamp',
         },
-        {
-            title: 'Description',
-            dataIndex: 'description',
-        },
-        {
-            title: 'Created',
-            dataIndex: 'created',
-        },
-        {
-            title: 'Last modified',
-            dataIndex: 'lastModified',
-        },
+
         {
             title: '',
             dataIndex: 'actions',
             render: (_, elm) => (
                 <div className="text-right d-flex justify-content-end">
-                    <Tooltip title="Delete">
-                        <Button className="mr-2"  type="danger" icon={<DeleteOutlined />} onClick={()=> {deleteUser(elm.id)}} size="small"/>
-                    </Tooltip>
                     <Tooltip title="View">
                         <Button type="primary" className="mr-2" icon={<UnorderedListOutlined />} onClick={() => {showUserProfile(elm)}} size="small"/>
                     </Tooltip>
@@ -108,7 +121,7 @@ const KeywordTable = () => {
             <div className="table-responsive">
                 <Table
                     columns={tableColumns}
-                    dataSource={scanKeywords?.data}
+                    dataSource={histories?.data}
                     rowKey='id'
                     pagination={{
                         total: 60, // total elements
@@ -121,4 +134,4 @@ const KeywordTable = () => {
     )
 }
 
-export default KeywordTable
+export default DomainHistoryTable

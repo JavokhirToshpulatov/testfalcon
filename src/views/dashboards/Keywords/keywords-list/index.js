@@ -1,80 +1,55 @@
-import React, {useState} from 'react'
-import {Card, Table, Select, Input, Button, Badge, Menu, Tooltip, message} from 'antd';
+import React, {useEffect, useState} from 'react'
+import {Card, Table, Select, Input, Button, Badge, Menu, Tooltip, message, Popconfirm} from 'antd';
 import ProductListData from "assets/data/product-list.data.json"
 import {
-	EyeOutlined,
 	DeleteOutlined,
 	SearchOutlined,
 	PlusCircleOutlined,
-	PauseCircleOutlined,
 	EditOutlined
 } from '@ant-design/icons';
 import Flex from 'components/shared-components/Flex'
-import NumberFormat from 'react-number-format';
 import { useHistory } from "react-router-dom";
 import utils from 'utils'
-
-const { Option } = Select
-
-const getStockStatus = stockCount => {
-	if(stockCount >= 10) {
-		return <><Badge status="success" /><span>In Stock</span></>
-	}
-	if(stockCount < 10 && stockCount > 0) {
-		return <><Badge status="warning" /><span>Limited Stock</span></>
-	}
-	if(stockCount === 0) {
-		return <><Badge status="error" /><span>Out of Stock</span></>
-	}
-	return null
-}
+import {useDispatch, useSelector} from "react-redux";
+import {deleteDomains, deleteKeywords, getAllAgents, getDomains, getKeywords} from "../../../../redux/actions";
 
 
-
-
-const categories = ['Cloths', 'Bags', 'Shoes', 'Watches', 'Devices']
 
 const ProductList = () => {
 	let history = useHistory();
-	const [list, setList] = useState(ProductListData)
+	const dispatch = useDispatch();
+	const {keywords} = useSelector(state=>state.data)
 	const [selectedRows, setSelectedRows] = useState([])
 	const [selectedRowKeys, setSelectedRowKeys] = useState([])
 
-  const showUserProfile = userInfo => {
-	  history.push(`/app/dashboards/keywords/edit-keyword/45`)
+  const showUserProfile = item => {
+	  history.push(`/app/dashboards/keywords/edit-keyword/`+item?.id)
 	};
 
+	useEffect(() => {
+		dispatch(getKeywords({
+			params:{limit:10,offset:1}
+		}))
+	}, []);
 
-	const dropdownMenu = row => (
-		<Menu>
-			<Menu.Item onClick={() => viewDetails(row)}>
-				<Flex alignItems="center">
-					<EyeOutlined />
-					<span className="ml-2">View Details</span>
-				</Flex>
-			</Menu.Item>
-			<Menu.Item onClick={() => deleteRow(row)}>
-				<Flex alignItems="center">
-					<DeleteOutlined />
-					<span className="ml-2">{selectedRows.length > 0 ? `Delete (${selectedRows.length})` : 'Delete'}</span>
-				</Flex>
-			</Menu.Item>
-		</Menu>
-	);
-	
+
+
 	const addProduct = () => {
 		history.push(`/app/dashboards/keywords/add-keyword`)
 	}
 
-	const deleteUser = userId => {
-		this.setState({
-			users: this.state.users.filter(item => item.id !== userId),
-		})
-		message.success({ content: `Deleted user ${userId}`, duration: 2 });
-	}
 
 
-	
+	const confirm = (e) => {
+        dispatch(deleteKeywords({id:e}))
+		message.success('Click on Yes');
+	};
+	const cancel = (e) => {
+		message.error('Click on No');
+	};
+
+
+
 	const viewDetails = row => {
 		history.push(`/app/apps/ecommerce/edit-product/${row.id}`)
 	}
@@ -113,7 +88,7 @@ const ProductList = () => {
 		},
 		{
 			title: 'Last modified',
-			dataIndex: 'last modified',
+			dataIndex: 'lastModified',
 		},
 		{
 			title: '',
@@ -124,7 +99,15 @@ const ProductList = () => {
 						<Button type="primary" className="mr-2" icon={<EditOutlined/>} onClick={() => {showUserProfile(elm)}} size="small"/>
 					</Tooltip>
 					<Tooltip title="Delete">
-						<Button type="danger" icon={<DeleteOutlined />} onClick={()=> {deleteUser(elm.id)}} size="small"/>
+						<Popconfirm
+							title="Are you sure to delete this keyword?"
+							onConfirm={()=>confirm(elm?.id)}
+							onCancel={cancel}
+							okText="Yes"
+							cancelText="No"
+						>
+							<Button type="danger">Delete</Button>
+						</Popconfirm>
 					</Tooltip>
 				</div>
 			)
@@ -171,14 +154,8 @@ const ProductList = () => {
 			<div className="table-responsive">
 				<Table 
 					columns={tableColumns} 
-					dataSource={list} 
+					dataSource={keywords?.data}
 					rowKey='id' 
-					rowSelection={{
-						selectedRowKeys: selectedRowKeys,
-						type: 'checkbox',
-						preserveSelectedRowKeys: false,
-						...rowSelection,
-					}}
 					pagination={{
 						total: 60, // total elements
 						pageSize: 10, // element size

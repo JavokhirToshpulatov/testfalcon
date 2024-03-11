@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {Card, Table, Select, Input, Button, Badge, Menu, Tooltip, message} from 'antd';
+import {Card, Table, Select, Input, Button, Badge, Menu, Tooltip, message, Popconfirm} from 'antd';
 import ProductListData from "assets/data/product-list.data.json"
 import {
     EyeOutlined,
@@ -12,8 +12,8 @@ import {
 import Flex from 'components/shared-components/Flex'
 import {useHistory} from "react-router-dom";
 import utils from 'utils'
-import {useDispatch} from "react-redux";
-import {getAllAgents, getScans} from "../../../../redux/actions/data";
+import {useDispatch, useSelector} from "react-redux";
+import {deleteAgents, deleteKeywords, getAllAgents, getScans} from "../../../../redux/actions/data";
 
 const {Option} = Select
 
@@ -36,19 +36,28 @@ const categories = ['Cloths', 'Bags', 'Shoes', 'Watches', 'Devices']
 const ProductList = () => {
     let history = useHistory();
     const dispatch = useDispatch();
+    const {allAgents} = useSelector(state=>state.data)
     const [list, setList] = useState(ProductListData)
     const [selectedRows, setSelectedRows] = useState([])
     const [selectedRowKeys, setSelectedRowKeys] = useState([])
 
-    const showUserProfile = userInfo => {
-        history.push(`/app/dashboards/agents/edit-agent/45`)
-
+    const showUserProfile = item => {
+        history.push(`/app/dashboards/agents/edit-agent/`+item.id)
     };
 
     useEffect(() => {
-        // dispatch(getAllAgents({params:{Limit:10,Offset:1,Search:""}}))
-        dispatch(getScans({params:{Limit:10,Offset:1,Search:""}}))
+        dispatch(getAllAgents({
+            params:{limit:10,offset:1}
+        }))
     }, []);
+
+    const confirm = (e) => {
+        dispatch(deleteAgents({id:e}))
+        message.success('Click on Yes');
+    };
+    const cancel = (e) => {
+        message.error('Click on No');
+    };
 
 
 
@@ -91,14 +100,10 @@ const ProductList = () => {
         {
             title: 'Name',
             dataIndex: 'name',
-            render: (_, record) => (
-                <div className="d-flex">
-                </div>
-            ),
         },
         {
             title: 'IP Address',
-            dataIndex: 'description',
+            dataIndex: 'ipAddress',
         },
         {
             title: 'Status',
@@ -114,7 +119,7 @@ const ProductList = () => {
         },
         {
             title: 'Last modified',
-            dataIndex: 'last modified',
+            dataIndex: 'lastModified',
         },
         {
             title: '',
@@ -127,14 +132,21 @@ const ProductList = () => {
                         }} size="small"/>
                     </Tooltip>
                     <Tooltip title="Delete">
-                        <Button type="danger" icon={<DeleteOutlined/>} onClick={() => {
-                            deleteUser(elm.id)
-                        }} size="small"/>
+                        <Popconfirm
+                            title="Are you sure to delete this keyword?"
+                            onConfirm={()=>confirm(elm?.id)}
+                            onCancel={cancel}
+                            okText="Yes"
+                            cancelText="No"
+                        >
+                            <Button type="danger">Delete</Button>
+                        </Popconfirm>
                     </Tooltip>
                 </div>
             )
         }
     ];
+
 
     const rowSelection = {
         onChange: (key, rows) => {
@@ -176,16 +188,10 @@ const ProductList = () => {
             <div className="table-responsive">
                 <Table
                     columns={tableColumns}
-                    dataSource={list}
+                    dataSource={allAgents?.data}
                     rowKey='id'
-                    rowSelection={{
-                        selectedRowKeys: selectedRowKeys,
-                        type: 'checkbox',
-                        preserveSelectedRowKeys: false,
-                        ...rowSelection,
-                    }}
                     pagination={{
-                        total: 60, // total elements
+                        total: allAgents.total, // total elements
                         pageSize: 10, // element size
                         // current: backend dan kelgan page || hozirgi page
                     }}

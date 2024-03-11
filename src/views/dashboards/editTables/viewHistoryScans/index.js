@@ -1,48 +1,41 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Card, Table, Select, Input, Button, Badge, Menu, Tooltip, message, Row, Col} from 'antd';
 import ProductListData from "assets/data/product-list.data.json"
 import {
-    EyeOutlined,
-    DeleteOutlined,
     SearchOutlined,
-    PlusCircleOutlined,
-    PauseCircleOutlined,
-    EditOutlined, UnorderedListOutlined
+    UnorderedListOutlined
 } from '@ant-design/icons';
 import Flex from 'components/shared-components/Flex'
-import { useHistory } from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
 import utils from 'utils'
 import {PageHeaderAlt} from "../../../../components/layout-components/PageHeaderAlt";
+import {useDispatch, useSelector} from "react-redux";
+import {getOneScansHistories, getScansHistoriesResult, getSingleDomain} from "../../../../redux/actions";
 
 const { Option } = Select
 
 const HistoryTable = () => {
-    let history = useHistory();
+    let {id} = useParams();
+    const dispatch= useDispatch();
+    useEffect(() => {
+        dispatch(getOneScansHistories({id},
+            ))
+        dispatch(getScansHistoriesResult({params:{limit:10,offset:0},id:id}))
+    }, []);
     const [list, setList] = useState(ProductListData)
+    const history = useHistory();
+    const {historyOne} = useSelector(state => state.data)
+    const {historyResult} = useSelector(state => state.data)
     const [selectedRows, setSelectedRows] = useState([])
     const [selectedRowKeys, setSelectedRowKeys] = useState([])
 
-    const showUserProfile = userInfo => {
-        history.push(`/app/dashboards/scans/history/10`)
+    const showUserProfile = item => {
+        history.push(`/app/dashboards/default/view/${item.scanId}/${item.scanHistoryId}/${item.target}`)
     };
 
 
-    const dropdownMenu = row => (
-        <Menu>
-            <Menu.Item onClick={() => viewDetails(row)}>
-                <Flex alignItems="center">
-                    <EyeOutlined />
-                    <span className="ml-2">View Details</span>
-                </Flex>
-            </Menu.Item>
-            <Menu.Item onClick={() => deleteRow(row)}>
-                <Flex alignItems="center">
-                    <DeleteOutlined />
-                    <span className="ml-2">{selectedRows.length > 0 ? `Delete (${selectedRows.length})` : 'Delete'}</span>
-                </Flex>
-            </Menu.Item>
-        </Menu>
-    );
+
+
 
     const addProduct = () => {
         history.push(`/app/dashboards/keywords/add-keyword`)
@@ -83,7 +76,7 @@ const HistoryTable = () => {
         },
         {
             title: 'Domain',
-            dataIndex: 'domain',
+            dataIndex: 'target',
         },
         {
             title: 'Timestamp',
@@ -101,7 +94,7 @@ const HistoryTable = () => {
             )
         }
     ];
-
+    console.log(history)
     const rowSelection = {
         onChange: (key, rows) => {
             setSelectedRows(rows)
@@ -116,6 +109,7 @@ const HistoryTable = () => {
         setList(data)
         setSelectedRowKeys([])
     }
+
 
     const handleShowCategory = value => {
         if(value !== 'All') {
@@ -139,16 +133,16 @@ const HistoryTable = () => {
             <Row gutter={16}>
                <Col span={12}>
                    <h2>History Information</h2>
-                   <h3>Scan:</h3>
-                   <h3>Scanned:</h3>
-                   <h3>Total:</h3>
+                   <h3>Scan: {historyOne?.scan?.name}</h3>
+                   <h3>Scanned: {historyResult?.total}</h3>
+                   <h3>Total: {historyOne?.total}</h3>
                </Col>
                 <Col span={12}>
                     <Flex justifyContent={"end"}>
-                        <h3>Started:</h3>
+                        <h3>Started: {historyOne?.start}</h3>
                     </Flex>
                     <Flex justifyContent={"end"}>
-                        <h3>Total:</h3>
+                        <h3>End: {historyOne?.end}</h3>
                     </Flex>
                 </Col>
             </Row>
@@ -165,14 +159,8 @@ const HistoryTable = () => {
                 <div className="table-responsive">
                     <Table
                         columns={tableColumns}
-                        dataSource={list}
+                        dataSource={historyResult?.data}
                         rowKey='id'
-                        rowSelection={{
-                            selectedRowKeys: selectedRowKeys,
-                            type: 'checkbox',
-                            preserveSelectedRowKeys: false,
-                            ...rowSelection,
-                        }}
                         pagination={{
                             total: 60, // total elements
                             pageSize: 10, // element size

@@ -10,6 +10,8 @@ import DomainTable from "../../editTables/DomainTable";
 import KeywordTable from "../../editTables/KeywordTable";
 import HistoryTable from "../../editTables/HistoryTable";
 import ScansTable from "../../editTables/ScansTable";
+import {useDispatch, useSelector} from "react-redux";
+import {getAgentsScan, getDomainHistories, updateDataState} from "../../../../redux/actions";
 
 const { TabPane } = Tabs;
 
@@ -25,12 +27,27 @@ const EDIT = 'EDIT'
 const ProductForm = props => {
 
 	const { mode = ADD, param } = props
-
+    const {singleAgents} = useSelector(state => state.data)
 	const [form] = Form.useForm();
+	const dispatch = useDispatch();
 	const [uploadedImg, setImage] = useState('')
 	const [uploadLoading, setUploadLoading] = useState(false)
 	const [submitLoading, setSubmitLoading] = useState(false)
 
+	useEffect(() => {
+		if (singleAgents?.id){
+			form.setFieldsValue(singleAgents)
+		}
+	}, [singleAgents]);
+
+	useEffect(() => {
+		dispatch(getAgentsScan({
+			params:{id:param.id,limit:10,offset:0}
+		}))
+		return ()=>{
+			dispatch(updateDataState({singleAgents:{}}))
+		}
+	}, []);
 
 	const handleUploadChange = info => {
 		if (info.file.status === 'uploading') {

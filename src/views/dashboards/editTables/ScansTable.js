@@ -10,23 +10,17 @@ import {
 import Flex from 'components/shared-components/Flex'
 import { useHistory } from "react-router-dom";
 import utils from 'utils'
-
-const { Option } = Select
-
-
-
-
-
-const categories = ['Cloths', 'Bags', 'Shoes', 'Watches', 'Devices']
+import {useSelector} from "react-redux";
 
 const ScansTable = () => {
     let history = useHistory();
     const [list, setList] = useState(ProductListData)
+    const {domainScans} = useSelector(state => state.data)
     const [selectedRows, setSelectedRows] = useState([])
     const [selectedRowKeys, setSelectedRowKeys] = useState([])
 
-    const showUserProfile = userInfo => {
-        history.push(`/app/dashboards/scans/edit-scan/45`)
+    const showUserProfile = item => {
+        history.push(`/app/dashboards/scans/edit-scan/`+item.id)
     };
 
 
@@ -153,14 +147,8 @@ const ScansTable = () => {
             <div className="table-responsive">
                 <Table
                     columns={tableColumns}
-                    dataSource={list}
+                    dataSource={domainScans?.data}
                     rowKey='id'
-                    rowSelection={{
-                        selectedRowKeys: selectedRowKeys,
-                        type: 'checkbox',
-                        preserveSelectedRowKeys: false,
-                        ...rowSelection,
-                    }}
                     pagination={{
                         total: 60, // total elements
                         pageSize: 10, // element size

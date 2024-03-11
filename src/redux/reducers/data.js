@@ -2,7 +2,24 @@ import * as types from '../constants/data';
 
 
 const initialValue = {
-    allAgents: []
+    allAgents: {},
+    singleAgents:{},
+    scanAgents:{},
+    scanHtmlCurrent:{},
+    scanHtmlPrevious:{},
+    scanWebHistories:{},
+    scanKeywords:{},
+    historyOne:{},
+    historyResult:{},
+    histories:{},
+    allScans:{},
+    singleScan:{},
+    singleDomain:{},
+    singleKeyword:{},
+    keywords:{},
+    domains:{},
+    domainScans:{},
+    users:{},
 };
 
 

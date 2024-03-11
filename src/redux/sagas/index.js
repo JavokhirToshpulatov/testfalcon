@@ -11,9 +11,8 @@ export default function* rootSaga(getState) {
         Auth(),
         agents(),
         scans(),
-        users(),
+        keywords(),
         domains(),
-        keywords()
-
+        users()
     ]);
 }

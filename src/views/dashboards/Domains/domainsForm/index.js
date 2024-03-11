@@ -3,13 +3,12 @@ import PageHeaderAlt from 'components/layout-components/PageHeaderAlt'
 import {Tabs, Form, Button, message, Row, Col, Space} from 'antd';
 import Flex from 'components/shared-components/Flex'
 import GeneralField from './GeneralField'
-import ProductListData from "assets/data/product-list.data.json"
-import {EnvironmentOutlined, HistoryOutlined, InfoCircleOutlined, ToolOutlined} from "@ant-design/icons";
-import AgentsTable from "../../editTables/AgentsTable";
-import DomainTable from "../../editTables/DomainTable";
-import KeywordTable from "../../editTables/KeywordTable";
+import {EnvironmentOutlined, HistoryOutlined, InfoCircleOutlined} from "@ant-design/icons";
 import HistoryTable from "../../editTables/HistoryTable";
 import ScansTable from "../../editTables/ScansTable";
+import {useDispatch, useSelector} from "react-redux";
+import {getDomainHistories, getDomainScans, getScansHistories, updateDataState} from "../../../../redux/actions";
+import DomainHistoryTable from "../../editTables/DomainHistoryTable";
 
 const { TabPane } = Tabs;
 
@@ -25,12 +24,31 @@ const EDIT = 'EDIT'
 const ProductForm = props => {
 
 	const { mode = ADD, param } = props
-
+	const {singleDomain} = useSelector(state => state.data)
 	const [form] = Form.useForm();
+	const dispatch = useDispatch();
 	const [uploadedImg, setImage] = useState('')
 	const [uploadLoading, setUploadLoading] = useState(false)
 	const [submitLoading, setSubmitLoading] = useState(false)
 	const [showTable, setShowTable] = useState("scan")
+
+	useEffect(() => {
+		if (singleDomain?.id){
+			form.setFieldsValue(singleDomain)
+		}
+	}, [singleDomain]);
+
+	useEffect(() => {
+		dispatch(getDomainScans({
+			params:{id:param.id,limit:10,offset:0}
+		}))
+		dispatch(getDomainHistories({
+			params:{id:param.id,limit:10,offset:0}
+		}))
+		return ()=>{
+			dispatch(updateDataState({singleDomain:{}}))
+		}
+	}, []);
 
 
 	const handleUploadChange = info => {
@@ -69,6 +87,10 @@ const ProductForm = props => {
 		setShowTable(value)
 	}
 
+	function discard() {
+		history.push(`app/dashboards/keywords`)
+	}
+
 	return (
 		<>
 			<Form
@@ -87,7 +109,7 @@ const ProductForm = props => {
 						<Flex className="py-2" mobileFlex={false} justifyContent="between" alignItems="center">
 							<h2 className="mb-3">{mode === 'ADD'? 'Add New Domain' : `Edit Domain`} </h2>
 							<div className="mb-3">
-								<Button className="mr-2">Discard</Button>
+								<Button onClick={()=>discard()} className="mr-2">Discard</Button>
 								<Button type="primary" onClick={() => onFinish()} htmlType="submit" loading={submitLoading} >
 									{mode === 'ADD'? 'Add' : `Save`}
 								</Button>
@@ -118,7 +140,7 @@ const ProductForm = props => {
 						</Flex>
 					</Col>
 					<Col span={24}>
-						{showTable==='scan'?<ScansTable/>:showTable==='history'?<HistoryTable/>:""}
+						{showTable==='scan'?<ScansTable/>:showTable==='history'?<DomainHistoryTable/>:""}
 					</Col>
 				</Row>
 				:""}

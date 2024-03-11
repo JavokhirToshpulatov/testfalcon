@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Card, Table, Select, Input, Button, Badge, Menu, Tooltip, message} from 'antd';
 import ProductListData from "assets/data/product-list.data.json"
 import {
@@ -9,40 +9,19 @@ import {
 import Flex from 'components/shared-components/Flex'
 import { useHistory } from "react-router-dom";
 import utils from 'utils'
-
-const { Option } = Select
-
-const getStockStatus = stockCount => {
-    if(stockCount >= 10) {
-        return <><Badge status="success" /><span>In Stock</span></>
-    }
-    if(stockCount < 10 && stockCount > 0) {
-        return <><Badge status="warning" /><span>Limited Stock</span></>
-    }
-    if(stockCount === 0) {
-        return <><Badge status="error" /><span>Out of Stock</span></>
-    }
-    return null
-}
-
-
-
-
-const categories = ['Cloths', 'Bags', 'Shoes', 'Watches', 'Devices']
+import {useSelector} from "react-redux";
+import {getScansAgent} from "../../../redux/actions";
 
 const AgentsTable = () => {
     let history = useHistory();
-    const [list, setList] = useState(ProductListData)
+    const {scanAgents} = useSelector(state => state.data)
     const [selectedRows, setSelectedRows] = useState([])
     const [selectedRowKeys, setSelectedRowKeys] = useState([])
 
-    const showUserProfile = userInfo => {
-        history.push(`/app/dashboards/agents/edit-agent/45`)
 
+    const showUserProfile = item => {
+        history.push(`/app/dashboards/agents/edit-agent/`+item.id)
     };
-
-
-
 
     const addProduct = () => {
         history.push(`/app/dashboards/agents/add-agent`)
@@ -84,14 +63,10 @@ const AgentsTable = () => {
         {
             title: 'Name',
             dataIndex: 'name',
-            render: (_, record) => (
-                <div className="d-flex">
-                </div>
-            ),
         },
         {
             title: 'IP Address',
-            dataIndex: 'description',
+            dataIndex: 'ipAddress',
         },
         {
             title: 'Status',
@@ -107,7 +82,7 @@ const AgentsTable = () => {
         },
         {
             title: 'Last modified',
-            dataIndex: 'last modified',
+            dataIndex: 'lastModified',
         },
         {
             title: '',
@@ -162,14 +137,8 @@ const AgentsTable = () => {
             <div className="table-responsive">
                 <Table
                     columns={tableColumns}
-                    dataSource={list}
+                    dataSource={scanAgents?.data}
                     rowKey='id'
-                    rowSelection={{
-                        selectedRowKeys: selectedRowKeys,
-                        type: 'checkbox',
-                        preserveSelectedRowKeys: false,
-                        ...rowSelection,
-                    }}
                     pagination={{
                         total: 60, // total elements
                         pageSize: 10, // element size

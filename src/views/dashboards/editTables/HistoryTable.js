@@ -12,54 +12,21 @@ import {
 import Flex from 'components/shared-components/Flex'
 import { useHistory } from "react-router-dom";
 import utils from 'utils'
+import {useSelector} from "react-redux";
 
-const { Option } = Select
-
-const getStockStatus = stockCount => {
-    if(stockCount >= 10) {
-        return <><Badge status="success" /><span>In Stock</span></>
-    }
-    if(stockCount < 10 && stockCount > 0) {
-        return <><Badge status="warning" /><span>Limited Stock</span></>
-    }
-    if(stockCount === 0) {
-        return <><Badge status="error" /><span>Out of Stock</span></>
-    }
-    return null
-}
-
-
-
-
-const categories = ['Cloths', 'Bags', 'Shoes', 'Watches', 'Devices']
 
 const HistoryTable = () => {
     let history = useHistory();
+    const {histories} = useSelector(state => state.data)
     const [list, setList] = useState(ProductListData)
     const [selectedRows, setSelectedRows] = useState([])
     const [selectedRowKeys, setSelectedRowKeys] = useState([])
 
-    const showUserProfile = userInfo => {
-        history.push(`/app/dashboards/scans/history/10`)
+    const showUserProfile = item => {
+        history.push(`/app/dashboards/scans/history/`+item.id)
     };
 
 
-    const dropdownMenu = row => (
-        <Menu>
-            <Menu.Item onClick={() => viewDetails(row)}>
-                <Flex alignItems="center">
-                    <EyeOutlined />
-                    <span className="ml-2">View Details</span>
-                </Flex>
-            </Menu.Item>
-            <Menu.Item onClick={() => deleteRow(row)}>
-                <Flex alignItems="center">
-                    <DeleteOutlined />
-                    <span className="ml-2">{selectedRows.length > 0 ? `Delete (${selectedRows.length})` : 'Delete'}</span>
-                </Flex>
-            </Menu.Item>
-        </Menu>
-    );
 
     const addProduct = () => {
         history.push(`/app/dashboards/keywords/add-keyword`)
@@ -164,14 +131,8 @@ const HistoryTable = () => {
             <div className="table-responsive">
                 <Table
                     columns={tableColumns}
-                    dataSource={list}
+                    dataSource={histories?.data}
                     rowKey='id'
-                    rowSelection={{
-                        selectedRowKeys: selectedRowKeys,
-                        type: 'checkbox',
-                        preserveSelectedRowKeys: false,
-                        ...rowSelection,
-                    }}
                     pagination={{
                         total: 60, // total elements
                         pageSize: 10, // element size

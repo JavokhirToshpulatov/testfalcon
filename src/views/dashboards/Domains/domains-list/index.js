@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Card, Table, Select, Input, Button, Badge, Menu, Tooltip, message} from 'antd';
 import ProductListData from "assets/data/product-list.data.json"
 import {
@@ -6,14 +6,14 @@ import {
 	DeleteOutlined,
 	SearchOutlined,
 	PlusCircleOutlined,
-	PauseCircleOutlined,
 	EditOutlined
 } from '@ant-design/icons';
 import Flex from 'components/shared-components/Flex'
 import { useHistory } from "react-router-dom";
 import utils from 'utils'
+import {useDispatch, useSelector} from "react-redux";
+import {getAllAgents, getDomains} from "../../../../redux/actions";
 
-const { Option } = Select
 
 const getStockStatus = stockCount => {
 	if(stockCount >= 10) {
@@ -31,36 +31,27 @@ const getStockStatus = stockCount => {
 
 
 
-const categories = ['Cloths', 'Bags', 'Shoes', 'Watches', 'Devices']
 
 const ProductList = () => {
 	let history = useHistory();
+	const dispatch = useDispatch();
+	const {domains} = useSelector(state=>state.data)
 	const [list, setList] = useState(ProductListData)
 	const [selectedRows, setSelectedRows] = useState([])
 	const [selectedRowKeys, setSelectedRowKeys] = useState([])
 
-  const showUserProfile = userInfo => {
-	  history.push(`/app/dashboards/domains/edit-domains/45`)
+	useEffect(() => {
+		dispatch(getDomains({
+			params:{limit:10,offset:1}
+		}))
+	}, []);
+
+  const showUserProfile = item => {
+	  history.push(`/app/dashboards/domains/edit-domains/`+item?.id)
 	};
 
 
-	const dropdownMenu = row => (
-		<Menu>
-			<Menu.Item onClick={() => viewDetails(row)}>
-				<Flex alignItems="center">
-					<EyeOutlined />
-					<span className="ml-2">View Details</span>
-				</Flex>
-			</Menu.Item>
-			<Menu.Item onClick={() => deleteRow(row)}>
-				<Flex alignItems="center">
-					<DeleteOutlined />
-					<span className="ml-2">{selectedRows.length > 0 ? `Delete (${selectedRows.length})` : 'Delete'}</span>
-				</Flex>
-			</Menu.Item>
-		</Menu>
-	);
-	
+
 	const addProduct = () => {
 		history.push(`/app/dashboards/domains/add-domains`)
 	}
@@ -101,11 +92,6 @@ const ProductList = () => {
 		{
 			title: 'Name',
 			dataIndex: 'name',
-			render: (_, record) => (
-				<div className="d-flex">
-
-				</div>
-			),
 		},
 		{
 			title: 'Description',
@@ -118,16 +104,10 @@ const ProductList = () => {
 		{
 			title: 'Created',
 			dataIndex: 'created',
-			render: stock => (
-				<Flex alignItems="center">{getStockStatus(stock)}</Flex>
-			)
 		},
 		{
 			title: 'Last modified',
-			dataIndex: 'last modified',
-			render: stock => (
-				<Flex alignItems="center">{getStockStatus(stock)}</Flex>
-			)
+			dataIndex: 'lastModified',
 		},
 		{
 			title: '',
@@ -185,14 +165,8 @@ const ProductList = () => {
 			<div className="table-responsive">
 				<Table 
 					columns={tableColumns} 
-					dataSource={list} 
+					dataSource={domains?.data}
 					rowKey='id' 
-					rowSelection={{
-						selectedRowKeys: selectedRowKeys,
-						type: 'checkbox',
-						preserveSelectedRowKeys: false,
-						...rowSelection,
-					}}
 						pagination={{
 						total: 60, // total elements
 						pageSize: 10, // element size

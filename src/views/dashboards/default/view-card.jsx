@@ -2,11 +2,36 @@ import {Row, Col, List, Space, DatePicker} from 'antd';
 import {useParams} from 'react-router-dom';
 import Slider from "./Slider";
 import Flex from "../../../components/shared-components/Flex";
-import React from "react";
+import React, {useEffect} from "react";
 import ReactDiffViewer from "react-diff-viewer";
+import {getAllAgents, getScanHtmlCurrent, getScanHtmlPrevious, getScanWebHistories} from "../../../redux/actions";
+import {useDispatch, useSelector} from "react-redux";
 
 
 const ViewCard = () => {
+    const {scanId,domainID, domainName} = useParams();
+    const dispatch = useDispatch();
+    const {scanWebHistories} = useSelector(state=>state.data)
+    const {scanHtmlCurrent} = useSelector(state=>state.data)
+    const {scanHtmlPrevious} = useSelector(state=>state.data)
+
+
+    useEffect(() => {
+        dispatch(getScanWebHistories({
+            params:{ScanId:scanId,ScanHistoryId:domainID,Target:domainName}
+        }))
+        dispatch(getScanHtmlCurrent({
+            canId:scanId,historyId:domainID,target:domainName
+        }))
+        dispatch(getScanHtmlPrevious({
+            canId:scanId,historyId:domainID,target:domainName
+        }))
+    }, []);
+
+
+    console.log(scanWebHistories)
+
+
     const oldCode = `
 <!DOCTYPE html>
 <html lang="en">
@@ -41,10 +66,11 @@ const ViewCard = () => {
 </html>
 `;
 
-    const {domainID, domainName} = useParams();
     const onChange = (date, dateString) => {
         console.log(date, dateString);
     };
+
+    console.log(scanHtmlCurrent)
 
     return (
         <>
@@ -71,57 +97,57 @@ const ViewCard = () => {
                 <Col span={12}>
                     <List style={{padding: '20px 30px'}}>
                         <List.Item>
-                            <b className='text-primary'> Url: </b>
+                            <b className='text-primary'> Url: {scanWebHistories?.url} </b>
                         </List.Item>
                         <List.Item>
-                            <b className='text-primary'> Response Code: </b>
+                            <b className='text-primary'> Response Code: {scanWebHistories?.httpStatus}</b>
                         </List.Item>
                         <List.Item>
-                            <b className='text-primary'> Web site status:</b>
+                            <b className='text-primary'> Web site status: {scanWebHistories?.webSiteStatus}</b>
                         </List.Item>
                         <List.Item>
                             <b className='text-primary'> Found keyword: </b>
                         </List.Item>
                         <List.Item>
-                            <b className='text-primary'> IP Address: </b>
+                            <b className='text-primary'> IP Address: {scanWebHistories?.ipAddress}  </b>
                         </List.Item>
                         <List.Item>
-                            <b className='text-primary'> Timestamp </b>:
+                            <b className='text-primary'> Timestamp: {scanWebHistories?.timestamp}</b>
                         </List.Item>
                     </List>
                 </Col>
                 <Col span={12}>
                     <List style={{ padding: '20px 30px'}}>
                         <List.Item>
-                            <b className='text-primary'> Status: </b>
+                            <b className='text-primary'> Status: {scanWebHistories?.sslCertificateStatus}</b>
                         </List.Item>
                         <List.Item>
-                            <b className='text-primary'> Valid after: </b>
+                            <b className='text-primary'> Valid after: {scanWebHistories?.sslNotValidAfter} </b>
                         </List.Item>
                         <List.Item>
-                            <b className='text-primary'> Valid before:</b>
+                            <b className='text-primary'> Valid before: {scanWebHistories?.sslNotValidBefore}</b>
                         </List.Item>
                         <List.Item>
-                            <b className='text-primary'> Issuer: </b>
+                            <b className='text-primary'> Issuer: {scanWebHistories?.sslIssuer} </b>
                         </List.Item>
                         <List.Item>
-                            <b className='text-primary'> Subject: </b>
+                            <b className='text-primary'> Subject: {scanWebHistories?.sslSubject} </b>
                         </List.Item>
                         <List.Item>
-                            <b className='text-primary'> Authority key identifier: </b>
+                            <b className='text-primary'> Authority key identifier: {scanWebHistories?.sslAuthorityKeyIdentifier}</b>
                         </List.Item>
                         <List.Item>
-                            <b className='text-primary'> Subject key identifier: </b>
+                            <b className='text-primary'> Subject key identifier: {scanWebHistories?.sslSubjectKeyIdentifier} </b>
                         </List.Item>
                         <List.Item>
-                            <b className='text-primary'> Serial number: </b>
+                            <b className='text-primary'> Serial number: {scanWebHistories?.sslSerialNumber} </b>
                         </List.Item>
                     </List>
                 </Col>
             </Row>
             <br/>
             <div style={{maxHeight:"70vh",overflowY:"scroll"}}>
-                 <ReactDiffViewer oldValue={oldCode} newValue={newCode} splitView={true}/>
+                 <ReactDiffViewer oldValue={scanHtmlPrevious} newValue={scanHtmlCurrent} splitView={true}/>
             </div>
         </>
     )

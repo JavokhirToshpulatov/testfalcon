@@ -1,37 +1,25 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Card, Table, Select, Input, Button, Badge, Menu, Tooltip, message} from 'antd';
 import ProductListData from "assets/data/product-list.data.json"
 import {EyeOutlined, DeleteOutlined, SearchOutlined, PlusCircleOutlined, EditOutlined} from '@ant-design/icons';
 import Flex from 'components/shared-components/Flex'
 import { useHistory } from "react-router-dom";
 import utils from 'utils'
-
-const { Option } = Select
-
-const getStockStatus = stockCount => {
-	if(stockCount >= 10) {
-		return <><Badge status="success" /><span>In Stock</span></>
-	}
-	if(stockCount < 10 && stockCount > 0) {
-		return <><Badge status="warning" /><span>Limited Stock</span></>
-	}
-	if(stockCount === 0) {
-		return <><Badge status="error" /><span>Out of Stock</span></>
-	}
-	return null
-}
-
-
-
-
-const categories = ['Cloths', 'Bags', 'Shoes', 'Watches', 'Devices']
+import {useDispatch, useSelector} from "react-redux";
+import {getAllUsers} from "../../../../redux/actions";
 
 const ProductList = () => {
 	let history = useHistory();
-	const [list, setList] = useState(ProductListData)
+	const dispatch = useDispatch();
+	const {users} = useSelector(state=>state.data)
 	const [selectedRows, setSelectedRows] = useState([])
 	const [selectedRowKeys, setSelectedRowKeys] = useState([])
 
+	useEffect(() => {
+		dispatch(getAllUsers({
+			params:{limit:10,offset:0}
+		}))
+	}, []);
   const showUserProfile = userInfo => {
 	  history.push(`/app/dashboards/users/edit-user`)
 	};
@@ -105,7 +93,7 @@ const ProductList = () => {
 		},
 		{
 			title: 'Last modified',
-			dataIndex: 'last modified',
+			dataIndex: 'lastModified',
 		},
 		{
 			title: '',
@@ -163,14 +151,8 @@ const ProductList = () => {
 			<div className="table-responsive">
 				<Table 
 					columns={tableColumns} 
-					dataSource={list} 
+					dataSource={users?.data}
 					rowKey='id' 
-					rowSelection={{
-						selectedRowKeys: selectedRowKeys,
-						type: 'checkbox',
-						preserveSelectedRowKeys: false,
-						...rowSelection,
-					}}
 					pagination={{
 						total: 60, // total elements
 						pageSize: 10, // element size
