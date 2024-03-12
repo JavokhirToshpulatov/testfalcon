@@ -133,7 +133,7 @@ const ProductList = () => {
 							okText="Yes"
 							cancelText="No"
 						>
-							<Button type="danger">Delete</Button>
+							<Button size="small" type="danger"><DeleteOutlined/></Button>
 						</Popconfirm>
 					</Tooltip>
 				</div>

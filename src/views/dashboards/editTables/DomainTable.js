@@ -74,7 +74,7 @@ const DomainTable = () => {
                             okText="Yes"
                             cancelText="No"
                         >
-                            <Button type="danger">Delete</Button>
+                            <Button className="mr-2" size="small" type="danger"><DeleteOutlined/></Button>
                         </Popconfirm>
                     </Tooltip>
                     <Tooltip title="View">

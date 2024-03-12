@@ -14,7 +14,6 @@ const ViewCard = () => {
     const {scanWebHistories} = useSelector(state=>state.data)
     const {scanHtmlCurrent} = useSelector(state=>state.data)
     const {scanHtmlPrevious} = useSelector(state=>state.data)
-    const [view, setView] = useState(false)
 
 
 
@@ -31,26 +30,10 @@ const ViewCard = () => {
 
     }, []);
 
-    //useEffect(() => {
-    //            setView(true)
-    //}, [scanHtmlCurrent,scanHtmlPrevious]);
-
-
-
-    const oldCode =" <html><head></head><body></body></html>"
-
-;
-
-
-    const newCode = "<html><head></head><body></body></html>"
 
     const onChange = (date, dateString) => {
         console.log(date, dateString);
     };
-
-    console.log(scanHtmlPrevious !== "" && scanHtmlCurrent !== "")
-    console.log(typeof scanHtmlCurrent)
-    console.log(typeof scanHtmlPrevious)
 
     return (
         <>
@@ -127,10 +110,11 @@ const ViewCard = () => {
             </Row>
             <br/>
              <div style={{maxHeight: "70vh", overflowY: "scroll"}}>
-                 {scanHtmlPrevious !== "" && scanHtmlCurrent !== "" ?
-                     <ReactDiffViewer oldValue={scanHtmlPrevious} newValue={scanHtmlCurrent} splitView={true}/>
-                 : "NO CONTENT"
+                 {scanHtmlPrevious !=="" && scanHtmlCurrent !=="" ?
+                     <ReactDiffViewer  oldValue={"salom"} newValue={"salomlar"} splitView={true}/>
+                     : ""
                  }
+
             </div>
 
         </>

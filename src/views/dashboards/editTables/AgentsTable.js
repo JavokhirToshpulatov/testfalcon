@@ -74,7 +74,7 @@ const AgentsTable = () => {
                             okText="Yes"
                             cancelText="No"
                         >
-                            <Button type="danger">Delete</Button>
+                            <Button size="small" className="mr-2" type="danger"><DeleteOutlined/></Button>
                         </Popconfirm>
                     </Tooltip>
                     <Tooltip title="View">

@@ -69,7 +69,7 @@ const KeywordTable = () => {
                             okText="Yes"
                             cancelText="No"
                         >
-                            <Button type="danger">Delete</Button>
+                            <Button size="small" type="danger" className="mr-2"><DeleteOutlined/></Button>
                         </Popconfirm>
                     </Tooltip>
                     <Tooltip title="View">

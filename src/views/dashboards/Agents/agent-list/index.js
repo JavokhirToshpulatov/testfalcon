@@ -2,11 +2,9 @@ import React, {useEffect, useState} from 'react'
 import {Card, Table, Select, Input, Button, Badge, Menu, Tooltip, message, Popconfirm} from 'antd';
 import ProductListData from "assets/data/product-list.data.json"
 import {
-    EyeOutlined,
     DeleteOutlined,
     SearchOutlined,
     PlusCircleOutlined,
-    PauseCircleOutlined,
     EditOutlined
 } from '@ant-design/icons';
 import Flex from 'components/shared-components/Flex'
@@ -139,7 +137,7 @@ const ProductList = () => {
                             okText="Yes"
                             cancelText="No"
                         >
-                            <Button type="danger">Delete</Button>
+                            <Button size="small" type="danger"><DeleteOutlined/></Button>
                         </Popconfirm>
                     </Tooltip>
                 </div>
