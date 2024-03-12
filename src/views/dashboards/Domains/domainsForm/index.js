@@ -27,8 +27,6 @@ const ProductForm = props => {
 	const {singleDomain} = useSelector(state => state.data)
 	const [form] = Form.useForm();
 	const dispatch = useDispatch();
-	const [uploadedImg, setImage] = useState('')
-	const [uploadLoading, setUploadLoading] = useState(false)
 	const [submitLoading, setSubmitLoading] = useState(false)
 	const [showTable, setShowTable] = useState("scan")
 

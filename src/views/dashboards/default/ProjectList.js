@@ -20,27 +20,6 @@ import { CARD_ANIMATION } from './style';
 const VIEW_LIST = 'LIST';
 const VIEW_GRID = 'GRID';
 
-const ItemAction = ({id, removeId}) => (
-	<EllipsisDropdown 
-		menu={
-			<Menu>
-				<Menu.Item key="0">
-					<EyeOutlined />
-					<span className="ml-2">View</span>
-				</Menu.Item>
-				<Menu.Item key="1">
-					<EditOutlined />
-					<span className="ml-2">Edit</span>
-				</Menu.Item>
-				<Menu.Divider />
-				<Menu.Item key="2" onClick={() => removeId(id)}>
-					<DeleteOutlined />
-					<span className="ml-2">Delete Project</span>
-				</Menu.Item>
-			</Menu>
-		}
-	/>
-)
 
 const ItemHeader = ({name, category}) => (
 	<div>

@@ -23,9 +23,6 @@ const ProductList = () => {
 	let history = useHistory();
 	const dispatch = useDispatch();
 	const {domains} = useSelector(state=>state.data)
-	const [list, setList] = useState(ProductListData)
-	const [selectedRows, setSelectedRows] = useState([])
-	const [selectedRowKeys, setSelectedRowKeys] = useState([])
 
 	useEffect(() => {
 		dispatch(getDomains({

@@ -19,8 +19,6 @@ const ProductList = () => {
 	let history = useHistory();
 	const dispatch = useDispatch();
 	const {keywords} = useSelector(state=>state.data)
-	const [selectedRows, setSelectedRows] = useState([])
-	const [selectedRowKeys, setSelectedRowKeys] = useState([])
 
   const showUserProfile = item => {
 	  history.push(`/app/dashboards/keywords/edit-keyword/`+item?.id)

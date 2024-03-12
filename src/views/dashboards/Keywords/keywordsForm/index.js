@@ -11,12 +11,6 @@ import {getDomainScans, getKeywordsScan, updateDataState} from "../../../../redu
 
 const { TabPane } = Tabs;
 
-const getBase64 = (img, callback) => {
-  const reader = new FileReader();
-  reader.addEventListener('load', () => callback(reader.result));
-  reader.readAsDataURL(img);
-}
-
 const ADD = 'ADD'
 const EDIT = 'EDIT'
 

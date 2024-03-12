@@ -15,7 +15,7 @@ const GeneralField = props => (
 				<Form.Item name="type" label="Type" rules={[{required:true}]}>
 					<Input placeholder="Type" />
 				</Form.Item>
-				<Form.Item name="description" label="Description" rules={[{required:true}]}>
+				<Form.Item name="description" label="Description" >
 					<Input.TextArea rows={2} />
 				</Form.Item>
 			</Card>

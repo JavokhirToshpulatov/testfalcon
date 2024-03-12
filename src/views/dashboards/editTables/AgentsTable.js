@@ -92,15 +92,6 @@ const AgentsTable = () => {
         }))
     }
 
-    const handleShowCategory = value => {
-        if(value !== 'All') {
-            const key = 'category'
-            const data = utils.filterArray(ProductListData, key, value)
-            setList(data)
-        } else {
-            setList(ProductListData)
-        }
-    }
 
     return (
         <Card>

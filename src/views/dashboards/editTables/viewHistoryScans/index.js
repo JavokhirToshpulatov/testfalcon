@@ -26,8 +26,6 @@ const HistoryTable = () => {
     const history = useHistory();
     const {historyOne} = useSelector(state => state.data)
     const {historyResult} = useSelector(state => state.data)
-    const [selectedRows, setSelectedRows] = useState([])
-    const [selectedRowKeys, setSelectedRowKeys] = useState([])
 
     const showUserProfile = item => {
         history.push(`/app/dashboards/default/view/${item.scanId}/${item.scanHistoryId}/${item.target}`)
@@ -37,37 +35,9 @@ const HistoryTable = () => {
 
 
 
-    const addProduct = () => {
-        history.push(`/app/dashboards/keywords/add-keyword`)
-    }
-
-    const deleteUser = userId => {
-        this.setState({
-            users: this.state.users.filter(item => item.id !== userId),
-        })
-        message.success({ content: `Deleted user ${userId}`, duration: 2 });
-    }
 
 
 
-    const viewDetails = row => {
-        history.push(`/app/apps/ecommerce/edit-product/${row.id}`)
-    }
-
-    const deleteRow = row => {
-        const objKey = 'id'
-        let data = list
-        if(selectedRows.length > 1) {
-            selectedRows.forEach(elm => {
-                data = utils.deleteArrayRow(data, objKey, elm.id)
-                setList(data)
-                setSelectedRows([])
-            })
-        } else {
-            data = utils.deleteArrayRow(data, objKey, row.id)
-            setList(data)
-        }
-    }
 
     const tableColumns = [
         {

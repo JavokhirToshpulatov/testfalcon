@@ -52,36 +52,9 @@ const ProductForm = props => {
 		}
 	}, []);
 
-	const handleUploadChange = info => {
-		if (info.file.status === 'uploading') {
-			setUploadLoading(true)
-			return;
-		}
-		if (info.file.status === 'done') {
-			getBase64(info.file.originFileObj, imageUrl =>{
-				setImage(imageUrl)
-				setUploadLoading(true)
-			});
-		}
-	};
 
 	const onFinish = () => {
-		setSubmitLoading(true)
-		form.validateFields().then(values => {
-			setTimeout(() => {
-				setSubmitLoading(false)
-				if(mode === ADD) {
-					message.success(`Created ${values.name} to product list`);
-				}
-				if(mode === EDIT) {
-					message.success(`Product saved`);
-				}
-			}, 1500);
-		}).catch(info => {
-			setSubmitLoading(false)
-			console.log('info', info)
-			message.error('Please enter all required field ');
-		});
+
 	};
 
 	return (
@@ -114,9 +87,6 @@ const ProductForm = props => {
 					<Tabs defaultActiveKey="1" style={{marginTop: 30}}>
 						<TabPane tab="General" key="1">
 							<GeneralField 
-								uploadedImg={uploadedImg} 
-								uploadLoading={uploadLoading} 
-								handleUploadChange={handleUploadChange}
 							/>
 						</TabPane>
 					</Tabs>
