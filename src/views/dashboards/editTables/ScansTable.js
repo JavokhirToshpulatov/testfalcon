@@ -11,7 +11,8 @@ import Flex from 'components/shared-components/Flex'
 import { useHistory } from "react-router-dom";
 import utils from 'utils'
 import {useDispatch, useSelector} from "react-redux";
-import {deleteScans, getAgentsScan, getDomainScans, getKeywordsScan} from "../../../redux/actions";
+import {deleteScans, getAgentsScan, getDomainScans, getKeywordsScan, getScansKeywords} from "../../../redux/actions";
+import debounce from "lodash/debounce";
 
 const ScansTable = (props) => {
     let history = useHistory();
@@ -78,7 +79,7 @@ const ScansTable = (props) => {
 
 
     const onSearch = e => {
-        const value = e.currentTarget.value
+        const value = e.target.value
         if (props.show==='domain'){
             dispatch(getDomainScans({
                 params:{id:props.id,limit:10,offset:0,search:value}
@@ -94,13 +95,29 @@ const ScansTable = (props) => {
         }
     }
 
+    function onChangeTable({current,pageSize}) {
+        if (props.show==='domain'){
+            dispatch(getDomainScans({
+                params:{id:props.id,limit:current,offset:current*pageSize}
+            }))
+        }else if (props.show==='keyword'){
+            dispatch(getKeywordsScan({
+                params:{id:props.id,limit:current,offset:current*pageSize}
+            }))
+        }else if (props.show==='agent'){
+            dispatch(getAgentsScan({
+                params:{id:props.id,limit:current,offset:pageSize}
+            }))
+        }
+    }
+
 
     return (
         <Card>
             <Flex alignItems="center" justifyContent="between" mobileFlex={false}>
                 <Flex className="mb-1" mobileFlex={false}>
                     <div className="mr-md-3 mb-3">
-                        <Input placeholder="Search" prefix={<SearchOutlined />} onChange={e => onSearch(e)}/>
+                        <Input placeholder="Search" prefix={<SearchOutlined />} onChange={debounce(onSearch,500)}/>
                     </div>
                 </Flex>
             </Flex>
@@ -108,11 +125,10 @@ const ScansTable = (props) => {
                 <Table
                     columns={tableColumns}
                     dataSource={domainScans?.data}
+                    onChange={onChangeTable}
                     rowKey='id'
                     pagination={{
-                        total: 60, // total elements
-                        pageSize: 10, // element size
-                        // current: backend dan kelgan page || hozirgi page
+                        total: domainScans?.total, // total elements
                     }}
                 />
             </div>

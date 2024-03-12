@@ -1,9 +1,9 @@
 import React from 'react'
-import {Input, Row, Col, Card, Form, Select} from 'antd';
+import {Input, Row, Col, Card, Form} from 'antd';
 
 
 
-const GeneralField = ({id}) => (
+const GeneralField = () => (
     <Row gutter={16}>
         <Col xs={24} sm={24} md={24}>
             <Card title="Agent Information">

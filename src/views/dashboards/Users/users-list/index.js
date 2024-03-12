@@ -6,7 +6,8 @@ import Flex from 'components/shared-components/Flex'
 import { useHistory } from "react-router-dom";
 import utils from 'utils'
 import {useDispatch, useSelector} from "react-redux";
-import {deleteAgents, deleteOneUser, getAllUsers} from "../../../../redux/actions";
+import {deleteAgents, deleteOneUser, getAllUsers, getScans} from "../../../../redux/actions";
+import debounce from "lodash/debounce";
 
 const ProductList = () => {
 	let history = useHistory();
@@ -89,28 +90,25 @@ const ProductList = () => {
 	
 
 	const onSearch = e => {
-		const value = e.currentTarget.value
+		const value = e.target.value
 		dispatch(getAllUsers({
 			params:{limit:10,offset:0,search:value}
 		}))
 	}
 
-	const handleShowCategory = value => {
-		if(value !== 'All') {
-			const key = 'category'
-			const data = utils.filterArray(ProductListData, key, value)
-			setList(data)
-		} else {
-			setList(ProductListData)
-		}
+	function onChangeTable({current,pageSize}) {
+		dispatch(getAllUsers({
+			params:{ limit:pageSize, offset:current*pageSize}
+		}))
 	}
+
 
 	return (
 		<Card>
 			<Flex alignItems="center" justifyContent="between" mobileFlex={false}>
 				<Flex className="mb-1" mobileFlex={false}>
 					<div className="mr-md-3 mb-3">
-						<Input placeholder="Search" prefix={<SearchOutlined />} onChange={e => onSearch(e)}/>
+						<Input placeholder="Search" prefix={<SearchOutlined />} onChange={debounce(onSearch,500)}/>
 					</div>
 				</Flex>
 				<div>
@@ -121,11 +119,10 @@ const ProductList = () => {
 				<Table 
 					columns={tableColumns} 
 					dataSource={users?.data}
+					onChange={onChangeTable}
 					rowKey='id' 
 					pagination={{
-						total: 60, // total elements
-						pageSize: 10, // element size
-						// current: backend dan kelgan page || hozirgi page
+						total: users?.total,
 					}}
 				/>
 			</div>

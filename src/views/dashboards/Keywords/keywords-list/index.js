@@ -12,6 +12,8 @@ import { useHistory } from "react-router-dom";
 import utils from 'utils'
 import {useDispatch, useSelector} from "react-redux";
 import {deleteDomains, deleteKeywords, getAllAgents, getDomains, getKeywords} from "../../../../redux/actions";
+import {formatDate} from "../../../../utils/formatDate";
+import debounce from "lodash/debounce";
 
 
 
@@ -26,7 +28,7 @@ const ProductList = () => {
 
 	useEffect(() => {
 		dispatch(getKeywords({
-			params:{limit:10,offset:1}
+			params:{limit:10,offset:0}
 		}))
 	}, []);
 
@@ -66,10 +68,12 @@ const ProductList = () => {
 		{
 			title: 'Created',
 			dataIndex: 'created',
+			render:formatDate
 		},
 		{
 			title: 'Last modified',
 			dataIndex: 'lastModified',
+			render:formatDate
 		},
 		{
 			title: '',
@@ -97,19 +101,25 @@ const ProductList = () => {
 
 
 	const onSearch = e => {
-		const value = e.currentTarget.value
+		const value = e.target.value
 		dispatch(getKeywords({
 			params:{Limit:10,Offset:0,Search:value}
 		}))
 	}
 
 
+	function onChangeTable({current,pageSize}) {
+		dispatch(getKeywords({
+			params:{ limit:pageSize, offset:current*pageSize}
+		}))
+	}
+
 	return (
 		<Card>
 			<Flex alignItems="center" justifyContent="between" mobileFlex={false}>
 				<Flex className="mb-1" mobileFlex={false}>
 					<div className="mr-md-3 mb-3">
-						<Input placeholder="Search" prefix={<SearchOutlined />} onChange={e => onSearch(e)}/>
+						<Input placeholder="Search" prefix={<SearchOutlined />} onChange={debounce(onSearch,500)}/>
 					</div>
 				</Flex>
 				<div>
@@ -120,11 +130,10 @@ const ProductList = () => {
 				<Table 
 					columns={tableColumns} 
 					dataSource={keywords?.data}
-					rowKey='id' 
+					rowKey='id'
+					onChange={onChangeTable}
 					pagination={{
-						total: 60, // total elements
-						pageSize: 10, // element size
-						// current: backend dan kelgan page || hozirgi page
+						total: keywords?.total,
 					}}
 				/>
 			</div>

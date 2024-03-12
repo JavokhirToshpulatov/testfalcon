@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react'
 import {Card, Table, Select, Input, Button, Badge, Menu, Tooltip, message, Popconfirm} from 'antd';
-import ProductListData from "assets/data/product-list.data.json"
 import {
     DeleteOutlined,
     SearchOutlined,
@@ -8,9 +7,10 @@ import {
 } from '@ant-design/icons';
 import Flex from 'components/shared-components/Flex'
 import {useHistory, useParams} from "react-router-dom";
-import utils from 'utils'
 import {useDispatch, useSelector} from "react-redux";
-import {getScansAgent} from "../../../redux/actions";
+import {getDomains, getScansAgent} from "../../../redux/actions";
+import {formatDate} from "../../../utils/formatDate";
+import debounce from "lodash/debounce";
 
 const AgentsTable = () => {
     let history = useHistory();
@@ -56,10 +56,12 @@ const AgentsTable = () => {
         {
             title: 'Created',
             dataIndex: 'created',
+            render:formatDate
         },
         {
             title: 'Last modified',
             dataIndex: 'lastModified',
+            render:formatDate
         },
         {
             title: '',
@@ -86,11 +88,18 @@ const AgentsTable = () => {
     ];
 
     const onSearch = e => {
-        const value = e.currentTarget.value
+        const value = e.target.value
         dispatch(getScansAgent({
             params:{id:id,limit:10,offset:0,search:value}
         }))
     }
+
+    function onChangeTable({current,pageSize}) {
+        dispatch(getScansAgent({
+            params:{id:id,limit:pageSize,offset:current*pageSize}
+        }))
+    }
+
 
 
     return (
@@ -98,7 +107,7 @@ const AgentsTable = () => {
             <Flex alignItems="center" justifyContent="between" mobileFlex={false}>
                 <Flex className="mb-1" mobileFlex={false}>
                     <div className="mr-md-3 mb-3">
-                        <Input placeholder="Search" prefix={<SearchOutlined />} onChange={e => onSearch(e)}/>
+                        <Input placeholder="Search" prefix={<SearchOutlined />} onChange={debounce(onSearch,500)}/>
                     </div>
                 </Flex>
             </Flex>
@@ -106,12 +115,12 @@ const AgentsTable = () => {
                 <Table
                     columns={tableColumns}
                     dataSource={scanAgents?.data}
+                    onChange={onChangeTable}
                     rowKey='id'
                     pagination={{
-                        total: 60, // total elements
-                        pageSize: 10, // element size
-                        // current: backend dan kelgan page || hozirgi page
+                        total: scanAgents?.total,
                     }}
+
                 />
             </div>
         </Card>

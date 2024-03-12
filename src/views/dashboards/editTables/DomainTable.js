@@ -11,7 +11,9 @@ import Flex from 'components/shared-components/Flex'
 import {useHistory, useParams} from "react-router-dom";
 import utils from 'utils'
 import {useDispatch, useSelector} from "react-redux";
-import {getScansDomains} from "../../../redux/actions";
+import {getDomainHistories, getScansDomains} from "../../../redux/actions";
+import {formatDate} from "../../../utils/formatDate";
+import debounce from "lodash/debounce";
 
 
 const DomainTable = () => {
@@ -59,10 +61,12 @@ const DomainTable = () => {
         {
             title: 'Created',
             dataIndex: 'created',
+            render:formatDate
         },
         {
             title: 'Last modified',
             dataIndex: 'lastModified',
+            render:formatDate
         },
         {
             title: '',
@@ -90,11 +94,18 @@ const DomainTable = () => {
 
 
     const onSearch = e => {
-        const value = e.currentTarget.value
+        const value = e.target.value
         dispatch(getScansDomains({
             params:{id:id,limit:10,offset:0,search:value}
         }))
     }
+
+    function onChangeTable({current,pageSize}) {
+        dispatch(getScansDomains({
+            params:{id:id,limit:pageSize,offset:current*pageSize}
+        }))
+    }
+
 
 
 
@@ -103,7 +114,7 @@ const DomainTable = () => {
             <Flex alignItems="center" justifyContent="between" mobileFlex={false}>
                 <Flex className="mb-1" mobileFlex={false}>
                     <div className="mr-md-3 mb-3">
-                        <Input placeholder="Search" prefix={<SearchOutlined />} onChange={e => onSearch(e)}/>
+                        <Input placeholder="Search" prefix={<SearchOutlined />} onChange={debounce(onSearch,500)}/>
                     </div>
                 </Flex>
             </Flex>
@@ -111,11 +122,10 @@ const DomainTable = () => {
                 <Table
                     columns={tableColumns}
                     dataSource={scanDomains?.data}
+                    onChange={onChangeTable}
                     rowKey='id'
                     pagination={{
-                        total: 60, // total elements
-                        pageSize: 10, // element size
-                        // current: backend dan kelgan page || hozirgi page
+                        total: scanDomains?.total,
                     }}
 
                 />

@@ -12,8 +12,10 @@ import Flex from 'components/shared-components/Flex'
 import NumberFormat from 'react-number-format';
 import { useHistory } from "react-router-dom";
 import utils from 'utils'
-import {deleteAgents, deleteScans, getAllAgents, getScans} from "../../../../redux/actions";
+import {deleteAgents, deleteScans, getAllAgents, getKeywords, getScans} from "../../../../redux/actions";
 import {useDispatch, useSelector} from "react-redux";
+import {formatDate} from "../../../../utils/formatDate";
+import debounce from "lodash/debounce";
 
 const { Option } = Select
 
@@ -85,10 +87,12 @@ const ProductList = () => {
 		{
 			title: 'Created',
 			dataIndex: 'created',
+			render:formatDate
 		},
 		{
 			title: 'Last modified',
 			dataIndex: 'lastModified',
+			render:formatDate
 		},
 		{
 			title: '',
@@ -120,16 +124,17 @@ const ProductList = () => {
 
 
 	const onSearch = e => {
-		const value = e.currentTarget.value
+		const value = e.target.value
 		dispatch(getScans({
 			params:{limit:10,offset:0,search:value}
 		}))
 	}
 
 
-	const handleOnChangeTable = ({current, pageSize}) => {
-		console.log(current)
-		console.log(pageSize)
+	function onChangeTable({current,pageSize}) {
+		dispatch(getScans({
+			params:{ limit:pageSize, offset:current*pageSize}
+		}))
 	}
 
 	return (
@@ -137,7 +142,7 @@ const ProductList = () => {
 			<Flex alignItems="center" justifyContent="between" mobileFlex={false}>
 				<Flex className="mb-1" mobileFlex={false}>
 					<div className="mr-md-3 mb-3">
-						<Input placeholder="Search" prefix={<SearchOutlined />} onChange={e => onSearch(e)}/>
+						<Input placeholder="Search" prefix={<SearchOutlined />} onChange={debounce(onSearch,500)}/>
 					</div>
 				</Flex>
 				<div>
@@ -149,11 +154,9 @@ const ProductList = () => {
 					columns={tableColumns} 
 					dataSource={allScans?.data}
 					rowKey='id'
-					onChange={handleOnChangeTable}
+					onChange={onChangeTable}
 					pagination={{
-						total: 60, // total elements
-						pageSize: 10, // element size
-						// current: backend dan kelgan page || hozirgi page
+						total: allScans?.total,
 					}}
 				/>
 			</div>

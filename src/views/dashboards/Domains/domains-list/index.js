@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react'
 import {Card, Table, Select, Input, Button, Badge, Menu, Tooltip, message, Popconfirm} from 'antd';
-import ProductListData from "assets/data/product-list.data.json"
 import {
 	EyeOutlined,
 	DeleteOutlined,
@@ -10,9 +9,10 @@ import {
 } from '@ant-design/icons';
 import Flex from 'components/shared-components/Flex'
 import { useHistory } from "react-router-dom";
-import utils from 'utils'
 import {useDispatch, useSelector} from "react-redux";
-import {deleteDomains, deleteKeywords, getAllAgents, getDomains} from "../../../../redux/actions";
+import {deleteDomains, deleteKeywords, getAllAgents, getDomains, getKeywords} from "../../../../redux/actions";
+import {formatDate} from "../../../../utils/formatDate";
+import debounce from "lodash/debounce";
 
 
 
@@ -70,10 +70,12 @@ const ProductList = () => {
 		{
 			title: 'Created',
 			dataIndex: 'created',
+			render:formatDate
 		},
 		{
 			title: 'Last modified',
 			dataIndex: 'lastModified',
+			render:formatDate
 		},
 		{
 			title: '',
@@ -101,11 +103,17 @@ const ProductList = () => {
 	
 
 	const onSearch = e => {
-		const value = e.currentTarget.value
+		const value = e.target.value
 		dispatch(getDomains({
 			params:{limit:10,offset:1,search:value}
 		}))
 
+	}
+
+	function onChangeTable({current,pageSize}) {
+		dispatch(getDomains({
+			params:{ limit:pageSize, offset:current*pageSize}
+		}))
 	}
 
 
@@ -114,7 +122,7 @@ const ProductList = () => {
 			<Flex alignItems="center" justifyContent="between" mobileFlex={false}>
 				<Flex className="mb-1" mobileFlex={false}>
 					<div className="mr-md-3 mb-3">
-						<Input placeholder="Search" prefix={<SearchOutlined />} onChange={e => onSearch(e)}/>
+						<Input placeholder="Search" prefix={<SearchOutlined />} onChange={debounce(onSearch,500)}/>
 					</div>
 				</Flex>
 				<div>
@@ -125,11 +133,10 @@ const ProductList = () => {
 				<Table 
 					columns={tableColumns} 
 					dataSource={domains?.data}
-					rowKey='id' 
+					rowKey='id'
+					onChange={onChangeTable}
 						pagination={{
-						total: 60, // total elements
-						pageSize: 10, // element size
-						// current: backend dan kelgan page || hozirgi page
+						total: domains?.total,
 					}}
 
 				/>
