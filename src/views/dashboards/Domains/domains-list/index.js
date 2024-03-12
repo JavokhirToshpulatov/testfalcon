@@ -15,19 +15,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {deleteDomains, deleteKeywords, getAllAgents, getDomains} from "../../../../redux/actions";
 
 
-const getStockStatus = stockCount => {
-	if(stockCount >= 10) {
-		return <><Badge status="success" /><span>In Stock</span></>
-	}
-	if(stockCount < 10 && stockCount > 0) {
-		return <><Badge status="warning" /><span>Limited Stock</span></>
-	}
-	if(stockCount === 0) {
-		return <><Badge status="error" /><span>Out of Stock</span></>
-	}
-	return null
-}
-
 
 
 
@@ -64,34 +51,8 @@ const ProductList = () => {
 		history.push(`/app/dashboards/domains/add-domains`)
 	}
 
-	const deleteUser = userId => {
-		this.setState({
-			users: this.state.users.filter(item => item.id !== userId),
-		})
-		message.success({ content: `Deleted user ${userId}`, duration: 2 });
-	}
-
 
 	
-	const viewDetails = row => {
-		history.push(`/app/apps/ecommerce/edit-product/${row.id}`)
-	}
-	
-	const deleteRow = row => {
-		const objKey = 'id'
-		let data = list
-		if(selectedRows.length > 1) {
-			selectedRows.forEach(elm => {
-				data = utils.deleteArrayRow(data, objKey, elm.id)
-				setList(data)
-				setSelectedRows([])
-			})
-		} else {
-			data = utils.deleteArrayRow(data, objKey, row.id)
-			setList(data)
-		}
-	}
-
 	const tableColumns = [
 		{
 			title: '#',
@@ -141,30 +102,15 @@ const ProductList = () => {
 		}
 	];
 	
-	const rowSelection = {
-		onChange: (key, rows) => {
-			setSelectedRows(rows)
-			setSelectedRowKeys(key)
-		}
-	};
 
 	const onSearch = e => {
 		const value = e.currentTarget.value
-		const searchArray = e.currentTarget.value? list : ProductListData
-		const data = utils.wildCardSearch(searchArray, value)
-		setList(data)
-		setSelectedRowKeys([])
+		dispatch(getDomains({
+			params:{limit:10,offset:1,search:value}
+		}))
+
 	}
 
-	const handleShowCategory = value => {
-		if(value !== 'All') {
-			const key = 'category'
-			const data = utils.filterArray(ProductListData, key, value)
-			setList(data)
-		} else {
-			setList(ProductListData)
-		}
-	}
 
 	return (
 		<Card>

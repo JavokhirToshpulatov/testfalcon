@@ -1,24 +1,22 @@
 import React, {useState} from 'react'
 import {Card, Table, Select, Input, Button, Badge, Menu, Tooltip, message} from 'antd';
-import ProductListData from "assets/data/product-list.data.json"
 import {
-    EyeOutlined,
-    DeleteOutlined,
     SearchOutlined,
-    PlusCircleOutlined,
-    PauseCircleOutlined,
-    EditOutlined, UnorderedListOutlined
+     UnorderedListOutlined
 } from '@ant-design/icons';
 import Flex from 'components/shared-components/Flex'
-import { useHistory } from "react-router-dom";
-import utils from 'utils'
-import {useSelector} from "react-redux";
+import {useHistory, useParams} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {getDomainHistories, getScansDomains} from "../../../redux/actions";
 
 
 const DomainHistoryTable = () => {
     const {histories} = useSelector(state => state.data)
-    const [list, setList] = useState(ProductListData)
     const history = useHistory();
+    const dispatch = useDispatch();
+    let {id} = useParams();
+
+
 
     const showUserProfile = item => {
         history.push(`/app/dashboards/default/view/${item.id}/${item.name}`)
@@ -49,10 +47,9 @@ const DomainHistoryTable = () => {
 
     const onSearch = e => {
         const value = e.currentTarget.value
-        const searchArray = e.currentTarget.value? list : ProductListData
-        const data = utils.wildCardSearch(searchArray, value)
-        setList(data)
-        setSelectedRowKeys([])
+        dispatch(getDomainHistories({
+            params:{id:id,limit:10,offset:0,search:value}
+        }))
     }
 
 

@@ -10,22 +10,16 @@ import {
 import Flex from 'components/shared-components/Flex'
 import { useHistory } from "react-router-dom";
 import utils from 'utils'
-import {useSelector} from "react-redux";
-import {deleteScans} from "../../../redux/actions";
+import {useDispatch, useSelector} from "react-redux";
+import {deleteScans, getAgentsScan, getDomainScans, getKeywordsScan} from "../../../redux/actions";
 
-const ScansTable = () => {
+const ScansTable = (props) => {
     let history = useHistory();
-    const [list, setList] = useState(ProductListData)
+    const dispatch = useDispatch();
     const {domainScans} = useSelector(state => state.data)
-
     const showUserProfile = item => {
         history.push(`/app/dashboards/scans/edit-scan/`+item.id)
     };
-
-
-
-
-
 
     const confirm = (e) => {
         message.success('Click on Yes');
@@ -34,9 +28,6 @@ const ScansTable = () => {
         message.error('Click on No');
     };
 
-    const viewDetails = row => {
-        history.push(`/app/apps/ecommerce/edit-product/${row.id}`)
-    }
 
 
 
@@ -88,10 +79,19 @@ const ScansTable = () => {
 
     const onSearch = e => {
         const value = e.currentTarget.value
-        const searchArray = e.currentTarget.value? list : ProductListData
-        const data = utils.wildCardSearch(searchArray, value)
-        setList(data)
-        setSelectedRowKeys([])
+        if (props.show==='domain'){
+            dispatch(getDomainScans({
+                params:{id:props.id,limit:10,offset:0,search:value}
+            }))
+        }else if (props.show==='keyword'){
+            dispatch(getKeywordsScan({
+                params:{id:props.id,limit:10,offset:0,search:value}
+            }))
+        }else if (props.show==='agent'){
+            dispatch(getAgentsScan({
+                params:{id:props.id,limit:10,offset:0,search:value}
+            }))
+        }
     }
 
 

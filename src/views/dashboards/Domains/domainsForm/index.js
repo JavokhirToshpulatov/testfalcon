@@ -38,13 +38,16 @@ const ProductForm = props => {
 		}
 	}, [singleDomain]);
 
+
 	useEffect(() => {
-		dispatch(getDomainScans({
-			params:{id:param.id,limit:10,offset:0}
-		}))
-		dispatch(getDomainHistories({
-			params:{id:param.id,limit:10,offset:0}
-		}))
+		if (mode==='EDIT'){
+			dispatch(getDomainScans({
+				params:{id:param.id,limit:10,offset:0}
+			}))
+			dispatch(getDomainHistories({
+				params:{id:param.id,limit:10,offset:0}
+			}))
+		}
 		return ()=>{
 			dispatch(updateDataState({singleDomain:{}}))
 		}
@@ -65,7 +68,7 @@ const ProductForm = props => {
 	}
 
 	function discard() {
-		history.push(`app/dashboards/keywords`)
+		history.go(-1)
 	}
 
 	return (
@@ -115,7 +118,7 @@ const ProductForm = props => {
 						</Flex>
 					</Col>
 					<Col span={24}>
-						{showTable==='scan'?<ScansTable/>:showTable==='history'?<DomainHistoryTable/>:""}
+						{showTable==='scan'?<ScansTable id={param.id} show={'domain'}/>:showTable==='history'?<DomainHistoryTable/>:""}
 					</Col>
 				</Row>
 				:""}

@@ -21,11 +21,11 @@ const ViewCard = () => {
         dispatch(getScanWebHistories({
             params:{ScanId:scanId,ScanHistoryId:domainID,Target:domainName}
         }))
-        dispatch(getScanHtmlCurrent({
-            canId:1,historyId:31728,target:'lui.uz'
-        }))
         dispatch(getScanHtmlPrevious({
-            canId:1,historyId:31728,target:'lui.uz'
+            canId:2,historyId:123456,target:'samarkand.uz'
+        }))
+        dispatch(getScanHtmlCurrent({
+            canId:2,historyId:123456,target:'samarkand.uz'
         }))
 
     }, []);
@@ -111,7 +111,7 @@ const ViewCard = () => {
             <br/>
              <div style={{maxHeight: "70vh", overflowY: "scroll"}}>
                  {scanHtmlPrevious !=="" && scanHtmlCurrent !=="" ?
-                     <ReactDiffViewer  oldValue={"salom"} newValue={"salomlar"} splitView={true}/>
+                     <ReactDiffViewer  oldValue={scanHtmlPrevious} newValue={scanHtmlCurrent} splitView={true}/>
                      : ""
                  }
 

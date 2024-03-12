@@ -56,6 +56,10 @@ const ProductForm = props => {
 		}
 	};
 
+	function discard() {
+		history.go(-1)
+	}
+
 	return (
 		<>
 			<Form
@@ -75,7 +79,7 @@ const ProductForm = props => {
 						<Flex className="py-2" mobileFlex={false} justifyContent="between" alignItems="center">
 							<h2 className="mb-3">{mode === 'ADD'? 'Add New Keyword' : `Edit Keyword`} </h2>
 							<div className="mb-3">
-								<Button className="mr-2">Discard</Button>
+								<Button onClick={()=>discard()} className="mr-2">Discard</Button>
 								<Button type="primary" onClick={() => form.submit()} htmlType="submit" loading={submitLoading} >
 									{mode === 'ADD'? 'Add' : `Save`}
 								</Button>
@@ -101,7 +105,7 @@ const ProductForm = props => {
 						</Flex>
 					</Col>
 					<Col span={24}>
-						<ScansTable/>
+						<ScansTable id={param.id} show={'keyword'}/>
 					</Col>
 				</Row>
 				:""}

@@ -8,16 +8,19 @@ import {
     EditOutlined, UnorderedListOutlined
 } from '@ant-design/icons';
 import Flex from 'components/shared-components/Flex'
-import { useHistory } from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
 import utils from 'utils'
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {getScansDomains} from "../../../redux/actions";
 
 
 const DomainTable = () => {
     let history = useHistory();
     const {scanDomains} = useSelector(state => state.data)
-    const [selectedRows, setSelectedRows] = useState([])
-    const [selectedRowKeys, setSelectedRowKeys] = useState([])
+    let {id} = useParams();
+    const dispatch = useDispatch();
+
+
 
     const showUserProfile = item => {
         history.push(`/app/dashboards/domains/edit-domains/`+item.id)
@@ -88,10 +91,9 @@ const DomainTable = () => {
 
     const onSearch = e => {
         const value = e.currentTarget.value
-        const searchArray = e.currentTarget.value? list : ProductListData
-        const data = utils.wildCardSearch(searchArray, value)
-        setList(data)
-        setSelectedRowKeys([])
+        dispatch(getScansDomains({
+            params:{id:id,limit:10,offset:0,search:value}
+        }))
     }
 
 

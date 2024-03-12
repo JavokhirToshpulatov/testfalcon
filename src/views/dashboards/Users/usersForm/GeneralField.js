@@ -2,7 +2,6 @@ import React from 'react'
 import {Input, Row, Col, Card, Form, Select} from 'antd';
 
 
-const tags = ['Cotton', 'Nike', 'Sales', 'Sports', 'Outdoor', 'Toys', 'Hobbies']
 
 const GeneralField = ({id}) => (
     <Row gutter={16}>
@@ -17,13 +16,9 @@ const GeneralField = ({id}) => (
                 <Form.Item name="email" label="Email" rules={[{required: true, type: 'email'}]}>
                     <Input placeholder={"Email"}/>
                 </Form.Item>
-                <Form.Item name="role" label="Role">
-                    <Select mode="tags" style={{width: '100%'}} placeholder="Role">
-                        {tags.map(elm => <Option key={elm}>{elm}</Option>)}
-                    </Select>
+                <Form.Item name="role" label="Role" rules={[{required: true}]}>
+                   <Input placeholder={"Role"}/>
                 </Form.Item>
-                {!!id ? '' :
-                    <>
                         <Form.Item
                             label="Password"
                             name="password"
@@ -55,8 +50,7 @@ const GeneralField = ({id}) => (
                             }
                         >
                             <Input.Password/>
-                        </Form.Item></>
-                }
+                        </Form.Item>
             </Card>
 
         </Col>

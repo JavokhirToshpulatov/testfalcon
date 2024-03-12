@@ -17,18 +17,6 @@ import {useDispatch, useSelector} from "react-redux";
 
 const { Option } = Select
 
-const getStockStatus = stockCount => {
-	if(stockCount >= 10) {
-		return <><Badge status="success" /><span>In Stock</span></>
-	}
-	if(stockCount < 10 && stockCount > 0) {
-		return <><Badge status="warning" /><span>Limited Stock</span></>
-	}
-	if(stockCount === 0) {
-		return <><Badge status="error" /><span>Out of Stock</span></>
-	}
-	return null
-}
 
 
 
@@ -133,10 +121,9 @@ const ProductList = () => {
 
 	const onSearch = e => {
 		const value = e.currentTarget.value
-		const searchArray = e.currentTarget.value? list : ProductListData
-		const data = utils.wildCardSearch(searchArray, value)
-		setList(data)
-		setSelectedRowKeys([])
+		dispatch(getScans({
+			params:{limit:10,offset:0,search:value}
+		}))
 	}
 
 

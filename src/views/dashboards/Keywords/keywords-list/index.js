@@ -50,24 +50,7 @@ const ProductList = () => {
 
 
 
-	const viewDetails = row => {
-		history.push(`/app/apps/ecommerce/edit-product/${row.id}`)
-	}
-	
-	const deleteRow = row => {
-		const objKey = 'id'
-		let data = list
-		if(selectedRows.length > 1) {
-			selectedRows.forEach(elm => {
-				data = utils.deleteArrayRow(data, objKey, elm.id)
-				setList(data)
-				setSelectedRows([])
-			})
-		} else {
-			data = utils.deleteArrayRow(data, objKey, row.id)
-			setList(data)
-		}
-	}
+
 
 	const tableColumns = [
 		{
@@ -113,31 +96,15 @@ const ProductList = () => {
 			)
 		}
 	];
-	
-	const rowSelection = {
-		onChange: (key, rows) => {
-			setSelectedRows(rows)
-			setSelectedRowKeys(key)
-		}
-	};
+
 
 	const onSearch = e => {
 		const value = e.currentTarget.value
-		const searchArray = e.currentTarget.value? list : ProductListData
-		const data = utils.wildCardSearch(searchArray, value)
-		setList(data)
-		setSelectedRowKeys([])
+		dispatch(getKeywords({
+			params:{Limit:10,Offset:0,Search:value}
+		}))
 	}
 
-	const handleShowCategory = value => {
-		if(value !== 'All') {
-			const key = 'category'
-			const data = utils.filterArray(ProductListData, key, value)
-			setList(data)
-		} else {
-			setList(ProductListData)
-		}
-	}
 
 	return (
 		<Card>

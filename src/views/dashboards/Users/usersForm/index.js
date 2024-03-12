@@ -3,17 +3,11 @@ import PageHeaderAlt from 'components/layout-components/PageHeaderAlt'
 import { Tabs, Form, Button, message } from 'antd';
 import Flex from 'components/shared-components/Flex'
 import GeneralField from './GeneralField'
-import ProductListData from "assets/data/product-list.data.json"
 import {useDispatch} from "react-redux";
 import {postNewUser} from "../../../../redux/actions";
 
 const { TabPane } = Tabs;
 
-const getBase64 = (img, callback) => {
-  const reader = new FileReader();
-  reader.addEventListener('load', () => callback(reader.result));
-  reader.readAsDataURL(img);
-}
 
 const ADD = 'ADD'
 const EDIT = 'EDIT'
@@ -23,8 +17,6 @@ const ProductForm = props => {
 	const { mode = ADD, param } = props
    const dispatch = useDispatch()
 	const [form] = Form.useForm();
-	const [uploadedImg, setImage] = useState('')
-	const [uploadLoading, setUploadLoading] = useState(false)
 	const [submitLoading, setSubmitLoading] = useState(false)
 
 
@@ -36,6 +28,10 @@ const ProductForm = props => {
 			dispatch(postNewUser({data:value}))
 		}
 	};
+
+	function discard() {
+		history.go(-1)
+	}
 
 	return (
 		<>
@@ -56,7 +52,7 @@ const ProductForm = props => {
 						<Flex className="py-2" mobileFlex={false} justifyContent="between" alignItems="center">
 							<h2 className="mb-3">{mode === 'ADD'? 'Add New Keyword' : `Edit Keyword`} </h2>
 							<div className="mb-3">
-								<Button className="mr-2">Discard</Button>
+								<Button onClick={()=>discard()} className="mr-2">Discard</Button>
 								<Button type="primary" onClick={() => form.submit()} htmlType="submit" loading={submitLoading} >
 									{mode === 'ADD'? 'Add' : `Save`}
 								</Button>
@@ -68,7 +64,6 @@ const ProductForm = props => {
 					<Tabs defaultActiveKey="1" style={{marginTop: 30}}>
 						<TabPane tab="General" key="1">
 							<GeneralField
-								id={param.id}
 							/>
 						</TabPane>
 					</Tabs>

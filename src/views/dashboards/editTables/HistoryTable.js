@@ -10,17 +10,16 @@ import {
     EditOutlined, UnorderedListOutlined
 } from '@ant-design/icons';
 import Flex from 'components/shared-components/Flex'
-import { useHistory } from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
 import utils from 'utils'
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {getScansHistories} from "../../../redux/actions";
 
 
-const HistoryTable = () => {
+const HistoryTable = (props) => {
     let history = useHistory();
     const {histories} = useSelector(state => state.data)
-    const [list, setList] = useState(ProductListData)
-    const [selectedRows, setSelectedRows] = useState([])
-    const [selectedRowKeys, setSelectedRowKeys] = useState([])
+    const dispatch = useDispatch();
 
     const showUserProfile = item => {
         history.push(`/app/dashboards/scans/history/`+item.id)
@@ -65,10 +64,12 @@ const HistoryTable = () => {
 
     const onSearch = e => {
         const value = e.currentTarget.value
-        const searchArray = e.currentTarget.value? list : ProductListData
-        const data = utils.wildCardSearch(searchArray, value)
-        setList(data)
-        setSelectedRowKeys([])
+        if (props.show==='scan'){
+            dispatch(getScansHistories({
+                params:{id:props.id,limit:10,offset:0,search:value}
+            }))
+        }
+
     }
 
 

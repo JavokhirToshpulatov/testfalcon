@@ -38,8 +38,6 @@ const ProductForm = props => {
 	const [form] = Form.useForm();
 	const dispatch = useDispatch();
 	const {singleScan} = useSelector(state => state.data)
-	const [uploadedImg, setImage] = useState('')
-	const [uploadLoading, setUploadLoading] = useState(false)
 	const [submitLoading, setSubmitLoading] = useState(false)
 	const [showTable, setShowTable] = useState("agent")
 
@@ -83,6 +81,10 @@ const ProductForm = props => {
      setShowTable(value)
 	}
 
+	function discard() {
+		history.go(-1)
+	}
+
 	return (
 		<>
 			<Form
@@ -102,7 +104,7 @@ const ProductForm = props => {
 						<Flex className="py-2" mobileFlex={false} justifyContent="between" alignItems="center">
 							<h2 className="mb-3">{mode === 'ADD'? 'Add New Scans' : `Edit Scans	`} </h2>
 							<div className="mb-3">
-								<Button className="mr-2">Discard</Button>
+								<Button onClick={()=>discard()} className="mr-2">Discard</Button>
 								<Button type="primary" onClick={() => form.submit()} htmlType="submit" loading={submitLoading} >
 									{mode === 'ADD'? 'Add' : `Save`}
 								</Button>
@@ -132,7 +134,7 @@ const ProductForm = props => {
 						</Flex>
 					</Col>
 				<Col span={24}>
-					{showTable==='agent'?<AgentsTable/>:showTable==='domain'?<DomainTable/>:showTable==='keyword'?<KeywordTable/>:showTable==='history'?<HistoryTable/>:""}
+					{showTable==='agent'?<AgentsTable/>:showTable==='domain'?<DomainTable/>:showTable==='keyword'?<KeywordTable/>:showTable==='history'?<HistoryTable id={param.id} show={'scan'}/>:""}
 				</Col>
 				</Row>
 				:""}

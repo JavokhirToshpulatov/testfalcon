@@ -132,7 +132,7 @@ const ProductForm = props => {
 						</Flex>
 					</Col>
 					<Col span={24}>
-						<ScansTable/>
+						<ScansTable id={param.id} show={'agent'}/>
 					</Col>
 				</Row>
 				:""}

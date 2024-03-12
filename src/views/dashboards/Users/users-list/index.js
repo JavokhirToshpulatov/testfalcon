@@ -25,33 +25,11 @@ const ProductList = () => {
 	};
 
 
-	const dropdownMenu = row => (
-		<Menu>
-			<Menu.Item onClick={() => viewDetails(row)}>
-				<Flex alignItems="center">
-					<EyeOutlined />
-					<span className="ml-2">View Details</span>
-				</Flex>
-			</Menu.Item>
-			<Menu.Item onClick={() => deleteRow(row)}>
-				<Flex alignItems="center">
-					<DeleteOutlined />
-					<span className="ml-2">{selectedRows.length > 0 ? `Delete (${selectedRows.length})` : 'Delete'}</span>
-				</Flex>
-			</Menu.Item>
-		</Menu>
-	);
-	
+
 	const addProduct = () => {
 		history.push(`/app/dashboards/users/add-user`)
 	}
 
-	const deleteUser = userId => {
-		this.setState({
-			users: this.state.users.filter(item => item.id !== userId),
-		})
-		message.success({ content: `Deleted user ${userId}`, duration: 2 });
-	}
 
 	const confirm = (e) => {
 		dispatch(deleteOneUser({id:e}))
@@ -63,24 +41,6 @@ const ProductList = () => {
 
 
 	
-	const viewDetails = row => {
-		history.push(`/app/apps/ecommerce/edit-product/${row.id}`)
-	}
-	
-	const deleteRow = row => {
-		const objKey = 'id'
-		let data = list
-		if(selectedRows.length > 1) {
-			selectedRows.forEach(elm => {
-				data = utils.deleteArrayRow(data, objKey, elm.id)
-				setList(data)
-				setSelectedRows([])
-			})
-		} else {
-			data = utils.deleteArrayRow(data, objKey, row.id)
-			setList(data)
-		}
-	}
 
 	const tableColumns = [
 		{
@@ -127,19 +87,12 @@ const ProductList = () => {
 		}
 	];
 	
-	const rowSelection = {
-		onChange: (key, rows) => {
-			setSelectedRows(rows)
-			setSelectedRowKeys(key)
-		}
-	};
 
 	const onSearch = e => {
 		const value = e.currentTarget.value
-		const searchArray = e.currentTarget.value? list : ProductListData
-		const data = utils.wildCardSearch(searchArray, value)
-		setList(data)
-		setSelectedRowKeys([])
+		dispatch(getAllUsers({
+			params:{limit:10,offset:0,search:value}
+		}))
 	}
 
 	const handleShowCategory = value => {
