@@ -29,7 +29,7 @@ const ProductList = () => {
 
     useEffect(() => {
         dispatch(getAllAgents({
-            params:{limit:10,offset:1}
+            params:{limit:10,offset:0}
         }))
     }, []);
 

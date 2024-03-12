@@ -10,19 +10,25 @@ import {useHistory, useParams} from "react-router-dom";
 import utils from 'utils'
 import {PageHeaderAlt} from "../../../../components/layout-components/PageHeaderAlt";
 import {useDispatch, useSelector} from "react-redux";
-import {getOneScansHistories, getScansHistoriesResult, getSingleDomain} from "../../../../redux/actions";
+import {
+    getDomainHistories,
+    getOneScansHistories, getScansAgent,
+    getScansHistoriesResult,
+    getSingleDomain
+} from "../../../../redux/actions";
+import {formatDate} from "../../../../utils/formatDate";
+import debounce from "lodash/debounce";
 
 const { Option } = Select
 
 const HistoryTable = () => {
     let {id} = useParams();
+    const [pageSize,setPageSize] = useState(10)
     const dispatch= useDispatch();
     useEffect(() => {
-        dispatch(getOneScansHistories({id},
-            ))
-        dispatch(getScansHistoriesResult({params:{limit:10,offset:0},id:id}))
+        dispatch(getOneScansHistories({id},))
+        dispatch(getScansHistoriesResult({params:{limit:pageSize,offset:0},id:id}))
     }, []);
-    const [list, setList] = useState(ProductListData)
     const history = useHistory();
     const {historyOne} = useSelector(state => state.data)
     const {historyResult} = useSelector(state => state.data)
@@ -51,6 +57,7 @@ const HistoryTable = () => {
         {
             title: 'Timestamp',
             dataIndex: 'timestamp',
+            render:formatDate
         },
         {
             title: '',
@@ -64,32 +71,24 @@ const HistoryTable = () => {
             )
         }
     ];
-    console.log(history)
-    const rowSelection = {
-        onChange: (key, rows) => {
-            setSelectedRows(rows)
-            setSelectedRowKeys(key)
-        }
-    };
+
 
     const onSearch = e => {
-        const value = e.currentTarget.value
-        const searchArray = e.currentTarget.value? list : ProductListData
-        const data = utils.wildCardSearch(searchArray, value)
-        setList(data)
-        setSelectedRowKeys([])
+        const value = e.target.value
+        dispatch(getScansHistoriesResult({
+            params:{limit:pageSize,offset:0,search:value},id:id
+        }))
+    }
+
+    function onChangeTable({current,pageSize}) {
+        setPageSize(pageSize)
+        dispatch(getScansHistoriesResult({
+            params:{limit:pageSize,offset:(current-1)*pageSize},id:id
+        }))
     }
 
 
-    const handleShowCategory = value => {
-        if(value !== 'All') {
-            const key = 'category'
-            const data = utils.filterArray(ProductListData, key, value)
-            setList(data)
-        } else {
-            setList(ProductListData)
-        }
-    }
+
 
     return (
         <>
@@ -122,7 +121,7 @@ const HistoryTable = () => {
                 <Flex alignItems="center" justifyContent="between" mobileFlex={false}>
                     <Flex className="mb-1" mobileFlex={false}>
                         <div className="mr-md-3 mb-3">
-                            <Input placeholder="Search" prefix={<SearchOutlined />} onChange={e => onSearch(e)}/>
+                            <Input placeholder="Search" prefix={<SearchOutlined />} onChange={debounce(onSearch,500)}/>
                         </div>
                     </Flex>
                 </Flex>
@@ -131,10 +130,9 @@ const HistoryTable = () => {
                         columns={tableColumns}
                         dataSource={historyResult?.data}
                         rowKey='id'
+                        onChange={onChangeTable}
                         pagination={{
-                            total: 60, // total elements
-                            pageSize: 10, // element size
-                            // current: backend dan kelgan page || hozirgi page
+                            total: historyResult?.total, // total elements
                         }}
                     />
                 </div>

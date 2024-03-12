@@ -4,9 +4,7 @@ import { connect } from 'react-redux'
 import { 
   EditOutlined, 
   SettingOutlined, 
-  ShopOutlined, 
-  QuestionCircleOutlined, 
-  LogoutOutlined 
+  LogoutOutlined
 } from '@ant-design/icons';
 import Icon from 'components/util-components/Icon';
 import { signOut } from 'redux/actions/Auth';
@@ -23,11 +21,6 @@ const menuItem = [
 		icon: SettingOutlined,
 		path: "/"
     },
-    {
-		title: "Help Center",
-		icon: QuestionCircleOutlined,
-		path: "/"
-	}
 ]
 
 export const NavProfile = ({signOut}) => {

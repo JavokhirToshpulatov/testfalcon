@@ -26,12 +26,11 @@ const ProductList = () => {
 	let history = useHistory();
 	const dispatch = useDispatch();
 	const {allScans} = useSelector(state=>state.data)
-	const [selectedRows, setSelectedRows] = useState([])
-	const [selectedRowKeys, setSelectedRowKeys] = useState([])
+	const [pageSize,setPageSize] = useState(10)
 
 	useEffect(() => {
 		dispatch(getScans({
-			params:{limit:10,offset:0}
+			params:{limit:pageSize,offset:0}
 		}))
 	}, []);
 
@@ -126,14 +125,15 @@ const ProductList = () => {
 	const onSearch = e => {
 		const value = e.target.value
 		dispatch(getScans({
-			params:{limit:10,offset:0,search:value}
+			params:{limit:pageSize,offset:0,search:value}
 		}))
 	}
 
 
 	function onChangeTable({current,pageSize}) {
+		setPageSize(pageSize)
 		dispatch(getScans({
-			params:{ limit:pageSize, offset:current*pageSize}
+			params:{ limit:pageSize, offset:(current-1)*pageSize}
 		}))
 	}
 

@@ -26,7 +26,7 @@ const ProductList = () => {
 
 	useEffect(() => {
 		dispatch(getDomains({
-			params:{limit:10,offset:1}
+			params:{limit:10,offset:0}
 		}))
 	}, []);
 

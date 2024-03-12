@@ -20,6 +20,7 @@ const DomainTable = () => {
     let history = useHistory();
     const {scanDomains} = useSelector(state => state.data)
     let {id} = useParams();
+    const [pageSize,setPageSize] = useState(10)
     const dispatch = useDispatch();
 
 
@@ -96,13 +97,14 @@ const DomainTable = () => {
     const onSearch = e => {
         const value = e.target.value
         dispatch(getScansDomains({
-            params:{id:id,limit:10,offset:0,search:value}
+            params:{id:id,limit:pageSize,offset:0,search:value}
         }))
     }
 
     function onChangeTable({current,pageSize}) {
+        setPageSize(pageSize)
         dispatch(getScansDomains({
-            params:{id:id,limit:pageSize,offset:current*pageSize}
+            params:{id:id,limit:pageSize,offset:(current-1)*pageSize}
         }))
     }
 

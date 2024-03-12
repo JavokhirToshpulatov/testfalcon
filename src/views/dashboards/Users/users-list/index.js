@@ -13,8 +13,8 @@ const ProductList = () => {
 	let history = useHistory();
 	const dispatch = useDispatch();
 	const {users} = useSelector(state=>state.data)
-	const [selectedRows, setSelectedRows] = useState([])
-	const [selectedRowKeys, setSelectedRowKeys] = useState([])
+	const [pageSize,setPageSize] = useState(10)
+
 
 	useEffect(() => {
 		dispatch(getAllUsers({
@@ -97,8 +97,9 @@ const ProductList = () => {
 	}
 
 	function onChangeTable({current,pageSize}) {
+		setPageSize(pageSize)
 		dispatch(getAllUsers({
-			params:{ limit:pageSize, offset:current*pageSize}
+			params:{ limit:pageSize, offset:(current-1)*pageSize}
 		}))
 	}
 

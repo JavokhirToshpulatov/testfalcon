@@ -21,6 +21,7 @@ const ProductList = () => {
 	let history = useHistory();
 	const dispatch = useDispatch();
 	const {keywords} = useSelector(state=>state.data)
+	const [pageSize,setPageSize] = useState(10)
 
   const showUserProfile = item => {
 	  history.push(`/app/dashboards/keywords/edit-keyword/`+item?.id)
@@ -28,7 +29,7 @@ const ProductList = () => {
 
 	useEffect(() => {
 		dispatch(getKeywords({
-			params:{limit:10,offset:0}
+			params:{limit:pageSize,offset:0}
 		}))
 	}, []);
 
@@ -103,14 +104,15 @@ const ProductList = () => {
 	const onSearch = e => {
 		const value = e.target.value
 		dispatch(getKeywords({
-			params:{Limit:10,Offset:0,Search:value}
+			params:{Limit:pageSize,Offset:0,Search:value}
 		}))
 	}
 
 
 	function onChangeTable({current,pageSize}) {
+		setPageSize(pageSize)
 		dispatch(getKeywords({
-			params:{ limit:pageSize, offset:current*pageSize}
+			params:{ limit:pageSize, offset:(current-1)*pageSize}
 		}))
 	}
 

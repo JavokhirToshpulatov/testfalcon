@@ -16,6 +16,8 @@ const AgentsTable = () => {
     let history = useHistory();
     const {scanAgents} = useSelector(state => state.data)
     const dispatch = useDispatch();
+    const [pageSize,setPageSize] = useState(10)
+
     let {id} = useParams();
     const showUserProfile = item => {
         history.push(`/app/dashboards/agents/edit-agent/`+item.id)
@@ -90,13 +92,14 @@ const AgentsTable = () => {
     const onSearch = e => {
         const value = e.target.value
         dispatch(getScansAgent({
-            params:{id:id,limit:10,offset:0,search:value}
+            params:{id:id,limit:pageSize,offset:0,search:value}
         }))
     }
 
     function onChangeTable({current,pageSize}) {
+        setPageSize(pageSize)
         dispatch(getScansAgent({
-            params:{id:id,limit:pageSize,offset:current*pageSize}
+            params:{id:id,limit:pageSize,offset:(current-1)*pageSize}
         }))
     }
 

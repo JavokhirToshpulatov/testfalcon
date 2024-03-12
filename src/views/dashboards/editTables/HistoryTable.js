@@ -22,6 +22,9 @@ const HistoryTable = (props) => {
     let history = useHistory();
     const {histories} = useSelector(state => state.data)
     const dispatch = useDispatch();
+    const [pageSize,setPageSize] = useState(10)
+
+
 
     const showUserProfile = item => {
         history.push(`/app/dashboards/scans/history/`+item.id)
@@ -70,15 +73,16 @@ const HistoryTable = (props) => {
         const value = e.target.value
         if (props.show==='scan'){
             dispatch(getScansHistories({
-                params:{id:props.id,limit:10,offset:0,search:value}
+                params:{id:props.id,limit:pageSize,offset:0,search:value}
             }))
         }
 
     }
 
     function onChangeTable({current,pageSize}) {
+        setPageSize(pageSize)
         dispatch(getScansHistories({
-            params:{id:props.id,limit:pageSize,offset:current*pageSize}
+            params:{id:props.id,limit:pageSize,offset:(current-1)*pageSize}
         }))
     }
 

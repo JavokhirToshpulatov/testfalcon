@@ -20,8 +20,6 @@ const ProductForm = props => {
 	const {singleKeyword} = useSelector(state => state.data)
 	const [form] = Form.useForm();
 	const dispatch = useDispatch();
-	const [uploadedImg, setImage] = useState('')
-	const [uploadLoading, setUploadLoading] = useState(false)
 	const [submitLoading, setSubmitLoading] = useState(false)
 
 	useEffect(() => {

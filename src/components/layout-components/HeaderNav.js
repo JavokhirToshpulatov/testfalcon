@@ -62,7 +62,7 @@ export const HeaderNav = props => {
         <Logo logoType={navMode}/>
         <div className="nav" style={{width: `calc(100% - ${getNavWidth()})`}}>
           <div className="nav-left">
-            <ul className="ant-menu ant-menu-root ant-menu-horizontal">          
+            <ul className="ant-menu ant-menu-root ant-menu-horizontal">
               {
                 isNavTop && !isMobile ?
                 null
@@ -71,20 +71,10 @@ export const HeaderNav = props => {
                   {navCollapsed || isMobile ? <MenuUnfoldOutlined className="nav-icon" /> : <MenuFoldOutlined className="nav-icon" />}
                 </li>
               }
-              {
-                isMobile ?
-                    <li className="ant-menu-item ant-menu-item-only-child" onClick={() => {onSearchActive()}}>
-                      <SearchOutlined />
-                    </li>
-                    :
-                    <li className="ant-menu-item ant-menu-item-only-child" style={{cursor: 'auto'}}>
-                      <SearchInput mode={mode} isMobile={isMobile} />
-                    </li>
-              }
             </ul>
           </div>
           <div className="nav-right">
-            <NavNotification />
+            {/*<NavNotification />*/}
             <NavLanguage />
             <NavProfile />
             <NavPanel direction={direction} />
