@@ -13,6 +13,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {deleteDomains, deleteKeywords, getAllAgents, getDomains, getKeywords} from "../../../../redux/actions";
 import {formatDate} from "../../../../utils/formatDate";
 import debounce from "lodash/debounce";
+import {getTargetType} from "../../../../utils/calculateStatus";
 
 
 
@@ -66,6 +67,7 @@ const ProductList = () => {
 		{
 			title: 'Type',
 			dataIndex: 'type',
+			render:getTargetType
 		},
 		{
 			title: 'Created',

@@ -16,6 +16,7 @@ import {deleteAgents, deleteScans, getAllAgents, getKeywords, getScans} from "..
 import {useDispatch, useSelector} from "react-redux";
 import {formatDate} from "../../../../utils/formatDate";
 import debounce from "lodash/debounce";
+import {getScanState, getScanType} from "../../../../utils/calculateStatus";
 
 const { Option } = Select
 
@@ -78,10 +79,12 @@ const ProductList = () => {
 		{
 			title: 'State',
 			dataIndex: 'state',
+			render:getScanState
 		},
 		{
 			title: 'Type',
 			dataIndex: 'type',
+			render:getScanType
 		},
 		{
 			title: 'Created',

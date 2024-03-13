@@ -13,6 +13,7 @@ import utils from 'utils'
 import {useDispatch, useSelector} from "react-redux";
 import {deleteScans, getAgentsScan, getDomainScans, getKeywordsScan, getScansKeywords} from "../../../redux/actions";
 import debounce from "lodash/debounce";
+import {getScanState, getScanType} from "../../../utils/calculateStatus";
 
 const ScansTable = (props) => {
     let history = useHistory();
@@ -50,10 +51,12 @@ const ScansTable = (props) => {
         {
             title: 'State',
             dataIndex: 'state',
+            render:getScanState
         },
         {
             title: 'Type',
             dataIndex: 'type',
+            render:getScanType
         },
         {
             title: '',

@@ -48,10 +48,6 @@ const AgentsTable = () => {
             dataIndex: 'ipAddress',
         },
         {
-            title: 'Status',
-            dataIndex: 'status',
-        },
-        {
             title: 'Description',
             dataIndex: 'description',
         },

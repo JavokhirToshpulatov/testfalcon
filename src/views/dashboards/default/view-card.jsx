@@ -1,11 +1,13 @@
 import {Row, Col, List, Space, DatePicker} from 'antd';
-import {useParams} from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import Slider from "./Slider";
 import Flex from "../../../components/shared-components/Flex";
 import React, {useEffect, useState} from "react";
 import ReactDiffViewer from "react-diff-viewer";
 import {getAllAgents, getScanHtmlCurrent, getScanHtmlPrevious, getScanWebHistories} from "../../../redux/actions";
 import {useDispatch, useSelector} from "react-redux";
+import {getHttpStatus} from "../../../utils/calculateStatus";
+import {formatDate} from "../../../utils/formatDate";
 
 
 const ViewCard = () => {
@@ -37,8 +39,6 @@ const ViewCard = () => {
 
     return (
         <>
-
-
             <h2 className='text-center'> Domain - {domainName}  </h2>
             <br />
             <Row gutter={16} className="mb-2">
@@ -60,10 +60,10 @@ const ViewCard = () => {
                 <Col span={12}>
                     <List style={{padding: '20px 30px'}}>
                         <List.Item>
-                            <b className='text-primary'> Url: {scanWebHistories?.url} </b>
+                            <b className='text-primary'> Url: <a href={scanWebHistories?.url} target="_blank">{scanWebHistories?.url}</a> </b>
                         </List.Item>
                         <List.Item>
-                            <b className='text-primary'> Response Code: {scanWebHistories?.httpStatus}</b>
+                            <b className='text-primary'> Response Code: {scanWebHistories.httpStatus !=undefined?getHttpStatus(scanWebHistories.httpStatus):""} ({scanWebHistories?.httpStatus})</b>
                         </List.Item>
                         <List.Item>
                             <b className='text-primary'> Web site status: {scanWebHistories?.webSiteStatus}</b>
@@ -75,7 +75,7 @@ const ViewCard = () => {
                             <b className='text-primary'> IP Address: {scanWebHistories?.ipAddress}  </b>
                         </List.Item>
                         <List.Item>
-                            <b className='text-primary'> Timestamp: {scanWebHistories?.timestamp}</b>
+                            <b className='text-primary'> Timestamp: {scanWebHistories?.timestamp !=undefined?formatDate(scanWebHistories.timestamp):""}</b>
                         </List.Item>
                     </List>
                 </Col>
@@ -85,10 +85,10 @@ const ViewCard = () => {
                             <b className='text-primary'> Status: {scanWebHistories?.sslCertificateStatus}</b>
                         </List.Item>
                         <List.Item>
-                            <b className='text-primary'> Valid after: {scanWebHistories?.sslNotValidAfter} </b>
+                            <b className='text-primary'> Valid after: {scanWebHistories?.sslNotValidAfter !=undefined?formatDate(scanWebHistories.sslNotValidAfter):""} </b>
                         </List.Item>
                         <List.Item>
-                            <b className='text-primary'> Valid before: {scanWebHistories?.sslNotValidBefore}</b>
+                            <b className='text-primary'> Valid before: {scanWebHistories?.sslNotValidBefore != undefined?formatDate(scanWebHistories.sslNotValidBefore):""}</b>
                         </List.Item>
                         <List.Item>
                             <b className='text-primary'> Issuer: {scanWebHistories?.sslIssuer} </b>

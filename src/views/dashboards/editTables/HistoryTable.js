@@ -16,6 +16,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {getScansDomains, getScansHistories} from "../../../redux/actions";
 import {formatDate} from "../../../utils/formatDate";
 import debounce from "lodash/debounce";
+import {getScanState} from "../../../utils/calculateStatus";
 
 
 const HistoryTable = (props) => {
@@ -53,6 +54,7 @@ const HistoryTable = (props) => {
         {
             title: 'State',
             dataIndex: 'state',
+            render:getScanState
         },
         {
             title: '',

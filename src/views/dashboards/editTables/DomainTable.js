@@ -14,6 +14,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {getDomainHistories, getScansDomains} from "../../../redux/actions";
 import {formatDate} from "../../../utils/formatDate";
 import debounce from "lodash/debounce";
+import {getTargetType} from "../../../utils/calculateStatus";
 
 
 const DomainTable = () => {
@@ -58,6 +59,7 @@ const DomainTable = () => {
         {
             title: 'Type',
             dataIndex: 'type',
+            render:getTargetType
         },
         {
             title: 'Created',

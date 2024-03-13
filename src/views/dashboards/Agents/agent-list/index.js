@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react'
-import {Card, Table, Select, Input, Button, Badge, Menu, Tooltip, message, Popconfirm} from 'antd';
+import {Card, Table, Select, Input, Button, Badge, Menu, Tooltip, message, Popconfirm, Tag} from 'antd';
 import {
     DeleteOutlined,
     SearchOutlined,
     PlusCircleOutlined,
-    EditOutlined
+    EditOutlined, EyeOutlined, CheckCircleOutlined, CloseCircleOutlined
 } from '@ant-design/icons';
 import Flex from 'components/shared-components/Flex'
 import {useHistory} from "react-router-dom";
@@ -65,6 +65,14 @@ const ProductList = () => {
         {
             title: 'Status',
             dataIndex: 'status',
+            render: (status) => {
+                const color = status? "#46d30a" : "#f50038";
+                return (
+                    <div className="h-25 w-25">
+                        {status?<CheckCircleOutlined color={color}/>:<CloseCircleOutlined style={{ fontSize: '18px', color: color }} />}
+                    </div>
+                );
+            },
         },
         {
             title: 'Description',
